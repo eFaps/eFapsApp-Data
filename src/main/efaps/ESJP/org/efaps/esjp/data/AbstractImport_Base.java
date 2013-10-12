@@ -88,17 +88,19 @@ public abstract class AbstractImport_Base
                     for (int i = 0; i < definition.getHeaderrow(); i++) {
                         values.remove(0);
                     }
+                    int j = definition.getHeaderrow() + 1;
                     for (final String[] value : values) {
                         final Insert insert = new Insert(definition.getTypeDef().getType(headers, value));
                         for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                            insert.add(attr.getName(), attr.getValue(_parameter, headers, value));
+                            insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
                         }
                         insert.execute();
 
                         if (definition.getTypeDef().getClassifications() != null) {
                             insertClassification(_parameter, definition.getTypeDef(), headers, value,
-                                            insert.getInstance());
+                                            insert.getInstance(), j);
                         }
+                        j++;
                     }
                 }
             }
@@ -116,7 +118,8 @@ public abstract class AbstractImport_Base
                                         final TypeDef _typeDef,
                                         final Map<String, Integer> _headers,
                                         final String[] _value,
-                                        final Instance _instance)
+                                        final Instance _instance,
+                                        final Integer _idx)
         throws EFapsException
     {
         AbstractImport_Base.LOG.trace("preparing inserts for classifications");
@@ -135,7 +138,7 @@ public abstract class AbstractImport_Base
                 final ClassificationDef clazzDef = _typeDef.getClassificationDefByName(clazz.getName());
                 if (clazzDef != null) {
                     for (final AttrDef attr : clazzDef.getAttributes()) {
-                        classInsert.add(attr.getName(), attr.getValue(_parameter, _headers, _value));
+                        classInsert.add(attr.getName(), attr.getValue(_parameter, _headers, _value, _idx));
                     }
                 }
                 classInsert.executeWithoutAccessCheck();

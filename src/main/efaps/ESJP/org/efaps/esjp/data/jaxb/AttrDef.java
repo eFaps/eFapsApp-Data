@@ -21,11 +21,13 @@
 
 package org.efaps.esjp.data.jaxb;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -34,6 +36,7 @@ import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.IColumnValue;
+import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,14 +73,22 @@ public class AttrDef
     private String fixedValue;
 
     /**
+     * List of Properties.
+     */
+    @XmlElementRef
+    private List<PropertyDef> properties;
+
+    /**
      * @param _parameter Parameter as passed by the eFaps API
      * @param _headers  mapping of header to column position
      * @param _value    values
+     * @param _idx      row index
      * @return value
      */
     public String getValue(final Parameter _parameter,
                            final Map<String, Integer> _headers,
-                           final String[] _value)
+                           final String[] _value,
+                           final Integer _idx)
     {
         String ret = null;
         if (getColumn() != null &&  _headers.containsKey(getColumn())) {
@@ -88,13 +99,38 @@ public class AttrDef
             try {
                 final Class<?> clazz = Class.forName(this.className);
                 final IColumnValue columnValue = (IColumnValue) clazz.newInstance();
-                ret = columnValue.getValue(_parameter, _headers, _value);
+                ret = columnValue.getValue(_parameter, this, _headers, _value, _idx);
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                AttrDef.LOG.error("Catched error on value evaluation", e);
+            } catch (final EFapsException e) {
                 AttrDef.LOG.error("Catched error on value evaluation", e);
             }
         }
         return ret;
     }
+
+    /**
+     * Getter method for the instance variable {@link #properties}.
+     *
+     * @return value of instance variable {@link #properties}
+     */
+    public List<PropertyDef> getProperties()
+    {
+        return this.properties;
+    }
+
+    public String getProperty(final String _name)
+    {
+        String ret = null;
+        for (final PropertyDef def : this.properties) {
+            if (_name.equals(def.getName())) {
+                ret = def.getValue();
+                break;
+            }
+        }
+        return ret;
+    }
+
 
     @Override
     public String toString()

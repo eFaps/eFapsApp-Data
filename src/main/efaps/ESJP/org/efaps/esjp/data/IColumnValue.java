@@ -25,6 +25,8 @@ import java.util.Map;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.jaxb.AttrDef;
+import org.efaps.util.EFapsException;
 
 /**
  * TODO comment!
@@ -37,7 +39,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 public interface IColumnValue
 {
 
-    String getValue(final Parameter _paramter,
+    String getValue(final Parameter _parameter,
+                    final AttrDef _attrDef,
                     final Map<String, Integer> _headers,
-                    final String[] _value);
+                    final String[] _value,
+                    final Integer _idx)
+        throws EFapsException;
 }
