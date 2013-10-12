@@ -29,10 +29,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.IColumnValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO comment!
@@ -48,20 +51,29 @@ import org.efaps.esjp.data.IColumnValue;
 public class AttrDef
     extends AbstractDef
 {
+
+    /**
+     * Logger for this class
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractDef.class);
+
+    /**
+     * Classname of an esjp.
+     */
     @XmlAttribute(name = "class")
     private String className;
 
-    @XmlAttribute(name = "method")
-    private String methodName;
-
+    /**
+     * Fixed value.
+     */
     @XmlAttribute(name = "fixedValue")
     private String fixedValue;
 
-
     /**
-     * @param _headers
-     * @param _value
-     * @return
+     * @param _parameter Parameter as passed by the eFaps API
+     * @param _headers  mapping of header to column position
+     * @param _value    values
+     * @return value
      */
     public String getValue(final Parameter _parameter,
                            final Map<String, Integer> _headers,
@@ -77,22 +89,16 @@ public class AttrDef
                 final Class<?> clazz = Class.forName(this.className);
                 final IColumnValue columnValue = (IColumnValue) clazz.newInstance();
                 ret = columnValue.getValue(_parameter, _headers, _value);
-            } catch (final ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (final SecurityException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (final InstantiationException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (final IllegalAccessException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                AttrDef.LOG.error("Catched error on value evaluation", e);
             }
-
         }
         return ret;
     }
 
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

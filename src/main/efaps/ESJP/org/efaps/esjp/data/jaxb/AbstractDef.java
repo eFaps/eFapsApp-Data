@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
@@ -42,31 +43,61 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 @XmlType(name = "abstractDef")
 public abstract class AbstractDef
 {
-
+    /**
+     * Name of the Definition.
+     */
     @XmlAttribute(name = "name")
     private String name;
 
+    /**
+     * Column of the Definition.
+     */
     @XmlAttribute(name = "column")
     private String column;
 
+    /**
+     * Getter method for the instance variable {@link #name}.
+     *
+     * @return value of instance variable {@link #name}
+     */
     public String getName()
     {
         return this.name;
     }
 
+    /**
+     * Setter method for instance variable {@link #name}.
+     *
+     * @param _name value for instance variable {@link #name}
+     */
     public void setName(final String _name)
     {
         this.name = _name;
     }
 
+    /**
+     * Getter method for the instance variable {@link #column}.
+     *
+     * @return value of instance variable {@link #column}
+     */
     public String getColumn()
     {
         return this.column;
     }
 
+    /**
+     * Setter method for instance variable {@link #column}.
+     *
+     * @param _column value for instance variable {@link #column}
+     */
     public void setColumn(final String _column)
     {
         this.column = _column;
     }
 
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

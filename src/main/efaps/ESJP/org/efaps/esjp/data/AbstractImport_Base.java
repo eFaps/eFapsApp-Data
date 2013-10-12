@@ -59,14 +59,15 @@ import au.com.bytecode.opencsv.CSVReader;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * @version $Id: AbstractImport_Base.java 10427 2013-10-12 15:18:26Z
+ *          jan@moxter.net $
  */
 @EFapsUUID("b3f81d2e-2352-43ab-acb2-2c98d2c32c05")
 @EFapsRevision("$Rev$")
 public abstract class AbstractImport_Base
 {
-    public static final Logger LOG = LoggerFactory.getLogger(AbstractImport.class);
 
+    public static final Logger LOG = LoggerFactory.getLogger(AbstractImport.class);
 
     public Return execute(final Parameter _parameter)
         throws EFapsException
@@ -99,18 +100,14 @@ public abstract class AbstractImport_Base
                                             insert.getInstance());
                         }
                     }
-                    System.out.println(headers);
                 }
             }
         } catch (final UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            AbstractImport_Base.LOG.error("Catched error:", e);
         } catch (final FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            AbstractImport_Base.LOG.error("Catched error:", e);
         } catch (final JAXBException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            AbstractImport_Base.LOG.error("Catched error:", e);
         }
         return new Return();
     }
@@ -122,10 +119,11 @@ public abstract class AbstractImport_Base
                                         final Instance _instance)
         throws EFapsException
     {
+        AbstractImport_Base.LOG.trace("preparing inserts for classifications");
         final List<ClassificationDef> classifications = _typeDef.getClassifications();
 
         for (final ClassificationDef classification : classifications) {
-            AbstractImport_Base.LOG.info("preparing inserts for: {}", classification);
+            AbstractImport_Base.LOG.trace("preparing inserts for: {}", classification);
             for (final Classification clazz : classification.getClassifications(_parameter, _headers, _value)) {
                 final Insert relInsert = new Insert(clazz.getClassifyRelationType());
                 relInsert.add(clazz.getRelLinkAttributeName(), _instance);
@@ -134,7 +132,7 @@ public abstract class AbstractImport_Base
 
                 final Insert classInsert = new Insert(clazz);
                 classInsert.add(clazz.getLinkAttributeName(), _instance);
-                final ClassificationDef clazzDef= _typeDef.getClassificationDefByName(clazz.getName());
+                final ClassificationDef clazzDef = _typeDef.getClassificationDefByName(clazz.getName());
                 if (clazzDef != null) {
                     for (final AttrDef attr : clazzDef.getAttributes()) {
                         classInsert.add(attr.getName(), attr.getValue(_parameter, _headers, _value));
@@ -149,6 +147,7 @@ public abstract class AbstractImport_Base
                                               final Definition _definition,
                                               final List<String[]> _values)
     {
+        AbstractImport_Base.LOG.trace("Reading the Header from the CSVFile.");
         final Map<String, Integer> ret = new HashMap<String, Integer>();
         final String[] vals = _values.get(_definition.getHeaderrow() - 1);
         int i = 0;
@@ -158,6 +157,7 @@ public abstract class AbstractImport_Base
             }
             i++;
         }
+        AbstractImport_Base.LOG.debug("Header found: {}", ret);
         return ret;
     }
 
@@ -167,22 +167,19 @@ public abstract class AbstractImport_Base
     {
         final List<String[]> ret = new ArrayList<String[]>();
         try {
+            AbstractImport_Base.LOG.trace("Reading the CSV File.");
             final CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(new File(_dataImport
                             .getFile().getParent(), _definition.getFile())), "UTF-8"));
             ret.addAll(reader.readAll());
             reader.close();
-        } catch (UnsupportedEncodingException | FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (final IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            AbstractImport_Base.LOG.error("Catched error on reading CSV from '{}'", e , _dataImport);
         }
         return ret;
     }
 
     /**
-     * Get the JAXBContext used in this Listener.
+     * Get the JAXBContext used in this importer.
      *
      * @return an JAXBContext
      * @throws JAXBException on error
@@ -190,16 +187,17 @@ public abstract class AbstractImport_Base
     protected JAXBContext getJAXBContext()
         throws JAXBException
     {
+        AbstractImport_Base.LOG.trace("Getting JAXBContext.");
         final JAXBContext context = JAXBContext.newInstance(getClasses());
         return context;
     }
 
     /**
-     * @return
+     * @return an Array of classes used for the JAXBContext
      */
     protected Class<?>[] getClasses()
     {
-        return new Class[] { TypeDef.class, Definition.class, DataImport.class, AttrDef.class };
+        AbstractImport_Base.LOG.trace("Getting the Classes for the JAXBContext.");
+        return new Class[] { TypeDef.class, Definition.class, DataImport.class, AttrDef.class, ClassificationDef.class };
     }
-
 }

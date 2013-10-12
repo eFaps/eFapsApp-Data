@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.datamodel.Classification;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
@@ -52,7 +53,10 @@ public class ClassificationDef
     extends AbstractDef
 {
 
-    @XmlElementRef(required = true)
+    /**
+     * List of attributes belonging to this Classification Definition.
+     */
+    @XmlElementRef
     private List<AttrDef> attributes;
 
     /**
@@ -87,5 +91,11 @@ public class ClassificationDef
             ret.add(clazz);
         }
         return ret;
+    }
+
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
