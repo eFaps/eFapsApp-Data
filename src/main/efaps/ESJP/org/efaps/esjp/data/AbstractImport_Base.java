@@ -94,12 +94,15 @@ public abstract class AbstractImport_Base
                         for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
                             insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
                         }
+                        add2TypeInsert(_parameter, definition, headers, values, value, insert, j);
                         insert.execute();
 
                         if (definition.getTypeDef().getClassifications() != null) {
                             insertClassification(_parameter, definition.getTypeDef(), headers, value,
                                             insert.getInstance(), j);
                         }
+
+                        add2Row(_parameter, definition, headers, values, value, insert.getInstance(), j);
                         j++;
                     }
                 }
@@ -202,5 +205,50 @@ public abstract class AbstractImport_Base
     {
         AbstractImport_Base.LOG.trace("Getting the Classes for the JAXBContext.");
         return new Class[] { TypeDef.class, Definition.class, DataImport.class, AttrDef.class, ClassificationDef.class };
+    }
+
+
+    /**
+     * To be used by implementations.
+     *
+     * @param _parameter    Parameter as passed by the eFaps API
+     * @param _definition   current Defintion
+     * @param _headers      Headers
+     * @param _values       List of all values
+     * @param _value        value for the current row
+     * @param _insert       insert yo add 2
+     * @param _j            row idex
+     */
+    protected void add2TypeInsert(final Parameter _parameter,
+                                  final Definition _definition,
+                                  final Map<String, Integer> _headers,
+                                  final List<String[]> _values,
+                                  final String[] _value,
+                                  final Insert _insert,
+                                  final int _j)
+    {
+        // To be used by implementations
+    }
+
+    /**
+     * To be used by implementations.
+     *
+     * @param _parameter    Parameter as passed by the eFaps API
+     * @param _definition   current Defintion
+     * @param _headers      Headers
+     * @param _values       List of all values
+     * @param _value        value for the current row
+     * @param _instance     Instance of the created object
+     * @param _j            row idex
+     */
+    protected void add2Row(final Parameter _parameter,
+                           final Definition _definition,
+                           final Map<String, Integer> _headers,
+                           final List<String[]> _values,
+                           final String[] _value,
+                           final Instance _instance,
+                           final int _j)
+    {
+        // To be used by implementations
     }
 }
