@@ -47,8 +47,8 @@ import org.efaps.util.cache.CacheReloadException;
 @EFapsUUID("9e9ab2a0-55f3-444a-8482-988f5d77905a")
 @EFapsRevision("$Rev$")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "classification")
-@XmlType(name = "classification")
+@XmlRootElement(name = "classification", namespace = "http://www.efaps.org/xsd")
+@XmlType(name = "classification", namespace = "http://www.efaps.org/xsd")
 public class ClassificationDef
     extends AbstractDef
 {

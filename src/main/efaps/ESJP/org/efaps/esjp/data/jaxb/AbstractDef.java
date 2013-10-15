@@ -39,8 +39,8 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 @EFapsUUID("fb8cec2f-6d3f-431c-8679-1faa5a1428c9")
 @EFapsRevision("$Rev$")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "abstractDef")
-@XmlType(name = "abstractDef")
+@XmlRootElement(name = "abstractDef", namespace = "http://www.efaps.org/xsd")
+@XmlType(name = "abstractDef", namespace = "http://www.efaps.org/xsd")
 public abstract class AbstractDef
 {
     /**

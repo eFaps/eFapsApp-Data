@@ -49,8 +49,8 @@ import org.slf4j.LoggerFactory;
 @EFapsUUID("79a3b4d8-be0b-49df-a7ce-81d5bc345699")
 @EFapsRevision("$Rev$")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "attribute")
-@XmlType(name = "attribute")
+@XmlRootElement(name = "attribute", namespace = "http://www.efaps.org/xsd")
+@XmlType(name = "attribute", namespace = "http://www.efaps.org/xsd")
 public class AttrDef
     extends AbstractDef
 {

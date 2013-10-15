@@ -20,12 +20,13 @@
 
 package org.efaps.esjp.data;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.efaps.admin.datamodel.Classification;
 import org.efaps.admin.event.Parameter;
+import org.efaps.admin.event.Parameter.ParameterValues;
 import org.efaps.admin.event.Return;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
@@ -69,19 +71,32 @@ public abstract class AbstractImport_Base
 
     public static final Logger LOG = LoggerFactory.getLogger(AbstractImport.class);
 
+
+    public void importFromFile(final URL _url)
+        throws EFapsException
+    {
+        final Parameter parameter = new Parameter();
+        parameter.put(ParameterValues.PARAMETERS, new HashMap<String, String[]>());
+        parameter.getParameters().put("valueField", new String[] { _url.toString() });
+        execute(parameter);
+    }
+
+
     public Return execute(final Parameter _parameter)
         throws EFapsException
     {
-        final String xmlFile = _parameter.getParameterValue("valueField");
-        final File file = new File(xmlFile);
         try {
+            final String xmlFile = _parameter.getParameterValue("valueField");
+            final URL url = new URL(xmlFile);
             final JAXBContext jc = getJAXBContext();
             final Unmarshaller unmarschaller = jc.createUnmarshaller();
-            final Source source = new StreamSource(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            final URLConnection connection = url.openConnection();
+            connection.setUseCaches(false);
+            final Source source = new StreamSource(new InputStreamReader(connection.getInputStream()));
             final Object object = unmarschaller.unmarshal(source);
             if (object instanceof DataImport) {
                 final DataImport dataImp = (DataImport) object;
-                dataImp.setFile(file);
+                dataImp.setUrl(url);
                 for (final Definition definition : dataImp.getDefinition()) {
                     final List<String[]> values = readCSV(_parameter, dataImp, definition);
                     final Map<String, Integer> headers = readHeader(_parameter, definition, values);
@@ -113,6 +128,12 @@ public abstract class AbstractImport_Base
             AbstractImport_Base.LOG.error("Catched error:", e);
         } catch (final JAXBException e) {
             AbstractImport_Base.LOG.error("Catched error:", e);
+        } catch (final MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return new Return();
     }
@@ -174,8 +195,9 @@ public abstract class AbstractImport_Base
         final List<String[]> ret = new ArrayList<String[]>();
         try {
             AbstractImport_Base.LOG.trace("Reading the CSV File.");
-            final CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(new File(_dataImport
-                            .getFile().getParent(), _definition.getFile())), "UTF-8"));
+            final URL relative = new URL(_dataImport.getUrl(), _definition.getFile());
+            final URLConnection connection = relative.openConnection();
+            final CSVReader reader = new CSVReader(new InputStreamReader(connection.getInputStream()));
             ret.addAll(reader.readAll());
             reader.close();
         } catch (final IOException e) {

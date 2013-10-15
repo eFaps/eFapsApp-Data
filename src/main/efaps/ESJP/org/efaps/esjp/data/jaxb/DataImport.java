@@ -20,7 +20,7 @@
 
 package org.efaps.esjp.data.jaxb;
 
-import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -42,7 +42,7 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  */
 @EFapsUUID("b4d9c588-b8fe-4059-88d0-e911905d0a93")
 @EFapsRevision("$Rev$")
-@XmlRootElement(name = "data-import")
+@XmlRootElement(name = "data-import", namespace = "http://www.efaps.org/xsd")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso(Definition.class)
 public class DataImport
@@ -51,7 +51,10 @@ public class DataImport
     @XmlElementRef(required = true)
     private List<Definition> definitions;
 
-    private File file;
+    /**
+     * URL of the file.
+     */
+    private URL url;
 
     /**
      * Getter method for the instance variable {@link #defintion}.
@@ -63,27 +66,29 @@ public class DataImport
         return this.definitions;
     }
 
-    /**
-     * @param _file
-     */
-    public void setFile(final File _file)
-    {
-        this.file = _file;
-    }
-
-    /**
-     * Getter method for the instance variable {@link #file}.
-     *
-     * @return value of instance variable {@link #file}
-     */
-    public File getFile()
-    {
-        return this.file;
-    }
-
     @Override
     public String toString()
     {
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    /**
+     * Getter method for the instance variable {@link #url}.
+     *
+     * @return value of instance variable {@link #url}
+     */
+    public URL getUrl()
+    {
+        return this.url;
+    }
+
+    /**
+     * Setter method for instance variable {@link #url}.
+     *
+     * @param _url value for instance variable {@link #url}
+     */
+    public void setUrl(final URL _url)
+    {
+        this.url = _url;
     }
 }

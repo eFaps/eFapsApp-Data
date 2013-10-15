@@ -42,8 +42,8 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 @EFapsUUID("26f2ca5e-78aa-4508-9758-3b24c11a7db4")
 @EFapsRevision("$Rev$")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "property")
-@XmlType(name = "property")
+@XmlRootElement(name = "property", namespace = "http://www.efaps.org/xsd")
+@XmlType(name = "property", namespace = "http://www.efaps.org/xsd")
 public class PropertyDef
 {
 

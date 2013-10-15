@@ -44,8 +44,8 @@ import org.efaps.util.cache.CacheReloadException;
 @EFapsUUID("4eef5d83-6cdd-4597-b68c-7a0811afe75c")
 @EFapsRevision("$Rev$")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "type")
-@XmlType(name = "type")
+@XmlRootElement(name = "type", namespace = "http://www.efaps.org/xsd")
+@XmlType(name = "type", namespace = "http://www.efaps.org/xsd")
 public class TypeDef
     extends AbstractDef
 {

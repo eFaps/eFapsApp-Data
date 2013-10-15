@@ -45,8 +45,8 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 @EFapsUUID("af9e72a7-9789-4e53-8d86-12d72fb6bd5a")
 @EFapsRevision("$Rev$")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "definition")
-@XmlType(name = "definition")
+@XmlRootElement(name = "definition", namespace = "http://www.efaps.org/xsd")
+@XmlType(name = "definition", namespace = "http://www.efaps.org/xsd")
 @XmlSeeAlso(TypeDef.class)
 public class Definition
 {
