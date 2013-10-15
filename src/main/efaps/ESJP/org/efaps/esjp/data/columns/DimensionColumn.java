@@ -93,10 +93,10 @@ public class DimensionColumn
                 final String dimName = _value[_headers.get(column)];
                 final Dimension dim = Dimension.get(dimName);
                 if (dim != null) {
-                    DimensionColumn.LOG.info("Row: {} - {}", _idx, dim);
+                    DimensionColumn.LOG.debug("Row: {} - {}", _idx, dim);
                     ret = true;
                 } else {
-                    DimensionColumn.LOG.info("no dimension found in Row: {} - {}", _idx, _def);
+                    DimensionColumn.LOG.warn("no dimension found in Row: {} - {}", _idx, _def);
                     ret = false;
                 }
             } else {

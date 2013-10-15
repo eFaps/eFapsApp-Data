@@ -127,10 +127,8 @@ public class AttrDef
     @Override
     public Boolean getValidate()
     {
-        return  (this.fixedValue != null && !this.fixedValue.isEmpty()) ? super.getValidate() : false;
+        return (this.fixedValue != null && !this.fixedValue.isEmpty()) ? false : super.getValidate();
     }
-
-
 
     public String getProperty(final String _name)
     {
@@ -143,7 +141,6 @@ public class AttrDef
         }
         return ret;
     }
-
 
     @Override
     public String toString()

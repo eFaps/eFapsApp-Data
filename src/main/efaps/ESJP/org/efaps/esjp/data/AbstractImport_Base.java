@@ -125,7 +125,7 @@ public abstract class AbstractImport_Base
                         }
                         j++;
                     }
-                    if (execute) {
+                    if (execute && definition.isExecute()) {
                         //create
                         j = definition.getHeaderrow() + 1;
                         for (final String[] value : values) {
@@ -270,6 +270,7 @@ public abstract class AbstractImport_Base
      * @param _value        value for the current row
      * @param _insert       insert yo add 2
      * @param _j            row idex
+     * @throws EFapsException on error
      */
     protected void add2TypeInsert(final Parameter _parameter,
                                   final Definition _definition,
@@ -278,8 +279,9 @@ public abstract class AbstractImport_Base
                                   final String[] _value,
                                   final Insert _insert,
                                   final int _j)
+        throws EFapsException
     {
-        // To be used by implementations
+      // To be used by implementations
     }
 
     /**
@@ -292,6 +294,7 @@ public abstract class AbstractImport_Base
      * @param _value        value for the current row
      * @param _instance     Instance of the created object
      * @param _j            row idex
+     * @throws EFapsException on error
      */
     protected void add2Row(final Parameter _parameter,
                            final Definition _definition,
@@ -300,6 +303,7 @@ public abstract class AbstractImport_Base
                            final String[] _value,
                            final Instance _instance,
                            final int _j)
+       throws EFapsException
     {
         // To be used by implementations
     }

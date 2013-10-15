@@ -67,7 +67,7 @@ public class TypeColumn
                     TypeColumn.LOG.warn("No type found in row {} for {}", _idx, _attrDef);
                 } else {
                     ret = true;
-                    TypeColumn.LOG.info("Row: {} - {}", _idx, type);
+                    TypeColumn.LOG.debug("Row: {} - {}", _idx, type);
                 }
             }
         } else {

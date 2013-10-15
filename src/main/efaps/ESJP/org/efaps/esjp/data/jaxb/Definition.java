@@ -59,9 +59,11 @@ public class Definition
     @XmlAttribute(name = "headerrow")
     private  Integer headerrow = 1;
 
+    @XmlAttribute(name = "execute")
+    private boolean execute = true;
+
     @XmlElementRef(required=true)
     private TypeDef type;
-
 
     /**
      * Getter method for the instance variable {@link #name}.
@@ -125,6 +127,26 @@ public class Definition
     public TypeDef getTypeDef()
     {
         return this.type;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #execute}.
+     *
+     * @return value of instance variable {@link #execute}
+     */
+    public boolean isExecute()
+    {
+        return this.execute;
+    }
+
+    /**
+     * Setter method for instance variable {@link #execute}.
+     *
+     * @param _execute value for instance variable {@link #execute}
+     */
+    public void setExecute(final boolean _execute)
+    {
+        this.execute = _execute;
     }
 
     @Override

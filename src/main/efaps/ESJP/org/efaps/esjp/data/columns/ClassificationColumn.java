@@ -45,7 +45,7 @@ public class ClassificationColumn
     /**
      * Logger for this class
      */
-    private static final Logger LOG = LoggerFactory.getLogger(TypeColumn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClassificationColumn.class);
 
     /**
      * {@inheritDoc}
@@ -66,10 +66,10 @@ public class ClassificationColumn
             } finally {
                 if (classifications == null || (classifications != null && classifications.isEmpty())) {
                     ret = false;
-                    ClassificationColumn.LOG.warn("No type found in row {} for {}", _idx, _attrDef);
+                    ClassificationColumn.LOG.warn("No classifcation found in row {} for {}", _idx, _attrDef);
                 } else {
                     ret = true;
-                    ClassificationColumn.LOG.warn("Row: {} - {}", _idx, classifications);
+                    ClassificationColumn.LOG.debug("Row: {} - {}", _idx, classifications);
                 }
             }
         } else {
