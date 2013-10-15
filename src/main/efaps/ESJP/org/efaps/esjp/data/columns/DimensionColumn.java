@@ -18,7 +18,7 @@
  * Last Changed By: $Author$
  */
 
-package org.efaps.esjp.data.values;
+package org.efaps.esjp.data.columns;
 
 import java.util.Map;
 
@@ -26,6 +26,7 @@ import org.efaps.admin.datamodel.Dimension;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.IColumnValidate;
 import org.efaps.esjp.data.IColumnValue;
 import org.efaps.esjp.data.jaxb.AbstractDef;
 import org.efaps.esjp.data.jaxb.AttrDef;
@@ -41,14 +42,17 @@ import org.slf4j.LoggerFactory;
  */
 @EFapsUUID("7641c1ce-0e4f-45e2-8fba-d5b0620eceb3")
 @EFapsRevision("$Rev$")
-public class DimensionColumnValue
-    implements IColumnValue
+public class DimensionColumn
+    implements IColumnValue, IColumnValidate
 {
     /**
      * Logger for this class
      */
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDef.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getValue(final Parameter _paramter,
                            final AttrDef _attrDef,
@@ -62,12 +66,47 @@ public class DimensionColumnValue
         if (column != null) {
             final String dimName = _value[_headers.get(column)];
             final Dimension dim = Dimension.get(dimName);
-            DimensionColumnValue.LOG.info("Found Dimension: {}", dim);
             if (dim != null) {
                 ret = Long.valueOf(dim.getId()).toString();
             }
+        } else {
+            DimensionColumn.LOG.error("Missing property 'Column'.");
         }
         return ret;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean validate(final Parameter _parameter,
+                            final AbstractDef _def,
+                            final Map<String, Integer> _headers,
+                            final String[] _value,
+                            final Integer _idx)
+        throws EFapsException
+    {
+        Boolean ret;
+        if (_def instanceof AttrDef) {
+            final String column = ((AttrDef)_def).getProperty("Column");
+            if (column != null) {
+                final String dimName = _value[_headers.get(column)];
+                final Dimension dim = Dimension.get(dimName);
+                if (dim != null) {
+                    DimensionColumn.LOG.info("Row: {} - {}", _idx, dim);
+                    ret = true;
+                } else {
+                    DimensionColumn.LOG.info("no dimension found in Row: {} - {}", _idx, _def);
+                    ret = false;
+                }
+            } else {
+                DimensionColumn.LOG.error("Missing property 'Column'.");
+                ret = false;
+            }
+        } else {
+            DimensionColumn.LOG.error("Validation only works for AttrDef.");
+            ret = false;
+        }
+        return ret;
+    }
 }

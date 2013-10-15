@@ -104,21 +104,46 @@ public abstract class AbstractImport_Base
                         values.remove(0);
                     }
                     int j = definition.getHeaderrow() + 1;
+                    boolean execute = true;
+                    //validate
                     for (final String[] value : values) {
-                        final Insert insert = new Insert(definition.getTypeDef().getType(headers, value));
+                        final Boolean valid = definition.getTypeDef().validate(_parameter, headers, value, j);
+                        if (!valid) {
+                            execute = false;
+                        }
                         for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                            insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
+                            final Boolean check = attr.validate(_parameter, headers, value, j);
+                            if (!check) {
+                                execute = false;
+                            }
                         }
-                        add2TypeInsert(_parameter, definition, headers, values, value, insert, j);
-                        insert.execute();
-
-                        if (definition.getTypeDef().getClassifications() != null) {
-                            insertClassification(_parameter, definition.getTypeDef(), headers, value,
-                                            insert.getInstance(), j);
+                        for (final ClassificationDef classDef : definition.getTypeDef().getClassifications()) {
+                            final Boolean check = classDef.validate(_parameter, headers, value, j);
+                            if (!check) {
+                                execute = false;
+                            }
                         }
-
-                        add2Row(_parameter, definition, headers, values, value, insert.getInstance(), j);
                         j++;
+                    }
+                    if (execute) {
+                        //create
+                        j = definition.getHeaderrow() + 1;
+                        for (final String[] value : values) {
+                            final Insert insert = new Insert(definition.getTypeDef().getType(headers, value));
+                            for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
+                                insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
+                            }
+                            add2TypeInsert(_parameter, definition, headers, values, value, insert, j);
+                            insert.execute();
+
+                            if (definition.getTypeDef().getClassifications() != null) {
+                                insertClassification(_parameter, definition.getTypeDef(), headers, value,
+                                                insert.getInstance(), j);
+                            }
+
+                            add2Row(_parameter, definition, headers, values, value, insert.getInstance(), j);
+                            j++;
+                        }
                     }
                 }
             }
@@ -137,6 +162,11 @@ public abstract class AbstractImport_Base
         }
         return new Return();
     }
+
+
+
+
+
 
     protected void insertClassification(final Parameter _parameter,
                                         final TypeDef _typeDef,

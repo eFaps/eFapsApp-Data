@@ -33,6 +33,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.columns.TypeColumn;
 import org.efaps.util.cache.CacheReloadException;
 
 /**
@@ -54,7 +55,7 @@ public class TypeDef
     private List<AttrDef> attributes;
 
     @XmlElementRef
-    public List<ClassificationDef> classifications;
+    private List<ClassificationDef> classifications;
 
     /**
      * Getter method for the instance variable {@link #attributes}.
@@ -88,6 +89,17 @@ public class TypeDef
     {
         return this.classifications;
     }
+
+    @Override
+    public String getValidateClass()
+    {
+        String ret = super.getValidateClass();
+        if (ret == null || (ret != null && ret.isEmpty())) {
+            ret = TypeColumn.class.getName();
+        }
+        return ret;
+    }
+
 
     public ClassificationDef getClassificationDefByName(final String _name)
     {

@@ -20,6 +20,8 @@
 
 package org.efaps.esjp.data.jaxb;
 
+import java.util.Map;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -27,8 +29,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.IColumnValidate;
+import org.efaps.util.EFapsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO comment!
@@ -44,6 +51,11 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 public abstract class AbstractDef
 {
     /**
+     * Logger for this class
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractDef.class);
+
+    /**
      * Name of the Definition.
      */
     @XmlAttribute(name = "name")
@@ -54,6 +66,18 @@ public abstract class AbstractDef
      */
     @XmlAttribute(name = "column")
     private String column;
+
+    /**
+     * Column of the Definition.
+     */
+    @XmlAttribute(name = "validate")
+    private Boolean validate = true;
+
+    /**
+     * Class used for validation.
+     */
+    @XmlAttribute(name = "validateClass")
+    private String validateClass;
 
     /**
      * Getter method for the instance variable {@link #name}.
@@ -93,6 +117,69 @@ public abstract class AbstractDef
     public void setColumn(final String _column)
     {
         this.column = _column;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #validate}.
+     *
+     * @return value of instance variable {@link #validate}
+     */
+    public Boolean getValidate()
+    {
+        return this.validate;
+    }
+
+    /**
+     * Setter method for instance variable {@link #validate}.
+     *
+     * @param _validate value for instance variable {@link #validate}
+     */
+    public void setValidate(final Boolean _validate)
+    {
+        this.validate = _validate;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #validateClass}.
+     *
+     * @return value of instance variable {@link #validateClass}
+     */
+    public String getValidateClass()
+    {
+        return this.validateClass;
+    }
+
+    /**
+     * Setter method for instance variable {@link #validateClass}.
+     *
+     * @param _validateClass value for instance variable {@link #validateClass}
+     */
+    public void setValidateClass(final String _validateClass)
+    {
+        this.validateClass = _validateClass;
+    }
+
+
+    public Boolean validate(final Parameter _parameter,
+                            final Map<String, Integer> _headers,
+                            final String[] _value,
+                            final Integer _idx)
+    {
+        Boolean ret = false;
+        if (getValidate()) {
+            try {
+                final Class<?> clazz = Class.forName(getValidateClass());
+                final IColumnValidate columnValue = (IColumnValidate) clazz.newInstance();
+                ret = columnValue.validate(_parameter, this, _headers, _value, _idx);
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                AbstractDef.LOG.error("Catched error on value evaluation", e);
+            } catch (final EFapsException e) {
+                AbstractDef.LOG.error("Catched error on value evaluation", e);
+            }
+        } else {
+            ret = true;
+        }
+        return ret;
     }
 
     @Override

@@ -36,6 +36,7 @@ import org.efaps.admin.datamodel.Classification;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.columns.ClassificationColumn;
 import org.efaps.util.cache.CacheReloadException;
 
 /**
@@ -68,6 +69,17 @@ public class ClassificationDef
     {
         return this.attributes;
     }
+
+    @Override
+    public String getValidateClass()
+    {
+        String ret = super.getValidateClass();
+        if (ret == null || (ret != null && ret.isEmpty())) {
+            ret = ClassificationColumn.class.getName();
+        }
+        return ret;
+    }
+
 
     public List<Classification> getClassifications(final Parameter _parameter,
                                                    final Map<String, Integer> _headers,

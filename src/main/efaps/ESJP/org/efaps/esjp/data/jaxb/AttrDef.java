@@ -119,6 +119,19 @@ public class AttrDef
         return this.properties;
     }
 
+    /**
+     * Getter method for the instance variable {@link #validate}.
+     *
+     * @return value of instance variable {@link #validate}
+     */
+    @Override
+    public Boolean getValidate()
+    {
+        return  (this.fixedValue != null && !this.fixedValue.isEmpty()) ? super.getValidate() : false;
+    }
+
+
+
     public String getProperty(final String _name)
     {
         String ret = null;
