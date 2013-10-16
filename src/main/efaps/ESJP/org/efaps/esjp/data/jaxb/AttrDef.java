@@ -73,6 +73,19 @@ public class AttrDef
     private String fixedValue;
 
     /**
+     * Regex to figure out if the attribute must be applied to the current
+     * type of a row.
+     */
+    @XmlAttribute(name = "typeRegex")
+    private String typeRegex;
+
+    /**
+     * Is this attribute a link to a parent object.
+     */
+    @XmlAttribute(name = "parentLink")
+    private boolean parentLink = false;
+
+    /**
      * List of Properties.
      */
     @XmlElementRef
@@ -146,9 +159,104 @@ public class AttrDef
         return ret;
     }
 
+    /**
+     * Getter method for the instance variable {@link #className}.
+     *
+     * @return value of instance variable {@link #className}
+     */
+    public String getClassName()
+    {
+        return this.className;
+    }
+
+    /**
+     * Setter method for instance variable {@link #className}.
+     *
+     * @param _className value for instance variable {@link #className}
+     */
+    public void setClassName(final String _className)
+    {
+        this.className = _className;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #fixedValue}.
+     *
+     * @return value of instance variable {@link #fixedValue}
+     */
+    public String getFixedValue()
+    {
+        return this.fixedValue;
+    }
+
+    /**
+     * Setter method for instance variable {@link #fixedValue}.
+     *
+     * @param _fixedValue value for instance variable {@link #fixedValue}
+     */
+    public void setFixedValue(final String _fixedValue)
+    {
+        this.fixedValue = _fixedValue;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #typeRegex}.
+     *
+     * @return value of instance variable {@link #typeRegex}
+     */
+    public String getTypeRegex()
+    {
+        return this.typeRegex;
+    }
+
+    /**
+     * Setter method for instance variable {@link #typeRegex}.
+     *
+     * @param _typeRegex value for instance variable {@link #typeRegex}
+     */
+    public void setTypeRegex(final String _typeRegex)
+    {
+        this.typeRegex = _typeRegex;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #parentLink}.
+     *
+     * @return value of instance variable {@link #parentLink}
+     */
+    public boolean isParentLink()
+    {
+        return this.parentLink;
+    }
+
+    /**
+     * Setter method for instance variable {@link #parentLink}.
+     *
+     * @param _parentLink value for instance variable {@link #parentLink}
+     */
+    public void setParentLink(final boolean _parentLink)
+    {
+        this.parentLink = _parentLink;
+    }
+
     @Override
     public String toString()
     {
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    /**
+     * @param _typeName Name of a type to be checked against the regex
+     * @return true if must be applied on the given type, else false
+     */
+    public boolean applies(final String _typeName)
+    {
+        boolean ret;
+        if (getTypeRegex() == null || (getTypeRegex() != null && getTypeRegex().isEmpty())) {
+            ret = true;
+        } else {
+            ret = _typeName.matches(getTypeRegex());
+        }
+        return ret;
     }
 }

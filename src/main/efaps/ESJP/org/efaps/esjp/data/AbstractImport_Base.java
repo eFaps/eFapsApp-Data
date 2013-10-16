@@ -39,6 +39,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.efaps.admin.datamodel.Classification;
+import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Parameter.ParameterValues;
 import org.efaps.admin.event.Return;
@@ -109,7 +110,9 @@ public abstract class AbstractImport_Base
             if (object instanceof DataImport) {
                 final DataImport dataImp = (DataImport) object;
                 dataImp.setUrl(url);
+                final Map<String, Instance> keys = new HashMap<String, Instance>();
                 for (final Definition definition : dataImp.getDefinition()) {
+                    AbstractImport_Base.LOG.info("Starting with definition: '{}'", definition.getName());
                     final List<String[]> values = readCSV(_parameter, dataImp, definition);
                     final Map<String, Integer> headers = readHeader(_parameter, definition, values);
                     for (int i = 0; i < definition.getHeaderrow(); i++) {
@@ -117,16 +120,35 @@ public abstract class AbstractImport_Base
                     }
                     int j = definition.getHeaderrow() + 1;
                     boolean execute = true;
+                    AbstractImport_Base.LOG.info("Validating definition: '{}'", definition.getName());
                     //validate
                     for (final String[] value : values) {
+                        if (definition.hasKey()) {
+                            keys.put(value[headers.get(definition.getKeyColumn())], null);
+                        }
+
                         final Boolean valid = definition.getTypeDef().validate(_parameter, headers, value, j);
                         if (!valid) {
                             execute = false;
                         }
+                        final Type type = definition.getTypeDef().getType(headers, value);
+                        String typeName ="no Type Name given";
+                        if (type != null) {
+                            typeName = type.getName();
+                        }
                         for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                            final Boolean check = attr.validate(_parameter, headers, value, j);
-                            if (!check) {
-                                execute = false;
+                            if (attr.applies(typeName)) {
+                                final Boolean check = attr.validate(_parameter, headers, value, j);
+                                if (definition.hasKey() && attr.isParentLink()) {
+                                    final String parentKey = attr.getValue(_parameter, headers, value, j);
+                                    if (!keys.containsKey(parentKey)) {
+                                        AbstractImport_Base.LOG.error("ParentKey '{}' in row {} not found.", parentKey,
+                                                        j);
+                                    }
+                                }
+                                if (!check) {
+                                    execute = false;
+                                }
                             }
                         }
                         for (final ClassificationDef classDef : definition.getTypeDef().getClassifications()) {
@@ -138,16 +160,28 @@ public abstract class AbstractImport_Base
                         j++;
                     }
                     if (execute && definition.isExecute()) {
+                        AbstractImport_Base.LOG.info("Importing definition: '{}'", definition.getName());
                         //create
                         j = definition.getHeaderrow() + 1;
                         for (final String[] value : values) {
-                            final Insert insert = new Insert(definition.getTypeDef().getType(headers, value));
+                            final Type type = definition.getTypeDef().getType(headers, value);
+                            final Insert insert = new Insert(type);
                             for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                                insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
+                                if (attr.applies(type.getName())) {
+                                    if (definition.hasKey() && attr.isParentLink()) {
+                                        final String parentKey = attr.getValue(_parameter, headers, value, j);
+                                        insert.add(attr.getName(), keys.get(parentKey));
+                                    } else {
+                                        insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
+                                    }
+                                }
                             }
                             add2TypeInsert(_parameter, definition, headers, values, value, insert, j);
                             insert.execute();
 
+                            if (definition.hasKey()) {
+                                keys.put(value[headers.get(definition.getKeyColumn())], insert.getInstance());
+                            }
                             if (definition.getTypeDef().getClassifications() != null) {
                                 insertClassification(_parameter, definition.getTypeDef(), headers, value,
                                                 insert.getInstance(), j);
@@ -157,6 +191,7 @@ public abstract class AbstractImport_Base
                             j++;
                         }
                     }
+                    AbstractImport_Base.LOG.info("Finished definition: '{}'", definition.getName());
                 }
             }
         } catch (final UnsupportedEncodingException e) {

@@ -72,6 +72,12 @@ public class Definition
     private boolean execute = true;
 
     /**
+     * key column.
+     */
+    @XmlAttribute(name = "keyColumn")
+    private String keyColumn;
+
+    /**
      * Type definition belonging to this defintion.
      */
     @XmlElementRef(required=true)
@@ -157,9 +163,37 @@ public class Definition
         this.execute = _execute;
     }
 
+    /**
+     * Getter method for the instance variable {@link #keyColumn}.
+     *
+     * @return value of instance variable {@link #keyColumn}
+     */
+    public String getKeyColumn()
+    {
+        return this.keyColumn;
+    }
+
+    /**
+     * Setter method for instance variable {@link #keyColumn}.
+     *
+     * @param _keyColumn value for instance variable {@link #keyColumn}
+     */
+    public void setKeyColumn(final String _keyColumn)
+    {
+        this.keyColumn = _keyColumn;
+    }
+
     @Override
     public String toString()
     {
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    /**
+     *
+     */
+    public boolean hasKey()
+    {
+        return this.keyColumn != null && !this.keyColumn.isEmpty();
     }
 }

@@ -20,6 +20,7 @@
 
 package org.efaps.esjp.data.jaxb;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +100,7 @@ public class TypeDef
      */
     public List<ClassificationDef> getClassifications()
     {
-        return this.classifications;
+        return this.classifications == null ? new ArrayList<ClassificationDef>() : this.classifications;
     }
 
     /**
