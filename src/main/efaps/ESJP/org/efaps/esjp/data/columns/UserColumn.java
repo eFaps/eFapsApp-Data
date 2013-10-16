@@ -18,14 +18,15 @@
  * Last Changed By: $Author$
  */
 
+
 package org.efaps.esjp.data.columns;
 
 import java.util.Map;
 
-import org.efaps.admin.datamodel.Dimension;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.admin.user.AbstractUserObject;
 import org.efaps.esjp.data.IColumnValidate;
 import org.efaps.esjp.data.IColumnValue;
 import org.efaps.esjp.data.jaxb.AbstractDef;
@@ -34,46 +35,23 @@ import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  * TODO comment!
  *
  * @author The eFaps Team
  * @version $Id$
  */
-@EFapsUUID("7641c1ce-0e4f-45e2-8fba-d5b0620eceb3")
+@EFapsUUID("cd46066d-a810-4eaf-8f61-33cebbf80285")
 @EFapsRevision("$Rev$")
-public class DimensionColumn
+public class UserColumn
     implements IColumnValue, IColumnValidate
 {
+
     /**
      * Logger for this class
      */
-    private static final Logger LOG = LoggerFactory.getLogger(DimensionColumn.class);
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getValue(final Parameter _paramter,
-                           final AttrDef _attrDef,
-                           final Map<String, Integer> _headers,
-                           final String[] _value,
-                           final Integer _idx)
-        throws EFapsException
-    {
-        String ret = null;
-        final String column = _attrDef.getProperty("Column");
-        if (column != null) {
-            final String dimName = _value[_headers.get(column)];
-            final Dimension dim = Dimension.get(dimName);
-            if (dim != null) {
-                ret = Long.valueOf(dim.getId()).toString();
-            }
-        } else {
-            DimensionColumn.LOG.error("Missing property 'Column'.");
-        }
-        return ret;
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(UserColumn.class);
 
     /**
      * {@inheritDoc}
@@ -90,23 +68,50 @@ public class DimensionColumn
         if (_def instanceof AttrDef) {
             final String column = ((AttrDef)_def).getProperty("Column");
             if (column != null) {
-                final String dimName = _value[_headers.get(column)];
-                final Dimension dim = Dimension.get(dimName);
-                if (dim != null) {
-                    DimensionColumn.LOG.debug("Row: {} - {}", _idx, dim);
+                final String userName = _value[_headers.get(column)];
+                final AbstractUserObject user = AbstractUserObject.getUserObject(userName);
+                if (userName != null) {
+                    UserColumn.LOG.debug("Row: {} - {}", _idx, user);
                     ret = true;
                 } else {
-                    DimensionColumn.LOG.warn("no dimension found in Row: {} - {}", _idx, _def);
+                    UserColumn.LOG.warn("no User found in Row: {} - {}", _idx, _def);
                     ret = false;
                 }
             } else {
-                DimensionColumn.LOG.error("Missing property 'Column'.");
+                UserColumn.LOG.error("Missing property 'Column'.");
                 ret = false;
             }
         } else {
-            DimensionColumn.LOG.error("Validation only works for AttrDef.");
+            UserColumn.LOG.error("Validation only works for AttrDef.");
             ret = false;
         }
         return ret;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getValue(final Parameter _parameter,
+                           final AttrDef _attrDef,
+                           final Map<String, Integer> _headers,
+                           final String[] _value,
+                           final Integer _idx)
+        throws EFapsException
+    {
+        String ret = null;
+        final String column = _attrDef.getProperty("Column");
+        if (column != null) {
+            final String userName = _value[_headers.get(column)];
+            final AbstractUserObject user = AbstractUserObject.getUserObject(userName);
+            if (user != null) {
+                UserColumn.LOG.debug("Row: {} - User: '{}'", _idx, user);
+                ret = Long.valueOf(user.getId()).toString();
+            }
+        } else {
+            UserColumn.LOG.error("Missing property 'Column'.");
+        }
+        return ret;
+    }
+
 }
