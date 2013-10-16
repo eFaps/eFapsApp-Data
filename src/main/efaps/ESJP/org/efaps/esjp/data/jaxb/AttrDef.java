@@ -21,6 +21,7 @@
 
 package org.efaps.esjp.data.jaxb;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -157,6 +158,30 @@ public class AttrDef
             }
         }
         return ret;
+    }
+
+    /**
+     * @param _name name of the property
+     * @return array of values for the property
+     */
+    public String[] analyseProperty(final String _name)
+    {
+        final List<String> ret = new ArrayList<String>();
+        //search for base name
+        String valTmp = getProperty(_name);
+        if (valTmp != null) {
+            ret.add(valTmp);
+        }
+        for (int i = 1; i < 100; i++) {
+            final String nameTmp = _name + String.format("%02d", i);
+            valTmp = getProperty(nameTmp);
+            if (valTmp == null) {
+                break;
+            } else {
+                ret.add(valTmp);
+            }
+        }
+        return ret.toArray(new String[ret.size()]);
     }
 
     /**
