@@ -70,6 +70,9 @@ public class ClassificationDef
         return this.attributes;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getValidateClass()
     {
@@ -80,7 +83,13 @@ public class ClassificationDef
         return ret;
     }
 
-
+    /**
+     * @param _parameter    Parameter as passed by the eFaps API
+     * @param _headers      headr mapping
+     * @param _value        value of the current row
+     * @return list of Classification
+     * @throws CacheReloadException on error
+     */
     public List<Classification> getClassifications(final Parameter _parameter,
                                                    final Map<String, Integer> _headers,
                                                    final String[] _value)

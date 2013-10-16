@@ -33,9 +33,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
-
-
-
 /**
  * TODO comment!
  *
@@ -50,18 +47,33 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 @XmlSeeAlso(TypeDef.class)
 public class Definition
 {
+    /**
+     * Name of the definition.
+     */
     @XmlAttribute(name = "name")
     private String name;
 
+    /**
+     * csv file belonging to this definition.
+     */
     @XmlAttribute(name = "file")
     private String file;
 
+    /**
+     * Index of the row containing the header.
+     */
     @XmlAttribute(name = "headerrow")
     private  Integer headerrow = 1;
 
+    /**
+     * Will the insert be executed.
+     */
     @XmlAttribute(name = "execute")
     private boolean execute = true;
 
+    /**
+     * Type definition belonging to this defintion.
+     */
     @XmlElementRef(required=true)
     private TypeDef type;
 
@@ -85,7 +97,6 @@ public class Definition
         this.name = _name;
     }
 
-
     /**
      * Getter method for the instance variable {@link #file}.
      *
@@ -95,7 +106,6 @@ public class Definition
     {
         return this.file;
     }
-
 
     /**
      * Getter method for the instance variable {@link #headerrow}.
@@ -107,7 +117,6 @@ public class Definition
         return this.headerrow;
     }
 
-
     /**
      * Setter method for instance variable {@link #headerrow}.
      *
@@ -117,7 +126,6 @@ public class Definition
     {
         this.headerrow = _headerrow;
     }
-
 
     /**
      * Getter method for the instance variable {@link #type}.

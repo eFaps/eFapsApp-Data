@@ -48,6 +48,9 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 public class DataImport
 {
 
+    /**
+     * List of Definitions contained in this import.
+     */
     @XmlElementRef(required = true)
     private List<Definition> definitions;
 
@@ -64,12 +67,6 @@ public class DataImport
     public List<Definition> getDefinition()
     {
         return this.definitions;
-    }
-
-    @Override
-    public String toString()
-    {
-        return ToStringBuilder.reflectionToString(this);
     }
 
     /**
@@ -90,5 +87,11 @@ public class DataImport
     public void setUrl(final URL _url)
     {
         this.url = _url;
+    }
+
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

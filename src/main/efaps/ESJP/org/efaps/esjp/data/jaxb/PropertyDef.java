@@ -51,13 +51,13 @@ public class PropertyDef
      * Name for this Property.
      */
     @XmlAttribute(name = "name")
-    public String name;
+    private String name;
 
     /**
      * Value for this property.
      */
     @XmlValue
-    public String value;
+    private String value;
 
     /**
      * Getter method for the instance variable {@link #name}.

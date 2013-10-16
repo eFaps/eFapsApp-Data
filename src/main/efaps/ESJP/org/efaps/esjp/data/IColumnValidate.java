@@ -24,18 +24,33 @@ package org.efaps.esjp.data;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.AbstractDef;
 import org.efaps.util.EFapsException;
 
 
 /**
- * TODO comment!
+ * Interface for column validation classes.
  *
  * @author The eFaps Team
  * @version $Id$
  */
+@EFapsUUID("e15916a2-8d7b-45fe-afcf-f790b84c4a5d")
+@EFapsRevision("$Rev$")
 public interface IColumnValidate
 {
+    /**
+     * Validate a value for a column.
+     *
+     * @param _parameter    Parameter as passed by the eFaps API
+     * @param _def          the definition to be validated
+     * @param _headers      headers of the csv file
+     * @param _value        value for the current row
+     * @param _idx          index of the row inside the csv
+     * @return <code>true</code> if valid, else <code>false</code>
+     * @throws EFapsException on error
+     */
     Boolean validate(final Parameter _parameter,
                      final AbstractDef _def,
                      final Map<String, Integer> _headers,

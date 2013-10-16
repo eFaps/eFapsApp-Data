@@ -69,9 +69,17 @@ import au.com.bytecode.opencsv.CSVReader;
 public abstract class AbstractImport_Base
 {
 
+    /**
+     * Logger for this class.
+     */
     public static final Logger LOG = LoggerFactory.getLogger(AbstractImport.class);
 
-
+    /**
+     * Called by scripts inside of version.xml during install and update.
+     *
+     * @param _url  url of the file to be imported
+     * @throws EFapsException on error
+     */
     public void importFromFile(final URL _url)
         throws EFapsException
     {
@@ -81,7 +89,11 @@ public abstract class AbstractImport_Base
         execute(parameter);
     }
 
-
+    /**
+     * @param _parameter Parameter as passed by the eFaps API
+     * @return empty Return
+     * @throws EFapsException on error
+     */
     public Return execute(final Parameter _parameter)
         throws EFapsException
     {
@@ -154,20 +166,22 @@ public abstract class AbstractImport_Base
         } catch (final JAXBException e) {
             AbstractImport_Base.LOG.error("Catched error:", e);
         } catch (final MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            AbstractImport_Base.LOG.error("Catched error:", e);
         } catch (final IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            AbstractImport_Base.LOG.error("Catched error:", e);
         }
         return new Return();
     }
 
-
-
-
-
-
+    /**
+     * @param _parameter Parameter as passed by the eFaps API
+     * @param _typeDef tye definition
+     * @param _headers  header mapping
+     * @param _value    values of the current row
+     * @param _instance instance of the created object
+     * @param _idx      index of the current row
+     * @throws EFapsException on error
+     */
     protected void insertClassification(final Parameter _parameter,
                                         final TypeDef _typeDef,
                                         final Map<String, Integer> _headers,
@@ -200,6 +214,13 @@ public abstract class AbstractImport_Base
         }
     }
 
+
+    /**
+     * @param _parameter Parameter as passed by the eFaps API
+     * @param _definition   defintion the header belongs to
+     * @param _values     list of row values
+     * @return header mapping
+     */
     protected Map<String, Integer> readHeader(final Parameter _parameter,
                                               final Definition _definition,
                                               final List<String[]> _values)
@@ -218,6 +239,12 @@ public abstract class AbstractImport_Base
         return ret;
     }
 
+    /**
+     * @param _parameter Parameter as passed by the eFaps API
+     * @param _dataImport   the import defintion
+     * @param _definition   defintion the values belong to
+     * @return list of row values
+     */
     protected List<String[]> readCSV(final Parameter _parameter,
                                      final DataImport _dataImport,
                                      final Definition _definition)

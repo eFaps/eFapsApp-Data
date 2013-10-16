@@ -159,7 +159,14 @@ public abstract class AbstractDef
         this.validateClass = _validateClass;
     }
 
-
+    /**
+     * Invoke the validation classed if required.
+     * @param _parameter Parameter as passed by the eFaps API
+     * @param _headers  header mapping
+     * @param _value    value of the current row
+     * @param _idx      index of the current row
+     * @return <code>true</code> if valid, else <code>false</code>
+     */
     public Boolean validate(final Parameter _parameter,
                             final Map<String, Integer> _headers,
                             final String[] _value,

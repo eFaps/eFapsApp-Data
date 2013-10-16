@@ -130,6 +130,10 @@ public class AttrDef
         return (this.fixedValue != null && !this.fixedValue.isEmpty()) ? false : super.getValidate();
     }
 
+    /**
+     * @param _name name of the property
+     * @return value for the property
+     */
     public String getProperty(final String _name)
     {
         String ret = null;

@@ -24,6 +24,8 @@ import java.util.Map;
 
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.IColumnValidate;
 import org.efaps.esjp.data.jaxb.AbstractDef;
 import org.efaps.esjp.data.jaxb.TypeDef;
@@ -37,6 +39,8 @@ import org.slf4j.LoggerFactory;
  * @author The eFaps Team
  * @version $Id$
  */
+@EFapsUUID("865921ab-14b6-4028-8081-37ce4b39ff30")
+@EFapsRevision("$Rev$")
 public class TypeColumn
     implements IColumnValidate
 {

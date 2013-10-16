@@ -51,9 +51,15 @@ public class TypeDef
     extends AbstractDef
 {
 
+    /**
+     * List of attributes belonging to this type.
+     */
     @XmlElementRef(required = true)
     private List<AttrDef> attributes;
 
+    /**
+     * Classifications nested in this type.
+     */
     @XmlElementRef
     private List<ClassificationDef> classifications;
 
@@ -67,6 +73,12 @@ public class TypeDef
         return this.attributes;
     }
 
+    /**
+     * @param _headers  header mapping
+     * @param _value    row values
+     * @return type for the current column
+     * @throws CacheReloadException on error
+     */
     public Type getType(final Map<String, Integer> _headers,
                         final String[] _value)
         throws CacheReloadException
@@ -90,6 +102,9 @@ public class TypeDef
         return this.classifications;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getValidateClass()
     {
@@ -100,7 +115,10 @@ public class TypeDef
         return ret;
     }
 
-
+    /**
+     * @param _name name of the definition to be searched
+     * @return classifcation definition
+     */
     public ClassificationDef getClassificationDefByName(final String _name)
     {
         ClassificationDef ret = null;

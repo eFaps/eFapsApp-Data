@@ -29,7 +29,7 @@ import org.efaps.esjp.data.jaxb.AttrDef;
 import org.efaps.util.EFapsException;
 
 /**
- * TODO comment!
+ * Interface for Column value classes.
  *
  * @author The eFaps Team
  * @version $Id$
@@ -38,7 +38,17 @@ import org.efaps.util.EFapsException;
 @EFapsRevision("$Rev$")
 public interface IColumnValue
 {
-
+    /**
+     * Get the value for a column.
+     *
+     * @param _parameter    Parameter as passed by the eFaps API
+     * @param _attrDef      the attribute definition to be validated
+     * @param _headers      headers of the csv file
+     * @param _value        value for the current row
+     * @param _idx          index of the row inside the csv
+     * @return the value for the column as a string
+     * @throws EFapsException on error
+     */
     String getValue(final Parameter _parameter,
                     final AttrDef _attrDef,
                     final Map<String, Integer> _headers,
