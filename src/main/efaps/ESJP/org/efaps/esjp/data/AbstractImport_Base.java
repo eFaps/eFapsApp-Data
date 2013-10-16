@@ -47,6 +47,7 @@ import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.db.Instance;
+import org.efaps.db.Update;
 import org.efaps.esjp.data.jaxb.AttrDef;
 import org.efaps.esjp.data.jaxb.ClassificationDef;
 import org.efaps.esjp.data.jaxb.DataImport;
@@ -177,13 +178,14 @@ public abstract class AbstractImport_Base
                                 }
                             }
                             add2TypeInsert(_parameter, definition, headers, values, value, insert, j);
-                            insert.execute();
+
+                            execute(_parameter, definition, insert);
 
                             if (definition.hasKey()) {
                                 keys.put(value[headers.get(definition.getKeyColumn())], insert.getInstance());
                             }
                             if (definition.getTypeDef().getClassifications() != null) {
-                                insertClassification(_parameter, definition.getTypeDef(), headers, value,
+                                insertClassification(_parameter, definition, headers, value,
                                                 insert.getInstance(), j);
                             }
 
@@ -208,9 +210,26 @@ public abstract class AbstractImport_Base
         return new Return();
     }
 
+    protected void execute(final Parameter _parameter,
+                           final Definition _def,
+                           final Update _update)
+        throws EFapsException
+    {
+        if (_def.isAccessCheck() && _def.isTrigger()) {
+            _update.execute();
+        } else if (!_def.isAccessCheck() && _def.isTrigger()) {
+            _update.executeWithoutAccessCheck();
+        } else if (!_def.isAccessCheck() && !_def.isTrigger()) {
+            _update.executeWithoutTrigger();
+        }   else {
+            _update.execute();
+        }
+    }
+
+
     /**
      * @param _parameter Parameter as passed by the eFaps API
-     * @param _typeDef tye definition
+     * @param _def      definition
      * @param _headers  header mapping
      * @param _value    values of the current row
      * @param _instance instance of the created object
@@ -218,7 +237,7 @@ public abstract class AbstractImport_Base
      * @throws EFapsException on error
      */
     protected void insertClassification(final Parameter _parameter,
-                                        final TypeDef _typeDef,
+                                        final Definition _def,
                                         final Map<String, Integer> _headers,
                                         final String[] _value,
                                         final Instance _instance,
@@ -226,7 +245,7 @@ public abstract class AbstractImport_Base
         throws EFapsException
     {
         AbstractImport_Base.LOG.trace("preparing inserts for classifications");
-        final List<ClassificationDef> classifications = _typeDef.getClassifications();
+        final List<ClassificationDef> classifications = _def.getTypeDef().getClassifications();
 
         for (final ClassificationDef classification : classifications) {
             AbstractImport_Base.LOG.trace("preparing inserts for: {}", classification);
@@ -238,13 +257,13 @@ public abstract class AbstractImport_Base
 
                 final Insert classInsert = new Insert(clazz);
                 classInsert.add(clazz.getLinkAttributeName(), _instance);
-                final ClassificationDef clazzDef = _typeDef.getClassificationDefByName(clazz.getName());
+                final ClassificationDef clazzDef = _def.getTypeDef().getClassificationDefByName(clazz.getName());
                 if (clazzDef != null) {
                     for (final AttrDef attr : clazzDef.getAttributes()) {
                         classInsert.add(attr.getName(), attr.getValue(_parameter, _headers, _value, _idx));
                     }
                 }
-                classInsert.executeWithoutAccessCheck();
+                execute (_parameter, _def, classInsert);
             }
         }
     }

@@ -72,6 +72,18 @@ public class Definition
     private boolean execute = true;
 
     /**
+     * Execute with accesscheck.
+     */
+    @XmlAttribute(name = "accessCheck")
+    private boolean accessCheck = true;
+
+    /**
+     * Execute with trigger.
+     */
+    @XmlAttribute(name = "trigger")
+    private boolean trigger = true;
+
+    /**
      * key column.
      */
     @XmlAttribute(name = "keyColumn")
@@ -183,17 +195,57 @@ public class Definition
         this.keyColumn = _keyColumn;
     }
 
-    @Override
-    public String toString()
-    {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
     /**
      *
      */
     public boolean hasKey()
     {
         return this.keyColumn != null && !this.keyColumn.isEmpty();
+    }
+
+    /**
+     * Getter method for the instance variable {@link #accessCheck}.
+     *
+     * @return value of instance variable {@link #accessCheck}
+     */
+    public boolean isAccessCheck()
+    {
+        return this.accessCheck;
+    }
+
+    /**
+     * Setter method for instance variable {@link #accessCheck}.
+     *
+     * @param _accessCheck value for instance variable {@link #accessCheck}
+     */
+    public void setAccessCheck(final boolean _accessCheck)
+    {
+        this.accessCheck = _accessCheck;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #trigger}.
+     *
+     * @return value of instance variable {@link #trigger}
+     */
+    public boolean isTrigger()
+    {
+        return this.trigger;
+    }
+
+    /**
+     * Setter method for instance variable {@link #trigger}.
+     *
+     * @param _trigger value for instance variable {@link #trigger}
+     */
+    public void setTrigger(final boolean _trigger)
+    {
+        this.trigger = _trigger;
+    }
+
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
