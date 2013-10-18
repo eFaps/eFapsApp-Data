@@ -29,8 +29,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -246,24 +248,27 @@ public abstract class AbstractImport_Base
     {
         AbstractImport_Base.LOG.trace("preparing inserts for classifications");
         final List<ClassificationDef> classifications = _def.getTypeDef().getClassifications();
-
+        final Set<Classification> inserted = new HashSet<Classification>();
         for (final ClassificationDef classification : classifications) {
             AbstractImport_Base.LOG.trace("preparing inserts for: {}", classification);
             for (final Classification clazz : classification.getClassifications(_parameter, _headers, _value)) {
-                final Insert relInsert = new Insert(clazz.getClassifyRelationType());
-                relInsert.add(clazz.getRelLinkAttributeName(), _instance);
-                relInsert.add(clazz.getRelTypeAttributeName(), clazz.getId());
-                relInsert.executeWithoutAccessCheck();
+                if (!inserted.contains(clazz)) {
+                    inserted.add(clazz);
+                    final Insert relInsert = new Insert(clazz.getClassifyRelationType());
+                    relInsert.add(clazz.getRelLinkAttributeName(), _instance);
+                    relInsert.add(clazz.getRelTypeAttributeName(), clazz.getId());
+                    execute (_parameter, _def, relInsert);
 
-                final Insert classInsert = new Insert(clazz);
-                classInsert.add(clazz.getLinkAttributeName(), _instance);
-                final ClassificationDef clazzDef = _def.getTypeDef().getClassificationDefByName(clazz.getName());
-                if (clazzDef != null) {
-                    for (final AttrDef attr : clazzDef.getAttributes()) {
-                        classInsert.add(attr.getName(), attr.getValue(_parameter, _headers, _value, _idx));
+                    final Insert classInsert = new Insert(clazz);
+                    classInsert.add(clazz.getLinkAttributeName(), _instance);
+                    final ClassificationDef clazzDef = _def.getTypeDef().getClassificationDefByName(clazz.getName());
+                    if (clazzDef != null) {
+                        for (final AttrDef attr : clazzDef.getAttributes()) {
+                            classInsert.add(attr.getName(), attr.getValue(_parameter, _headers, _value, _idx));
+                        }
                     }
+                    execute (_parameter, _def, classInsert);
                 }
-                execute (_parameter, _def, classInsert);
             }
         }
     }
