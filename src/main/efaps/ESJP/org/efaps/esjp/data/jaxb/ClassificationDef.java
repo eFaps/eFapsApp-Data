@@ -67,7 +67,7 @@ public class ClassificationDef
      */
     public List<AttrDef> getAttributes()
     {
-        return this.attributes;
+        return this.attributes == null ? new ArrayList<AttrDef>() : this.attributes;
     }
 
     /**
