@@ -19,13 +19,16 @@
  Last Changed:    $Date$
  Last Changed By: $Author$
 
---><common-systemconfiguration xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.xsd">
-    
+-->
+<common-systemconfiguration xmlns="http://www.efaps.org/xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.xsd">
+
     <uuid>6e7619af-b0f0-4a8a-82dd-3b75b724fd11</uuid>
     <file-application>eFapsApp-data</file-application>
     <file-revision>$Rev$</file-revision>
     <definition>
         <version-expression>(version==latest)</version-expression>
-        <name>data_Configuration</name>       
+        <name>Data-Configuration</name>
     </definition>
 </common-systemconfiguration>
