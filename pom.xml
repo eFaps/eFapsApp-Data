@@ -154,7 +154,7 @@
     <dependencies>
         <dependency>
             <groupId>org.efaps</groupId>
-            <artifactId>efaps-kernel</artifactId>
+            <artifactId>efaps-kernel-install</artifactId>
             <version>${efaps.app.dependencies}</version>
         </dependency>
         <dependency>
