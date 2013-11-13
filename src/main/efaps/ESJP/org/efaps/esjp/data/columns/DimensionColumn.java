@@ -98,8 +98,13 @@ public class DimensionColumn
         if (_def instanceof AttrDef) {
             final String column = ((AttrDef)_def).getProperty("Column");
             if (column != null) {
-                final String dimName = _value[_headers.get(column)];
-                final Dimension dim = Dimension.get(dimName);
+                final String dimStr = _value[_headers.get(column)];
+                final Dimension dim;
+                if (isUUID(dimStr)) {
+                    dim = Dimension.get(UUID.fromString(dimStr));
+                } else {
+                    dim = Dimension.get(dimStr);
+                }
                 if (dim != null) {
                     DimensionColumn.LOG.debug("Row: {} - {}", _idx, dim);
                     ret = true;
