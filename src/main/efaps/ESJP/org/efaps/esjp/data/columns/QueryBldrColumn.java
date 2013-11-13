@@ -134,17 +134,17 @@ public class QueryBldrColumn
         throws EFapsException
     {
         Object ret = null;
-        final String typeColumn = _attrDef.getProperty("TypeColumn");
-        final String selectColumn = _attrDef.getProperty("SelectColumn");
+        final String type = _attrDef.getProperty("Type");
+        final String select = _attrDef.getProperty("Select");
         final String[] queryAttributes = _attrDef.analyseProperty("QueryAttribute");
-        final String[] queryValues = _attrDef.analyseProperty("QueryValue");
-        final String type = _value[_headers.get(typeColumn)];
-        final List<String>queryAttr = new ArrayList<String>();
+        final String[] queryColumns = _attrDef.analyseProperty("QueryColumn");
+
+        final List<String> queryAttr = new ArrayList<String>();
         for (final String queryAttribute : queryAttributes) {
-            queryAttr.add(_value[_headers.get(queryAttribute)]);
+            queryAttr.add(queryAttribute);
         }
-        final List<String>queryVals = new ArrayList<String>();
-        for (final String queryValue : queryValues) {
+        final List<String> queryVals = new ArrayList<String>();
+        for (final String queryValue : queryColumns) {
             queryVals.add(_value[_headers.get(queryValue)]);
         }
 
@@ -155,8 +155,8 @@ public class QueryBldrColumn
         while (attrIter.hasNext() && valIter.hasNext()) {
             queryBldr.addWhereAttrEqValue(attrIter.next(), valIter.next());
         }
+
         final MultiPrintQuery multi = queryBldr.getPrint();
-        final String select = _value[_headers.get(selectColumn)];
         multi.addSelect(select);
         multi.executeWithoutAccessCheck();
 
@@ -164,6 +164,6 @@ public class QueryBldrColumn
             ret = multi.getSelect(select);
             QueryBldrColumn.LOG.debug("Row: {} - {}", _idx, ret);
         }
-        return ret == null  ? null : String.valueOf(ret);
+        return ret == null ? null : String.valueOf(ret);
     }
 }
