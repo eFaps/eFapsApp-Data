@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -123,6 +124,7 @@ public abstract class AbstractImport_Base
                     }
                     int j = definition.getHeaderrow() + 1;
                     boolean execute = true;
+                    final Set<Integer> skip = new HashSet<Integer>();
                     AbstractImport_Base.LOG.info("Validating definition: '{}'", definition.getName());
                     //validate
                     for (final String[] value : values) {
@@ -145,12 +147,13 @@ public abstract class AbstractImport_Base
                                 if (definition.hasKey() && attr.isParentLink()) {
                                     final String parentKey = attr.getValue(_parameter, headers, value, j);
                                     if (!keys.containsKey(parentKey)) {
-                                        AbstractImport_Base.LOG.error("ParentKey '{}' in row {} not found.", parentKey,
-                                                        j);
+                                        AbstractImport_Base.LOG.error("ParentKey '{}' in row {} not found.",
+                                                        parentKey, j);
                                     }
                                 }
                                 if (!check) {
                                     execute = false;
+                                    skip.add(j);
                                 }
                             }
                         }
@@ -158,40 +161,44 @@ public abstract class AbstractImport_Base
                             final Boolean check = classDef.validate(_parameter, headers, value, j);
                             if (!check) {
                                 execute = false;
+                                skip.add(j);
                             }
                         }
                         j++;
                     }
-                    if (execute && definition.isExecute()) {
+                    if ((execute && definition.isExecute()) || (definition.isExecute() && definition.isForce())) {
                         AbstractImport_Base.LOG.info("Importing definition: '{}'", definition.getName());
                         //create
                         j = definition.getHeaderrow() + 1;
                         for (final String[] value : values) {
-                            final Type type = definition.getTypeDef().getType(headers, value);
-                            final Insert insert = new Insert(type);
-                            for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                                if (attr.applies(type.getName())) {
-                                    if (definition.hasKey() && attr.isParentLink()) {
-                                        final String parentKey = attr.getValue(_parameter, headers, value, j);
-                                        insert.add(attr.getName(), keys.get(parentKey));
-                                    } else {
-                                        insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
+                            if (!execute && skip.contains(j)) {
+                                AbstractImport_Base.LOG.info("Skipped Line: '{}': {} ", j, Arrays.toString(value));
+                            } else {
+                                final Type type = definition.getTypeDef().getType(headers, value);
+                                final Insert insert = new Insert(type);
+                                for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
+                                    if (attr.applies(type.getName())) {
+                                        if (definition.hasKey() && attr.isParentLink()) {
+                                            final String parentKey = attr.getValue(_parameter, headers, value, j);
+                                            insert.add(attr.getName(), keys.get(parentKey));
+                                        } else {
+                                            insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
+                                        }
                                     }
                                 }
-                            }
-                            add2TypeInsert(_parameter, definition, headers, values, value, insert, j);
+                                add2TypeInsert(_parameter, definition, headers, values, value, insert, j);
 
-                            execute(_parameter, definition, insert);
+                                execute(_parameter, definition, insert);
 
-                            if (definition.hasKey()) {
-                                keys.put(value[headers.get(definition.getKeyColumn())], insert.getInstance());
+                                if (definition.hasKey()) {
+                                    keys.put(value[headers.get(definition.getKeyColumn())], insert.getInstance());
+                                }
+                                if (definition.getTypeDef().getClassifications() != null) {
+                                    insertClassification(_parameter, definition, headers, value,
+                                                    insert.getInstance(), j);
+                                }
+                                add2Row(_parameter, definition, headers, values, value, insert.getInstance(), j);
                             }
-                            if (definition.getTypeDef().getClassifications() != null) {
-                                insertClassification(_parameter, definition, headers, value,
-                                                insert.getInstance(), j);
-                            }
-
-                            add2Row(_parameter, definition, headers, values, value, insert.getInstance(), j);
                             j++;
                         }
                     }

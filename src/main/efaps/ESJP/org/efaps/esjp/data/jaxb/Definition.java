@@ -72,6 +72,12 @@ public class Definition
     private boolean execute = true;
 
     /**
+     * Will the insert be executed.
+     */
+    @XmlAttribute(name = "force")
+    private boolean force = false;
+
+    /**
      * Execute with accesscheck.
      */
     @XmlAttribute(name = "accessCheck")
@@ -241,6 +247,26 @@ public class Definition
     public void setTrigger(final boolean _trigger)
     {
         this.trigger = _trigger;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #force}.
+     *
+     * @return value of instance variable {@link #force}
+     */
+    public boolean isForce()
+    {
+        return this.force;
+    }
+
+    /**
+     * Setter method for instance variable {@link #force}.
+     *
+     * @param _force value for instance variable {@link #force}
+     */
+    public void setForce(final boolean _force)
+    {
+        this.force = _force;
     }
 
     @Override
