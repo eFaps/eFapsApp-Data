@@ -21,11 +21,13 @@
 package org.efaps.esjp.data.columns;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.efaps.admin.datamodel.Dimension;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.common.AbstractCommon;
 import org.efaps.esjp.data.IColumnValidate;
 import org.efaps.esjp.data.IColumnValue;
 import org.efaps.esjp.data.jaxb.AbstractDef;
@@ -43,6 +45,7 @@ import org.slf4j.LoggerFactory;
 @EFapsUUID("7641c1ce-0e4f-45e2-8fba-d5b0620eceb3")
 @EFapsRevision("$Rev$")
 public class DimensionColumn
+    extends AbstractCommon
     implements IColumnValue, IColumnValidate
 {
     /**
@@ -64,8 +67,13 @@ public class DimensionColumn
         String ret = null;
         final String column = _attrDef.getProperty("Column");
         if (column != null) {
-            final String dimName = _value[_headers.get(column)];
-            final Dimension dim = Dimension.get(dimName);
+            final String dimStr = _value[_headers.get(column)];
+            final Dimension dim;
+            if (isUUID(dimStr)) {
+                dim = Dimension.get(UUID.fromString(dimStr));
+            } else {
+                dim = Dimension.get(dimStr);
+            }
             if (dim != null) {
                 ret = Long.valueOf(dim.getId()).toString();
             }
