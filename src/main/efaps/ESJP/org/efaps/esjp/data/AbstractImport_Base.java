@@ -128,10 +128,6 @@ public abstract class AbstractImport_Base
                     AbstractImport_Base.LOG.info("Validating definition: '{}'", definition.getName());
                     //validate
                     for (final String[] value : values) {
-                        if (definition.hasKey()) {
-                            keys.put(value[headers.get(definition.getKeyColumn())], null);
-                        }
-
                         final Boolean valid = definition.getTypeDef().validate(_parameter, headers, value, j);
                         if (!valid) {
                             execute = false;
@@ -143,12 +139,13 @@ public abstract class AbstractImport_Base
                         }
                         for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
                             if (attr.applies(typeName)) {
-                                final Boolean check = attr.validate(_parameter, headers, value, j);
+                                Boolean check = attr.validate(_parameter, headers, value, j);
                                 if (definition.hasKey() && attr.isParentLink()) {
                                     final String parentKey = attr.getValue(_parameter, headers, value, j);
                                     if (!keys.containsKey(parentKey)) {
                                         AbstractImport_Base.LOG.error("ParentKey '{}' in row {} not found.",
                                                         parentKey, j);
+                                        check = false;
                                     }
                                 }
                                 if (!check) {
@@ -165,6 +162,9 @@ public abstract class AbstractImport_Base
                             }
                         }
                         j++;
+                        if (definition.hasKey() && execute) {
+                            keys.put(value[headers.get(definition.getKeyColumn())], null);
+                        }
                     }
                     if ((execute && definition.isExecute()) || (definition.isExecute() && definition.isForce())) {
                         AbstractImport_Base.LOG.info("Importing definition: '{}'", definition.getName());
