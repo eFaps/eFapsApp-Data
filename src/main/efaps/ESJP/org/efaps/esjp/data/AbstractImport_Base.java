@@ -20,10 +20,8 @@
 
 package org.efaps.esjp.data;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -55,6 +53,7 @@ import org.efaps.esjp.data.jaxb.AttrDef;
 import org.efaps.esjp.data.jaxb.ClassificationDef;
 import org.efaps.esjp.data.jaxb.DataImport;
 import org.efaps.esjp.data.jaxb.Definition;
+import org.efaps.esjp.data.jaxb.IdentifierDef;
 import org.efaps.esjp.data.jaxb.TypeDef;
 import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
@@ -66,8 +65,7 @@ import au.com.bytecode.opencsv.CSVReader;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id: AbstractImport_Base.java 10427 2013-10-12 15:18:26Z
- *          jan@moxter.net $
+ * @version $Id$
  */
 @EFapsUUID("b3f81d2e-2352-43ab-acb2-2c98d2c32c05")
 @EFapsRevision("$Rev$")
@@ -82,7 +80,7 @@ public abstract class AbstractImport_Base
     /**
      * Called by scripts inside of version.xml during install and update.
      *
-     * @param _url  url of the file to be imported
+     * @param _url url of the file to be imported
      * @throws EFapsException on error
      */
     public void importFromFile(final URL _url)
@@ -103,37 +101,40 @@ public abstract class AbstractImport_Base
         throws EFapsException
     {
         try {
-            final String xmlFile = _parameter.getParameterValue("valueField");
-            final URL url = new URL(xmlFile);
             final JAXBContext jc = getJAXBContext();
             final Unmarshaller unmarschaller = jc.createUnmarshaller();
-            final URLConnection connection = url.openConnection();
-            connection.setUseCaches(false);
-            final Source source = new StreamSource(new InputStreamReader(connection.getInputStream()));
-            final Object object = unmarschaller.unmarshal(source);
+            final Object object = unmarschaller.unmarshal(getSource4DataImport(_parameter));
             if (object instanceof DataImport) {
                 final DataImport dataImp = (DataImport) object;
-                dataImp.setUrl(url);
+                dataImp.setUrl(getUrl(_parameter));
                 final Map<String, Instance> keys = new HashMap<String, Instance>();
                 for (final Definition definition : dataImp.getDefinition()) {
                     AbstractImport_Base.LOG.info("Starting with definition: '{}'", definition.getName());
                     final List<String[]> values = readCSV(_parameter, dataImp, definition);
                     final Map<String, Integer> headers = readHeader(_parameter, definition, values);
-                    for (int i = 0; i < definition.getHeaderrow(); i++) {
-                        values.remove(0);
-                    }
-                    int j = definition.getHeaderrow() + 1;
+                    values.remove(0);
+                    int j = 1;
                     boolean execute = true;
                     final Set<Integer> skip = new HashSet<Integer>();
                     AbstractImport_Base.LOG.info("Validating definition: '{}'", definition.getName());
-                    //validate
+                    // validate
                     for (final String[] value : values) {
+                        if (definition.isUpdate()) {
+                            final IdentifierDef idDef = definition.getIdentifier();
+                            if (idDef == null) {
+                                AbstractImport_Base.LOG.error("Definition '{}' has update defined but no identifier.",
+                                                definition.getName());
+                            } else {
+                                final Boolean hasInstance = idDef.hasInstance(_parameter, definition, headers, value, j);
+                                AbstractImport_Base.LOG.debug("Instance found={} in line {}", hasInstance, j);
+                            }
+                        }
                         final Boolean valid = definition.getTypeDef().validate(_parameter, headers, value, j);
                         if (!valid) {
                             execute = false;
                         }
                         final Type type = definition.getTypeDef().getType(headers, value);
-                        String typeName ="no Type Name given";
+                        String typeName = "no Type Name given";
                         if (type != null) {
                             typeName = type.getName();
                         }
@@ -168,36 +169,48 @@ public abstract class AbstractImport_Base
                     }
                     if ((execute && definition.isExecute()) || (definition.isExecute() && definition.isForce())) {
                         AbstractImport_Base.LOG.info("Importing definition: '{}'", definition.getName());
-                        //create
-                        j = definition.getHeaderrow() + 1;
+                        // create
+                        j =  1;
                         for (final String[] value : values) {
                             if (!execute && skip.contains(j)) {
                                 AbstractImport_Base.LOG.info("Skipped Line: '{}': {} ", j, Arrays.toString(value));
                             } else {
+                                boolean isUpdate;
                                 final Type type = definition.getTypeDef().getType(headers, value);
-                                final Insert insert = new Insert(type);
+                                Update update;
+                                if (definition.isUpdate()
+                                                && definition.getIdentifier().hasInstance(_parameter, definition,
+                                                                headers, value, j)) {
+                                    update = new Update(definition.getIdentifier().getInstance(_parameter, definition,
+                                                    headers, value, j));
+                                    isUpdate = true;
+                                } else {
+                                    update = new Insert(type);
+                                    isUpdate = false;
+                                }
                                 for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                                    if (attr.applies(type.getName())) {
+                                    if ((!isUpdate || (isUpdate && attr.isOverwrite()))
+                                                    &&  attr.applies(type.getName())) {
                                         if (definition.hasKey() && attr.isParentLink()) {
                                             final String parentKey = attr.getValue(_parameter, headers, value, j);
-                                            insert.add(attr.getName(), keys.get(parentKey));
+                                            update.add(attr.getName(), keys.get(parentKey));
                                         } else {
-                                            insert.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
+                                            update.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
                                         }
                                     }
                                 }
-                                add2TypeInsert(_parameter, definition, headers, values, value, insert, j);
+                                add2TypeUpdate(_parameter, definition, headers, values, value, update, j);
 
-                                execute(_parameter, definition, insert);
+                                execute(_parameter, definition, update);
 
                                 if (definition.hasKey()) {
-                                    keys.put(value[headers.get(definition.getKeyColumn())], insert.getInstance());
+                                    keys.put(value[headers.get(definition.getKeyColumn())], update.getInstance());
                                 }
                                 if (definition.getTypeDef().getClassifications() != null) {
                                     insertClassification(_parameter, definition, headers, value,
-                                                    insert.getInstance(), j);
+                                                    update.getInstance(), j);
                                 }
-                                add2Row(_parameter, definition, headers, values, value, insert.getInstance(), j);
+                                add2Row(_parameter, definition, headers, values, value, update.getInstance(), j);
                             }
                             j++;
                         }
@@ -205,18 +218,43 @@ public abstract class AbstractImport_Base
                     AbstractImport_Base.LOG.info("Finished definition: '{}'", definition.getName());
                 }
             }
-        } catch (final UnsupportedEncodingException e) {
-            AbstractImport_Base.LOG.error("Catched error:", e);
-        } catch (final FileNotFoundException e) {
-            AbstractImport_Base.LOG.error("Catched error:", e);
         } catch (final JAXBException e) {
-            AbstractImport_Base.LOG.error("Catched error:", e);
-        } catch (final MalformedURLException e) {
-            AbstractImport_Base.LOG.error("Catched error:", e);
-        } catch (final IOException e) {
             AbstractImport_Base.LOG.error("Catched error:", e);
         }
         return new Return();
+    }
+
+    protected Source getSource4DataImport(final Parameter _parameter)
+        throws EFapsException
+    {
+        Source source = null;
+        try {
+            final URL url = getUrl(_parameter);
+            final URLConnection connection = url.openConnection();
+            connection.setUseCaches(false);
+            source = new StreamSource(new InputStreamReader(connection.getInputStream()));
+        } catch (final MalformedURLException e) {
+            AbstractImport_Base.LOG.error("MalformedURLException", e);
+        } catch (final IOException e) {
+            AbstractImport_Base.LOG.error("IOException", e);
+        }
+        return source;
+    }
+
+    /**
+     * @param _parameter
+     * @return
+     */
+    protected URL getUrl(final Parameter _parameter)
+    {
+        final String xmlFile = _parameter.getParameterValue("valueField");
+        URL ret = null;
+        try {
+            ret = new URL(xmlFile);
+        } catch (final MalformedURLException e) {
+            AbstractImport_Base.LOG.error("Catched error:", e);
+        }
+        return ret;
     }
 
     protected void execute(final Parameter _parameter,
@@ -230,19 +268,18 @@ public abstract class AbstractImport_Base
             _update.executeWithoutAccessCheck();
         } else if (!_def.isAccessCheck() && !_def.isTrigger()) {
             _update.executeWithoutTrigger();
-        }   else {
+        } else {
             _update.execute();
         }
     }
 
-
     /**
      * @param _parameter Parameter as passed by the eFaps API
-     * @param _def      definition
-     * @param _headers  header mapping
-     * @param _value    values of the current row
+     * @param _def definition
+     * @param _headers header mapping
+     * @param _value values of the current row
      * @param _instance instance of the created object
-     * @param _idx      index of the current row
+     * @param _idx index of the current row
      * @throws EFapsException on error
      */
     protected void insertClassification(final Parameter _parameter,
@@ -264,7 +301,7 @@ public abstract class AbstractImport_Base
                     final Insert relInsert = new Insert(clazz.getClassifyRelationType());
                     relInsert.add(clazz.getRelLinkAttributeName(), _instance);
                     relInsert.add(clazz.getRelTypeAttributeName(), clazz.getId());
-                    execute (_parameter, _def, relInsert);
+                    execute(_parameter, _def, relInsert);
 
                     final Insert classInsert = new Insert(clazz);
                     classInsert.add(clazz.getLinkAttributeName(), _instance);
@@ -274,17 +311,16 @@ public abstract class AbstractImport_Base
                             classInsert.add(attr.getName(), attr.getValue(_parameter, _headers, _value, _idx));
                         }
                     }
-                    execute (_parameter, _def, classInsert);
+                    execute(_parameter, _def, classInsert);
                 }
             }
         }
     }
 
-
     /**
      * @param _parameter Parameter as passed by the eFaps API
-     * @param _definition   defintion the header belongs to
-     * @param _values     list of row values
+     * @param _definition defintion the header belongs to
+     * @param _values list of row values
      * @return header mapping
      */
     protected Map<String, Integer> readHeader(final Parameter _parameter,
@@ -293,7 +329,7 @@ public abstract class AbstractImport_Base
     {
         AbstractImport_Base.LOG.trace("Reading the Header from the CSVFile.");
         final Map<String, Integer> ret = new HashMap<String, Integer>();
-        final String[] vals = _values.get(_definition.getHeaderrow() - 1);
+        final String[] vals = _values.get(0);
         int i = 0;
         for (final String val : vals) {
             if (!val.isEmpty()) {
@@ -307,8 +343,8 @@ public abstract class AbstractImport_Base
 
     /**
      * @param _parameter Parameter as passed by the eFaps API
-     * @param _dataImport   the import defintion
-     * @param _definition   defintion the values belong to
+     * @param _dataImport the import defintion
+     * @param _definition defintion the values belong to
      * @return list of row values
      */
     protected List<String[]> readCSV(final Parameter _parameter,
@@ -320,11 +356,13 @@ public abstract class AbstractImport_Base
             AbstractImport_Base.LOG.trace("Reading the CSV File.");
             final URL relative = new URL(_dataImport.getUrl(), _definition.getFile());
             final URLConnection connection = relative.openConnection();
-            final CSVReader reader = new CSVReader(new InputStreamReader(connection.getInputStream()));
+            final InputStreamReader inReader = new InputStreamReader(connection.getInputStream());
+            final CSVReader reader = new CSVReader(inReader, CSVReader.DEFAULT_SEPARATOR,
+                            CSVReader.DEFAULT_QUOTE_CHARACTER, _definition.getSkipLine());
             ret.addAll(reader.readAll());
             reader.close();
         } catch (final IOException e) {
-            AbstractImport_Base.LOG.error("Catched error on reading CSV from '{}'", e , _dataImport);
+            AbstractImport_Base.LOG.error("Catched error on reading CSV from '{}'", e, _dataImport);
         }
         return ret;
     }
@@ -349,44 +387,44 @@ public abstract class AbstractImport_Base
     protected Class<?>[] getClasses()
     {
         AbstractImport_Base.LOG.trace("Getting the Classes for the JAXBContext.");
-        return new Class[] { TypeDef.class, Definition.class, DataImport.class, AttrDef.class, ClassificationDef.class };
+        return new Class[] { TypeDef.class, Definition.class, DataImport.class,
+                        AttrDef.class, ClassificationDef.class, IdentifierDef.class };
     }
-
 
     /**
      * To be used by implementations.
      *
-     * @param _parameter    Parameter as passed by the eFaps API
-     * @param _definition   current Defintion
-     * @param _headers      Headers
-     * @param _values       List of all values
-     * @param _value        value for the current row
-     * @param _insert       insert yo add 2
-     * @param _j            row idex
+     * @param _parameter Parameter as passed by the eFaps API
+     * @param _definition current Defintion
+     * @param _headers Headers
+     * @param _values List of all values
+     * @param _value value for the current row
+     * @param _insert insert yo add 2
+     * @param _j row idex
      * @throws EFapsException on error
      */
-    protected void add2TypeInsert(final Parameter _parameter,
+    protected void add2TypeUpdate(final Parameter _parameter,
                                   final Definition _definition,
                                   final Map<String, Integer> _headers,
                                   final List<String[]> _values,
                                   final String[] _value,
-                                  final Insert _insert,
+                                  final Update _update,
                                   final int _j)
         throws EFapsException
     {
-      // To be used by implementations
+        // To be used by implementations
     }
 
     /**
      * To be used by implementations.
      *
-     * @param _parameter    Parameter as passed by the eFaps API
-     * @param _definition   current Defintion
-     * @param _headers      Headers
-     * @param _values       List of all values
-     * @param _value        value for the current row
-     * @param _instance     Instance of the created object
-     * @param _j            row idex
+     * @param _parameter Parameter as passed by the eFaps API
+     * @param _definition current Defintion
+     * @param _headers Headers
+     * @param _values List of all values
+     * @param _value value for the current row
+     * @param _instance Instance of the created object
+     * @param _j row idex
      * @throws EFapsException on error
      */
     protected void add2Row(final Parameter _parameter,
@@ -396,7 +434,7 @@ public abstract class AbstractImport_Base
                            final String[] _value,
                            final Instance _instance,
                            final int _j)
-       throws EFapsException
+        throws EFapsException
     {
         // To be used by implementations
     }

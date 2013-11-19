@@ -27,6 +27,8 @@ import java.util.Map;
 
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.db.InstanceQuery;
 import org.efaps.db.MultiPrintQuery;
@@ -45,6 +47,8 @@ import org.slf4j.LoggerFactory;
  * @author The eFaps Team
  * @version $Id$
  */
+@EFapsUUID("2fbe8e81-088f-4852-a985-252a1fe29099")
+@EFapsRevision("$Rev$")
 public class QueryBldrColumn
     implements IColumnValue, IColumnValidate
 {

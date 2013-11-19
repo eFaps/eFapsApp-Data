@@ -60,10 +60,10 @@ public class Definition
     private String file;
 
     /**
-     * Index of the row containing the header.
+     * The line number to skip for start reading
      */
-    @XmlAttribute(name = "headerrow")
-    private  Integer headerrow = 1;
+    @XmlAttribute(name = "skipLine")
+    private Integer skipLine = 0;
 
     /**
      * Will the insert be executed.
@@ -90,16 +90,28 @@ public class Definition
     private boolean trigger = true;
 
     /**
+     * Update instances if existing.
+     */
+    @XmlAttribute(name = "update")
+    private boolean update = false;
+
+    /**
      * key column.
      */
     @XmlAttribute(name = "keyColumn")
     private String keyColumn;
 
     /**
-     * Type definition belonging to this defintion.
+     * Type definition belonging to this definition.
      */
     @XmlElementRef(required=true)
     private TypeDef type;
+
+    /**
+     * Identifier definition belong to this definition.
+     */
+    @XmlElementRef
+    private IdentifierDef identifier;
 
     /**
      * Getter method for the instance variable {@link #name}.
@@ -132,23 +144,23 @@ public class Definition
     }
 
     /**
-     * Getter method for the instance variable {@link #headerrow}.
+     * Getter method for the instance variable {@link #skipLine}.
      *
-     * @return value of instance variable {@link #headerrow}
+     * @return value of instance variable {@link #skipLine}
      */
-    public Integer getHeaderrow()
+    public Integer getSkipLine()
     {
-        return this.headerrow;
+        return this.skipLine;
     }
 
     /**
-     * Setter method for instance variable {@link #headerrow}.
+     * Setter method for instance variable {@link #skipLine}.
      *
-     * @param _headerrow value for instance variable {@link #headerrow}
+     * @param _headerrow value for instance variable {@link #skipLine}
      */
-    public void setHeaderrow(final Integer _headerrow)
+    public void setSkipLine(final Integer _skipLine)
     {
-        this.headerrow = _headerrow;
+        this.skipLine = _skipLine;
     }
 
     /**
@@ -267,6 +279,36 @@ public class Definition
     public void setForce(final boolean _force)
     {
         this.force = _force;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #update}.
+     *
+     * @return value of instance variable {@link #update}
+     */
+    public boolean isUpdate()
+    {
+        return this.update;
+    }
+
+    /**
+     * Setter method for instance variable {@link #update}.
+     *
+     * @param _update value for instance variable {@link #update}
+     */
+    public void setUpdate(final boolean _update)
+    {
+        this.update = _update;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #identifier}.
+     *
+     * @return value of instance variable {@link #identifier}
+     */
+    public IdentifierDef getIdentifier()
+    {
+        return this.identifier;
     }
 
     @Override

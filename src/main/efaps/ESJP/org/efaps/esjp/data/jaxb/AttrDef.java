@@ -87,6 +87,13 @@ public class AttrDef
     private boolean parentLink = false;
 
     /**
+     * In case of Update will this attribute overwrite the existing value
+     * or not.
+     */
+    @XmlAttribute(name = "overwrite")
+    private boolean overwrite = false;
+
+    /**
      * List of Properties.
      */
     @XmlElementRef
@@ -139,9 +146,9 @@ public class AttrDef
      * @return value of instance variable {@link #validate}
      */
     @Override
-    public Boolean getValidate()
+    public Boolean isValidate()
     {
-        return (this.fixedValue != null && !this.fixedValue.isEmpty()) ? false : super.getValidate();
+        return (this.fixedValue != null && !this.fixedValue.isEmpty()) ? false : super.isValidate();
     }
 
     /**
@@ -264,12 +271,6 @@ public class AttrDef
         this.parentLink = _parentLink;
     }
 
-    @Override
-    public String toString()
-    {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
     /**
      * @param _typeName Name of a type to be checked against the regex
      * @return true if must be applied on the given type, else false
@@ -283,5 +284,31 @@ public class AttrDef
             ret = _typeName.matches(getTypeRegex());
         }
         return ret;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #overwrite}.
+     *
+     * @return value of instance variable {@link #overwrite}
+     */
+    public boolean isOverwrite()
+    {
+        return this.overwrite;
+    }
+
+    /**
+     * Setter method for instance variable {@link #overwrite}.
+     *
+     * @param _overwrite value for instance variable {@link #overwrite}
+     */
+    public void setOverwrite(final boolean _overwrite)
+    {
+        this.overwrite = _overwrite;
+    }
+
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

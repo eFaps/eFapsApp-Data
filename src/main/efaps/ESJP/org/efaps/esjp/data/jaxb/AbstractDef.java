@@ -124,7 +124,7 @@ public abstract class AbstractDef
      *
      * @return value of instance variable {@link #validate}
      */
-    public Boolean getValidate()
+    public Boolean isValidate()
     {
         return this.validate;
     }
@@ -173,7 +173,7 @@ public abstract class AbstractDef
                             final Integer _idx)
     {
         Boolean ret = false;
-        if (getValidate()) {
+        if (isValidate()) {
             try {
                 final Class<?> clazz = Class.forName(getValidateClass());
                 final IColumnValidate columnValue = (IColumnValidate) clazz.newInstance();
