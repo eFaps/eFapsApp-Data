@@ -48,6 +48,8 @@ import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.db.Instance;
+import org.efaps.db.PrintQuery;
+import org.efaps.db.SelectBuilder;
 import org.efaps.db.Update;
 import org.efaps.esjp.data.jaxb.AttrDef;
 import org.efaps.esjp.data.jaxb.ClassificationDef;
@@ -156,11 +158,17 @@ public abstract class AbstractImport_Base
                             }
                         }
                         for (final ClassificationDef classDef : definition.getTypeDef().getClassifications()) {
-                            final Boolean check = classDef.validate(_parameter, headers, value, j);
+                            Boolean check = classDef.validate(_parameter, headers, value, j);
+                            if (classDef != null) {
+                                for (final AttrDef attr : classDef.getAttributes()) {
+                                    check = attr.validate(_parameter, headers, value, j);
+                                }
+                            }
                             if (!check) {
                                 execute = false;
                                 skip.add(j);
                             }
+
                         }
                         j++;
                         if (definition.hasKey() && execute) {
@@ -207,7 +215,7 @@ public abstract class AbstractImport_Base
                                     keys.put(value[headers.get(definition.getKeyColumn())], update.getInstance());
                                 }
                                 if (definition.getTypeDef().getClassifications() != null) {
-                                    insertClassification(_parameter, definition, headers, value,
+                                    updateClassification(_parameter, definition, headers, value,
                                                     update.getInstance(), j);
                                 }
                                 add2Row(_parameter, definition, headers, values, value, update.getInstance(), j);
@@ -282,7 +290,7 @@ public abstract class AbstractImport_Base
      * @param _idx index of the current row
      * @throws EFapsException on error
      */
-    protected void insertClassification(final Parameter _parameter,
+    protected void updateClassification(final Parameter _parameter,
                                         final Definition _def,
                                         final Map<String, Integer> _headers,
                                         final String[] _value,
@@ -290,7 +298,7 @@ public abstract class AbstractImport_Base
                                         final Integer _idx)
         throws EFapsException
     {
-        AbstractImport_Base.LOG.trace("preparing inserts for classifications");
+        AbstractImport_Base.LOG.trace("preparing updates for classifications");
         final List<ClassificationDef> classifications = _def.getTypeDef().getClassifications();
         final Set<Classification> inserted = new HashSet<Classification>();
         for (final ClassificationDef classification : classifications) {
@@ -298,20 +306,37 @@ public abstract class AbstractImport_Base
             for (final Classification clazz : classification.getClassifications(_parameter, _headers, _value)) {
                 if (!inserted.contains(clazz)) {
                     inserted.add(clazz);
-                    final Insert relInsert = new Insert(clazz.getClassifyRelationType());
-                    relInsert.add(clazz.getRelLinkAttributeName(), _instance);
-                    relInsert.add(clazz.getRelTypeAttributeName(), clazz.getId());
-                    execute(_parameter, _def, relInsert);
 
-                    final Insert classInsert = new Insert(clazz);
-                    classInsert.add(clazz.getLinkAttributeName(), _instance);
+                    final PrintQuery print = new PrintQuery(_instance);
+                    final SelectBuilder selClazzInst = SelectBuilder.get().clazz(clazz.getUUID()).instance();
+                    print.addSelect(selClazzInst);
+                    print.executeWithoutAccessCheck();
+
+                    final Instance classInst = print.<Instance>getSelect(selClazzInst);
+                    Update classUpdate;
+                    boolean isUpdate;
+                    // if no clazzInst yet it must be created
+                    if (classInst != null && classInst.isValid()) {
+                        classUpdate = new Update(classInst);
+                        isUpdate = true;
+                    } else {
+                        final Insert relInsert = new Insert(clazz.getClassifyRelationType());
+                        relInsert.add(clazz.getRelLinkAttributeName(), _instance);
+                        relInsert.add(clazz.getRelTypeAttributeName(), clazz.getId());
+                        execute(_parameter, _def, relInsert);
+                        classUpdate = new Insert(clazz);
+                        isUpdate = false;
+                    }
+                    classUpdate.add(clazz.getLinkAttributeName(), _instance);
                     final ClassificationDef clazzDef = _def.getTypeDef().getClassificationDefByName(clazz.getName());
                     if (clazzDef != null) {
                         for (final AttrDef attr : clazzDef.getAttributes()) {
-                            classInsert.add(attr.getName(), attr.getValue(_parameter, _headers, _value, _idx));
+                            if ((!isUpdate || (isUpdate && attr.isOverwrite()))) {
+                                classUpdate.add(attr.getName(), attr.getValue(_parameter, _headers, _value, _idx));
+                            }
                         }
                     }
-                    execute(_parameter, _def, classInsert);
+                    execute(_parameter, _def, classUpdate);
                 }
             }
         }
