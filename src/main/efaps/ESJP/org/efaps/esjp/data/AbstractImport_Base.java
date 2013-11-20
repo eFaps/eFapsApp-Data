@@ -61,6 +61,7 @@ import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 /**
@@ -382,8 +383,8 @@ public abstract class AbstractImport_Base
             final URL relative = new URL(_dataImport.getUrl(), _definition.getFile());
             final URLConnection connection = relative.openConnection();
             final InputStreamReader inReader = new InputStreamReader(connection.getInputStream());
-            final CSVReader reader = new CSVReader(inReader, CSVReader.DEFAULT_SEPARATOR,
-                            CSVReader.DEFAULT_QUOTE_CHARACTER, _definition.getSkipLine());
+            final CSVReader reader = new CSVReader(inReader, CSVParser.DEFAULT_SEPARATOR,
+                            CSVParser.DEFAULT_QUOTE_CHARACTER, _definition.getSkipLine());
             ret.addAll(reader.readAll());
             reader.close();
         } catch (final IOException e) {
