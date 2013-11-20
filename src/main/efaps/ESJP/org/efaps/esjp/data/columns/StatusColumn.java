@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  * @author The eFaps Team
  * @version $Id$
  */
-@EFapsUUID("")
+@EFapsUUID("9a4553df-941c-4356-aa41-fb4e5fd04581")
 @EFapsRevision("$Rev$")
 public class StatusColumn
     extends AbstractCommon

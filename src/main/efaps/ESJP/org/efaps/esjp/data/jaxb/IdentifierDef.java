@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * @author The eFaps Team
  * @version $Id$
  */
-@EFapsUUID("")
+@EFapsUUID("543dbab9-768d-4ccf-bac5-e95517891124")
 @EFapsRevision("$Rev$")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "identifier", namespace = "http://www.efaps.org/xsd")
