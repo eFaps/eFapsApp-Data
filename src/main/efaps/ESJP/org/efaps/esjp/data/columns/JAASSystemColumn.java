@@ -72,7 +72,7 @@ implements IColumnValue, IColumnValidate
         if (_def instanceof AttrDef) {
             final String column = ((AttrDef) _def).getProperty("Column");
             if (column != null) {
-                final String jaasName = _value[_headers.get(column)];
+                final String jaasName = _value[_headers.get(column)].trim();
                 // Admin_User_JAASSystem
                 final QueryBuilder queryBldr = new QueryBuilder(UUID.fromString("28e45c59-946d-4502-94b9-58a1bf23ab88"));
                 queryBldr.addWhereAttrEqValue("Name", jaasName);
@@ -115,7 +115,7 @@ implements IColumnValue, IColumnValidate
         String ret = null;
         final String column = _attrDef.getProperty("Column");
         if (column != null) {
-            final String jaasName = _value[_headers.get(column)];
+            final String jaasName = _value[_headers.get(column)].trim();
             // Admin_User_JAASSystem
             final QueryBuilder queryBldr = new QueryBuilder(UUID.fromString("28e45c59-946d-4502-94b9-58a1bf23ab88"));
             queryBldr.addWhereAttrEqValue("Name", jaasName);

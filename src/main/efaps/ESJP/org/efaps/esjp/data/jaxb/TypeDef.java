@@ -88,7 +88,7 @@ public class TypeDef
         if (getName() != null) {
             ret = Type.get(getName());
         } else if (getColumn() != null && _headers.containsKey(getColumn())) {
-            ret = Type.get(_value[_headers.get(getColumn())]);
+            ret = Type.get(_value[_headers.get(getColumn())].trim());
         }
         return ret;
     }

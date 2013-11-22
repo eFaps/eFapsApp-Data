@@ -76,7 +76,8 @@ public class StatusColumn
                                 + " Only one of each StatusGrp / StatusGrpColumn and Status / StatusColumn");
                 ret = false;
             } else {
-                final String statusGrpStr = statusGrp == null ? _value[_headers.get(statusGrpColumn)] : statusGrp;
+                final String statusGrpStr = statusGrp == null
+                                ? _value[_headers.get(statusGrpColumn)].trim() : statusGrp;
 
                 final StatusGroup stGrp;
                 if (isUUID(statusGrpStr)) {
@@ -89,7 +90,7 @@ public class StatusColumn
                     ret = false;
                 } else {
                     StatusColumn.LOG.debug("Row: {} - {}", _idx, stGrp);
-                    final String statusStr = status == null ? _value[_headers.get(statusColumn)] : status;
+                    final String statusStr = status == null ? _value[_headers.get(statusColumn)].trim() : status;
                     final Status st = stGrp.get(statusStr);
                     if (st == null) {
                         StatusColumn.LOG.error("no Status found in Row: {} - {}", _idx, _def);
@@ -120,7 +121,7 @@ public class StatusColumn
         final String statusGrpColumn = _attrDef.getProperty("StatusGrpColumn");
         final String statusColumn = _attrDef.getProperty("StatusColumn");
 
-        final String statusGrpStr = statusGrp == null ? _value[_headers.get(statusGrpColumn)] : statusGrp;
+        final String statusGrpStr = statusGrp == null ? _value[_headers.get(statusGrpColumn)].trim() : statusGrp;
 
         final StatusGroup stGrp;
         if (isUUID(statusGrpStr)) {
@@ -130,7 +131,7 @@ public class StatusColumn
         }
 
         StatusColumn.LOG.debug("Row: {} - {}", _idx, stGrp);
-        final String statusStr = status == null ? _value[_headers.get(statusColumn)] : status;
+        final String statusStr = status == null ? _value[_headers.get(statusColumn)].trim() : status;
         return String.valueOf(stGrp.get(statusStr).getId());
 
     }

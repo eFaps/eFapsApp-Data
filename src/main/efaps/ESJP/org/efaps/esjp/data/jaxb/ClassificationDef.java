@@ -100,7 +100,7 @@ public class ClassificationDef
         if (getName() != null) {
             clazz = Classification.get(getName());
         } else if (getColumn() != null && _headers.containsKey(getColumn())) {
-            clazz = Classification.get(_value[_headers.get(getColumn())]);
+            clazz = Classification.get(_value[_headers.get(getColumn())].trim());
         }
         if (clazz != null) {
             Classification parent = clazz.getParentClassification();

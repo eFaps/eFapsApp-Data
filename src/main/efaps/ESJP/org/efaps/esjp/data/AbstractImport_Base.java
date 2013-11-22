@@ -359,7 +359,7 @@ public abstract class AbstractImport_Base
         int i = 0;
         for (final String val : vals) {
             if (!val.isEmpty()) {
-                ret.put(val, i);
+                ret.put(val.trim(), i);
             }
             i++;
         }

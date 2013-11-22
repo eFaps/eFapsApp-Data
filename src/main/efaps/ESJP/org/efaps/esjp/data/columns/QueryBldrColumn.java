@@ -93,7 +93,7 @@ public class QueryBldrColumn
                     }
                     final List<String>queryVals = new ArrayList<String>();
                     for (final String queryValue : queryColumns) {
-                        queryVals.add(_value[_headers.get(queryValue)]);
+                        queryVals.add(_value[_headers.get(queryValue)].trim());
                     }
 
                     final QueryBuilder queryBldr = new QueryBuilder(Type.get(type));
@@ -149,7 +149,7 @@ public class QueryBldrColumn
         }
         final List<String> queryVals = new ArrayList<String>();
         for (final String queryValue : queryColumns) {
-            queryVals.add(_value[_headers.get(queryValue)]);
+            queryVals.add(_value[_headers.get(queryValue)].trim());
         }
 
         final QueryBuilder queryBldr = new QueryBuilder(Type.get(type));

@@ -72,7 +72,7 @@ public class QueryIdentifier
         }
         final List<String> queryVals = new ArrayList<String>();
         for (final String queryValue : queryColumns) {
-            queryVals.add(_value[_headers.get(queryValue)]);
+            queryVals.add(_value[_headers.get(queryValue)].trim());
         }
         final Type type = _definition.getTypeDef().getType(_headers, _value);
         final QueryBuilder queryBldr = new QueryBuilder(type);
@@ -121,7 +121,7 @@ public class QueryIdentifier
                 }
                 final List<String> queryVals = new ArrayList<String>();
                 for (final String queryValue : queryColumns) {
-                    queryVals.add(_value[_headers.get(queryValue)]);
+                    queryVals.add(_value[_headers.get(queryValue)].trim());
                 }
                 final Type type = _definition.getTypeDef().getType(_headers, _value);
                 final QueryBuilder queryBldr = new QueryBuilder(type);
@@ -136,7 +136,7 @@ public class QueryIdentifier
 
                 if (instances.size() < 1) {
                     QueryIdentifier.LOG.debug("Row: {} - no Instance found", _idx);
-                    ret = true;
+                    ret = false;
                 } else if (instances.size() == 1) {
                     QueryIdentifier.LOG.debug("Row: {} - {}", _idx, instances.get(0));
                     ret = true;

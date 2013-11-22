@@ -68,7 +68,7 @@ public class UserColumn
         if (_def instanceof AttrDef) {
             final String column = ((AttrDef)_def).getProperty("Column");
             if (column != null) {
-                final String userName = _value[_headers.get(column)];
+                final String userName = _value[_headers.get(column)].trim();
                 final AbstractUserObject user = AbstractUserObject.getUserObject(userName);
                 if (userName != null) {
                     UserColumn.LOG.debug("Row: {} - {}", _idx, user);
@@ -102,7 +102,7 @@ public class UserColumn
         String ret = null;
         final String column = _attrDef.getProperty("Column");
         if (column != null) {
-            final String userName = _value[_headers.get(column)];
+            final String userName = _value[_headers.get(column)].trim();
             final AbstractUserObject user = AbstractUserObject.getUserObject(userName);
             if (user != null) {
                 UserColumn.LOG.debug("Row: {} - User: '{}'", _idx, user);

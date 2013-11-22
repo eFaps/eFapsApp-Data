@@ -113,7 +113,7 @@ public class AttrDef
     {
         String ret = null;
         if (getColumn() != null &&  _headers.containsKey(getColumn())) {
-            ret = _value[_headers.get(getColumn())];
+            ret = _value[_headers.get(getColumn())].trim();
         } else if (this.fixedValue != null && !this.fixedValue.isEmpty()) {
             ret = this.fixedValue;
         } else {

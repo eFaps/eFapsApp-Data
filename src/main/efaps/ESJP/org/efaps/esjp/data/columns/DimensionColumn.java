@@ -67,7 +67,7 @@ public class DimensionColumn
         String ret = null;
         final String column = _attrDef.getProperty("Column");
         if (column != null) {
-            final String dimStr = _value[_headers.get(column)];
+            final String dimStr = _value[_headers.get(column)].trim();
             final Dimension dim;
             if (isUUID(dimStr)) {
                 dim = Dimension.get(UUID.fromString(dimStr));
@@ -98,7 +98,7 @@ public class DimensionColumn
         if (_def instanceof AttrDef) {
             final String column = ((AttrDef)_def).getProperty("Column");
             if (column != null) {
-                final String dimStr = _value[_headers.get(column)];
+                final String dimStr = _value[_headers.get(column)].trim();
                 final Dimension dim;
                 if (isUUID(dimStr)) {
                     dim = Dimension.get(UUID.fromString(dimStr));

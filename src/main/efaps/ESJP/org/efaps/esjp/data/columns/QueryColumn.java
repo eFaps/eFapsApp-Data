@@ -86,14 +86,14 @@ public class QueryColumn
                     QueryColumn.LOG.error(" 'QueryAttribute' and 'QueryValue' must have the same size.");
                     ret = false;
                 } else {
-                    final String type = _value[_headers.get(typeColumn)];
+                    final String type = _value[_headers.get(typeColumn)].trim();
                     final List<String>queryAttr = new ArrayList<String>();
                     for (final String queryAttribute : queryAttributes) {
-                        queryAttr.add(_value[_headers.get(queryAttribute)]);
+                        queryAttr.add(_value[_headers.get(queryAttribute)].trim());
                     }
                     final List<String>queryVals = new ArrayList<String>();
                     for (final String queryValue : queryValues) {
-                        queryVals.add(_value[_headers.get(queryValue)]);
+                        queryVals.add(_value[_headers.get(queryValue)].trim());
                     }
 
                     final QueryBuilder queryBldr = new QueryBuilder(Type.get(type));
@@ -141,14 +141,14 @@ public class QueryColumn
         final String selectColumn = _attrDef.getProperty("SelectColumn");
         final String[] queryAttributes = _attrDef.analyseProperty("QueryAttribute");
         final String[] queryValues = _attrDef.analyseProperty("QueryValue");
-        final String type = _value[_headers.get(typeColumn)];
+        final String type = _value[_headers.get(typeColumn)].trim();
         final List<String>queryAttr = new ArrayList<String>();
         for (final String queryAttribute : queryAttributes) {
-            queryAttr.add(_value[_headers.get(queryAttribute)]);
+            queryAttr.add(_value[_headers.get(queryAttribute)].trim());
         }
         final List<String>queryVals = new ArrayList<String>();
         for (final String queryValue : queryValues) {
-            queryVals.add(_value[_headers.get(queryValue)]);
+            queryVals.add(_value[_headers.get(queryValue)].trim());
         }
 
         final QueryBuilder queryBldr = new QueryBuilder(Type.get(type));
