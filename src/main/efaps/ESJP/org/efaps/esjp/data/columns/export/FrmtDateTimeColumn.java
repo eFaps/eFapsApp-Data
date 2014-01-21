@@ -18,6 +18,10 @@ public class FrmtDateTimeColumn
     private static final Logger LOG = LoggerFactory.getLogger(FrmtDateTimeColumn.class);
 
     private SimpleDateFormat dateFormat = null;
+
+    private String nullValue;
+
+    private String emptyValue;
     /**
      * @param _name
      * @param _width
@@ -34,7 +38,7 @@ public class FrmtDateTimeColumn
                               final String _datePattern)
     {
         super(_name, _maxWidth);
-        dateFormat = new SimpleDateFormat(_datePattern);
+        this.dateFormat = new SimpleDateFormat(_datePattern);
     }
 
     public FrmtDateTimeColumn setMaxWidth(final int _maxWidth)
@@ -46,22 +50,50 @@ public class FrmtDateTimeColumn
     @Override
     public String format(final CellDetails _cellDetails)
     {
-        String ret = "";
+        final String ret;
         if (_cellDetails.getCellValue() != null) {
             if (_cellDetails.getCellValue() instanceof DateTime) {
                 final DateTime dtTmp = (DateTime) _cellDetails.getCellValue();
-                String tmp = dateFormat.format(dtTmp.toDate());
+                String tmp = this.dateFormat.format(dtTmp.toDate());
                 if (tmp.length() > getWidth()) {
                     FrmtDateTimeColumn.LOG.warn("DateTime formated is longer than the especified width");
                     tmp = tmp.substring(0, getWidth());
                 }
                 ret = tmp;
             } else {
-                FrmtDateTimeColumn.LOG.error("Expected DateTime instance but it is "
+                if (_cellDetails.getCellValue() instanceof String) {
+                    final String tmp = (String) _cellDetails.getCellValue();
+                    if (tmp.isEmpty() && this.emptyValue != null) {
+                        ret = this.emptyValue;
+                    } else {
+                        ret = tmp;
+                    }
+                } else {
+                    FrmtDateTimeColumn.LOG.error("Expected DateTime instance but it is "
                                 + _cellDetails.getCellValue().getClass().getName()
                                 + " instance with value " + _cellDetails.getCellValue());
+                    ret = "";
+                }
+            }
+        } else {
+            if (this.nullValue != null) {
+                ret = this.nullValue;
+            } else {
+                ret = "";
             }
         }
         return ret;
+    }
+
+    public FrmtDateTimeColumn setNullValue(final String _nullValue)
+    {
+        this.nullValue = _nullValue;
+        return this;
+    }
+
+    public FrmtDateTimeColumn setEmptyValue(final String _emptyValue)
+    {
+        this.emptyValue = _emptyValue;
+        return this;
     }
 }
