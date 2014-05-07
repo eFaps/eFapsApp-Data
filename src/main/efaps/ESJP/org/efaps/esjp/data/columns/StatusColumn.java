@@ -66,7 +66,7 @@ public class StatusColumn
     {
         Boolean ret;
         if (_def instanceof AttrDef) {
-            final String statusGrp = ((AttrDef)_def).getProperty("StatusGrp");
+            final String statusGrp = ((AttrDef)_def).getProperty("StatusGroup");
             final String status = ((AttrDef)_def).getProperty("Status");
             final String statusGrpColumn = ((AttrDef)_def).getProperty("StatusGrpColumn");
             final String statusColumn = ((AttrDef)_def).getProperty("StatusColumn");
@@ -116,7 +116,7 @@ public class StatusColumn
                            final Integer _idx)
         throws EFapsException
     {
-        final String statusGrp = _attrDef.getProperty("StatusGrp");
+        final String statusGrp = _attrDef.getProperty("StatusGroup");
         final String status = _attrDef.getProperty("Status");
         final String statusGrpColumn = _attrDef.getProperty("StatusGrpColumn");
         final String statusColumn = _attrDef.getProperty("StatusColumn");
