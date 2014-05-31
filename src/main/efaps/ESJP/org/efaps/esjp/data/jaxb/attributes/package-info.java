@@ -18,9 +18,9 @@
  * Last Changed By: $Author$
  */
 /**
- * Data import and export app.
+ * TODO comment!
  *
  * @author The eFaps Team
  * @version $Id$
  */
-package org.efaps.esjp.data;
+package org.efaps.esjp.data.jaxb.attributes;

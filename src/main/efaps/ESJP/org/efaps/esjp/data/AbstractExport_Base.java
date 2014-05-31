@@ -21,10 +21,23 @@
 
 package org.efaps.esjp.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Return;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.jaxb.EFapsObject;
+import org.efaps.esjp.data.jaxb.adapter.CDataXMLStreamWriter;
+import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
 import org.efaps.util.EFapsException;
 
 
@@ -38,7 +51,6 @@ import org.efaps.util.EFapsException;
 @EFapsRevision("$Rev$")
 public abstract class AbstractExport_Base
 {
-
     /**
      * @param _parameter Parameter as passed by the eFaps API
      * @return empty Return
@@ -47,12 +59,57 @@ public abstract class AbstractExport_Base
     public Return execute(final Parameter _parameter)
         throws EFapsException
     {
-
-
         return new Return();
     }
 
+    protected void marschall(final Parameter _parameter,
+                             final Object _object)
+    {
+        try {
+            final JAXBContext jaxb = getJAXBContext();
+            final Marshaller marshaller = jaxb.createMarshaller();
 
+            final XMLOutputFactory xof = XMLOutputFactory.newInstance();
 
+            final XMLStreamWriter streamWriter = xof.createXMLStreamWriter(System.out);
+            final CDataXMLStreamWriter cdataStreamWriter = new CDataXMLStreamWriter(streamWriter);
+            marshaller.marshal(_object, cdataStreamWriter);
+            cdataStreamWriter.flush();
+            cdataStreamWriter.close();
+        } catch (final JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final XMLStreamException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get the JAXBContext used in this importer.
+     *
+     * @return an JAXBContext
+     * @throws JAXBException on error
+     */
+    protected JAXBContext getJAXBContext()
+        throws JAXBException
+    {
+        AbstractImport_Base.LOG.trace("Getting JAXBContext.");
+        final JAXBContext context = JAXBContext.newInstance(getClasses());
+        return context;
+    }
+
+    /**
+     * @return an Array of classes used for the JAXBContext
+     */
+    protected Class<?>[] getClasses()
+    {
+        AbstractImport_Base.LOG.trace("Getting the Classes for the JAXBContext.");
+
+        final List<Class<?>> clazzes = new ArrayList<Class<?>>();
+        clazzes.addAll(EFapsAttributes.CLASSMAPPING.values());
+        clazzes.add(EFapsObject.class);
+        return clazzes.toArray(new Class<?>[clazzes.size()]);
+    }
 
 }

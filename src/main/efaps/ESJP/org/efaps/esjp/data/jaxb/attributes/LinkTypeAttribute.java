@@ -17,10 +17,33 @@
  * Last Changed:    $Date$
  * Last Changed By: $Author$
  */
+
+package org.efaps.esjp.data.jaxb.attributes;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
+
 /**
- * Data import and export app.
+ * TODO comment!
  *
  * @author The eFaps Team
  * @version $Id$
  */
-package org.efaps.esjp.data;
+@EFapsUUID("1fc93954-3238-4764-8a21-9fb32e621807")
+@EFapsRevision("$Rev$")
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement( name = "link", namespace = "http://www.efaps.org/xsd")
+public class LinkTypeAttribute
+    extends AbstractLinkEFapsAttribute<LinkTypeAttribute>
+{
+
+    @Override
+    protected LinkTypeAttribute getThis()
+    {
+        return this;
+    }
+}

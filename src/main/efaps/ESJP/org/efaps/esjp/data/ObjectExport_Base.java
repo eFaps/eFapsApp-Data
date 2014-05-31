@@ -21,8 +21,37 @@
 
 package org.efaps.esjp.data;
 
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
+
+import org.efaps.admin.datamodel.Attribute;
+import org.efaps.admin.datamodel.Type;
+import org.efaps.admin.event.Parameter;
+import org.efaps.admin.event.Return;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Instance;
+import org.efaps.db.PrintQuery;
+import org.efaps.esjp.data.jaxb.EFapsObject;
+import org.efaps.esjp.data.jaxb.attributes.CreatedTypeAttribute;
+import org.efaps.esjp.data.jaxb.attributes.DateTypeAttribute;
+import org.efaps.esjp.data.jaxb.attributes.DecimalTypeAttribute;
+import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
+import org.efaps.esjp.data.jaxb.attributes.IntegerTypeAttribute;
+import org.efaps.esjp.data.jaxb.attributes.LongTypeAttribute;
+import org.efaps.esjp.data.jaxb.attributes.StringTypeAttribute;
+import org.efaps.util.EFapsException;
+import org.joda.time.DateTime;
 
 
 /**
@@ -37,4 +66,105 @@ public abstract class ObjectExport_Base
     extends AbstractExport
 {
 
+    public static void main(final String[] _para) {
+        new ObjectExport().generateShema();
+        //new ObjectExport().test();
+    }
+
+
+    @Override
+    public Return execute(final Parameter _parameter)
+        throws EFapsException
+    {
+        final List<Instance> instances = new ArrayList<Instance>();
+
+        instances.add(Instance.get("2977.31"));
+        instances.add(Instance.get("4852.123"));
+
+        for (final Instance instance : instances) {
+            final Type type = instance.getType();
+            final PrintQuery print = new PrintQuery(instance);
+            for (final Attribute attribute : type.getAttributes().values()) {
+                EFapsAttributes.add2Print(print, attribute);
+            }
+            print.execute();
+
+            final EFapsObject object = new EFapsObject(instance);
+
+            for (final Attribute attribute : type.getAttributes().values()) {
+                final Object value = EFapsAttributes.get4Print(print, attribute);
+                object.addAttribute(EFapsAttributes.getAttribute(attribute, value));
+            }
+
+            marschall(null, object);
+        }
+        return new Return();
+    }
+
+    public void generateShema()
+    {
+        try {
+            final JAXBContext jaxb = getJAXBContext();
+            jaxb.generateSchema(new SchemaOutputResolver()
+            {
+
+                @Override
+                public Result createOutput(final String _namespaceUri,
+                                           final String _suggestedFileName)
+                    throws IOException
+                {
+                    final File file = new File(_suggestedFileName);
+                    final StreamResult result = new StreamResult(file);
+                    result.setSystemId(file.toURI().toURL().toString());
+                    return result;
+                }
+            });
+        } catch (final JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void test()
+    {
+        try {
+            final EFapsObject object = new EFapsObject()
+                .setTypeUUID(UUID.randomUUID())
+                .setId(5)
+                .setExId(0)
+                .setExSysId(0);
+
+            final LongTypeAttribute attr = new LongTypeAttribute().setAttrName("ID").setValue(Long.valueOf(5));
+            object.addAttribute(attr);
+
+            final IntegerTypeAttribute attr2 = new IntegerTypeAttribute().setAttrName("Position").setValue(10);
+            object.addAttribute(attr2);
+
+            final DecimalTypeAttribute attr5 = new DecimalTypeAttribute().setAttrName("Amount").setValue(new BigDecimal("10.5678"));
+            object.addAttribute(attr5);
+
+            final DateTypeAttribute attr6 = new DateTypeAttribute().setAttrName("Date").setValue(new DateTime());
+            object.addAttribute(attr6);
+
+            final CreatedTypeAttribute attr7 = new CreatedTypeAttribute().setAttrName("Created").setValue(new DateTime());
+            object.addAttribute(attr7);
+
+            final StringTypeAttribute attr3 = new StringTypeAttribute().setAttrName("Name").setValue("001-0000568");
+            object.addAttribute(attr3);
+            final StringTypeAttribute attr4 = new StringTypeAttribute().setAttrName("Description").setValue("Her can be a long text\nwith linebreak and other stuff<br/>");
+            object.addAttribute(attr4);
+
+            marschall(null, object);
+        } catch (final Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+    }
 }

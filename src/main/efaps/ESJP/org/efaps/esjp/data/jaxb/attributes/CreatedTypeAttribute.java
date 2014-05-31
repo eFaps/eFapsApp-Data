@@ -17,10 +17,33 @@
  * Last Changed:    $Date$
  * Last Changed By: $Author$
  */
+
+package org.efaps.esjp.data.jaxb.attributes;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
+
 /**
- * Data import and export app.
+ * TODO comment!
  *
  * @author The eFaps Team
  * @version $Id$
  */
-package org.efaps.esjp.data;
+@EFapsUUID("d5f0aa73-5f39-4f30-8088-5fccd6598d63")
+@EFapsRevision("$Rev$")
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement( name = "created", namespace = "http://www.efaps.org/xsd")
+public class CreatedTypeAttribute
+    extends AbstractDateTimeEFapsAttribute<CreatedTypeAttribute>
+{
+
+    @Override
+    protected CreatedTypeAttribute getThis()
+    {
+        return this;
+    }
+}

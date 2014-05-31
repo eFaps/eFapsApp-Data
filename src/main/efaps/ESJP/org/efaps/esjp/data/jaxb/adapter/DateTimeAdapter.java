@@ -17,10 +17,38 @@
  * Last Changed:    $Date$
  * Last Changed By: $Author$
  */
+
+package org.efaps.esjp.data.jaxb.adapter;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
+import org.joda.time.DateTime;
+
 /**
- * Data import and export app.
+ * TODO comment!
  *
  * @author The eFaps Team
  * @version $Id$
  */
-package org.efaps.esjp.data;
+@EFapsUUID("dbb86f99-be43-463b-97fa-3faab4daae91")
+@EFapsRevision("$Rev$")
+public class DateTimeAdapter
+    extends XmlAdapter<String, DateTime>
+{
+
+    @Override
+    public DateTime unmarshal(final String v)
+        throws Exception
+    {
+        return new DateTime(v);
+    }
+
+    @Override
+    public String marshal(final DateTime v)
+        throws Exception
+    {
+        return v.toString();
+    }
+}

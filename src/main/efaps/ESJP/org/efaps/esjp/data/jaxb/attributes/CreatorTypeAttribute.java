@@ -17,10 +17,33 @@
  * Last Changed:    $Date$
  * Last Changed By: $Author$
  */
+
+package org.efaps.esjp.data.jaxb.attributes;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
+
 /**
- * Data import and export app.
+ * TODO comment!
  *
  * @author The eFaps Team
  * @version $Id$
  */
-package org.efaps.esjp.data;
+@EFapsUUID("bf08f636-41b4-4437-8344-63f70730853d")
+@EFapsRevision("$Rev$")
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement( name = "creator", namespace = "http://www.efaps.org/xsd")
+public class CreatorTypeAttribute
+    extends AbstractPersonEFapsAttribute<CreatorTypeAttribute>
+{
+
+    @Override
+    protected CreatorTypeAttribute getThis()
+    {
+        return this;
+    }
+}

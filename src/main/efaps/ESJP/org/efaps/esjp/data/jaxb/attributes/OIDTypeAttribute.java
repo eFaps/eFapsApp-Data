@@ -17,10 +17,34 @@
  * Last Changed:    $Date$
  * Last Changed By: $Author$
  */
+
+
+package org.efaps.esjp.data.jaxb.attributes;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
+
+
 /**
- * Data import and export app.
+ * TODO comment!
  *
  * @author The eFaps Team
  * @version $Id$
  */
-package org.efaps.esjp.data;
+@EFapsUUID("3030a205-7390-44f8-8220-e29e5ba673c9")
+@EFapsRevision("$Rev$")
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement(name = "oid", namespace = "http://www.efaps.org/xsd")
+public class OIDTypeAttribute
+    extends StringTypeAttribute
+{
+    @Override
+    protected OIDTypeAttribute getThis()
+    {
+        return this;
+    }
+}
