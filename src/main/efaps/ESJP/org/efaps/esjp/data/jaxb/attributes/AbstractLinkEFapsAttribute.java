@@ -28,6 +28,7 @@ import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
+import org.efaps.esjp.data.jaxb.AbstractEFapsObject;
 import org.efaps.esjp.data.jaxb.EFapsObject;
 import org.efaps.util.EFapsException;
 
@@ -86,5 +87,11 @@ public abstract class AbstractLinkEFapsAttribute<T extends AbstractLinkEFapsAttr
     public boolean isLink()
     {
         return true;
+    }
+
+    @Override
+    public AbstractEFapsObject<?> getLink()
+    {
+        return getObject();
     }
 }

@@ -21,7 +21,9 @@
 package org.efaps.esjp.data.jaxb;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -218,11 +220,11 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
         return Instance.get(getTypeUUID(), getId());
     }
 
-
     /**
      *
      */
-    public void load()
+    public void load(final int _maxDepth,
+                     final Set<Instance> _instances)
         throws EFapsException
     {
         final Type type = Type.get(getTypeUUID());
@@ -234,6 +236,22 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
         for (final Attribute attribute : type.getAttributes().values()) {
             final Object value = EFapsAttributes.get4Print(print, attribute);
             addAttribute(EFapsAttributes.getAttribute(attribute, value));
+        }
+
+        for (final AbstractEFapsAttribute<?> attr : getAttributes()) {
+            if (attr.isLink()) {
+                final AbstractEFapsObject<?> object = attr.getLink();
+                if (object != null) {
+                    if (!_instances.contains(object.getInstance())) {
+                        final Set<Instance> inst = new HashSet<Instance>();
+                        inst.addAll(_instances);
+                        inst.add(getInstance());
+                        if (inst.size() < _maxDepth) {
+                            object.load(_maxDepth, inst);
+                        }
+                    }
+                }
+            }
         }
     }
 }

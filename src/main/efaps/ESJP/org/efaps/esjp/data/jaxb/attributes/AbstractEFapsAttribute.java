@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.jaxb.AbstractEFapsObject;
 import org.efaps.util.EFapsException;
 
 /**
@@ -91,5 +92,10 @@ public abstract class AbstractEFapsAttribute<T extends AbstractEFapsAttribute<T>
     public boolean isLink()
     {
         return false;
+    }
+
+    public AbstractEFapsObject<?> getLink()
+    {
+        return null;
     }
 }

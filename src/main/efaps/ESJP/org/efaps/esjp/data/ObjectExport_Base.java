@@ -76,6 +76,7 @@ public abstract class ObjectExport_Base
 
         instances.add(Instance.get("2977.31"));
         instances.add(Instance.get("4852.123"));
+        instances.add(Instance.get("3711.407"));
 
         for (final Instance instance : instances) {
             final EFapsObject object = new EFapsObject(instance);

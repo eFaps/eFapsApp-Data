@@ -21,6 +21,7 @@
 package org.efaps.esjp.data.jaxb;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -99,11 +100,24 @@ public class EFapsObject
         return this;
     }
 
-    @Override
     public void load()
         throws EFapsException
     {
-        super.load();
+        load(10, Collections.<Instance>emptySet());
+    }
+
+    public void load(final int _maxDepth)
+        throws EFapsException
+    {
+        load(_maxDepth, Collections.<Instance>emptySet());
+    }
+
+    @Override
+    public void load(final int _maxDepth,
+                     final Set<Instance> _instances)
+        throws EFapsException
+    {
+        super.load(_maxDepth, _instances);
         final Type type = Type.get(getTypeUUID());
         if (!type.getClassifiedByTypes().isEmpty()) {
             final PrintQuery print = new PrintQuery(getInstance());
@@ -132,7 +146,12 @@ public class EFapsObject
             for (final SelectBuilder selInst : selects) {
                 final Instance classInst = clazzPrint.getSelect(selInst);
                 final ClassificationObject classObject = new ClassificationObject(classInst);
-                classObject.load();
+                final Set<Instance> inst = new HashSet<Instance>();
+                inst.addAll(_instances);
+                inst.add(getInstance());
+                if (inst.size() < _maxDepth) {
+                    classObject.load(_maxDepth, inst);
+                }
                 addClassification(classObject);
             }
         }
