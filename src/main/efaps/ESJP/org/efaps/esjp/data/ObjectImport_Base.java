@@ -21,8 +21,19 @@
 
 package org.efaps.esjp.data;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.jaxb.EFapsObject;
+import org.efaps.util.EFapsException;
 
 
 /**
@@ -36,5 +47,48 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 public class ObjectImport_Base
     extends AbstractImport
 {
+    public static void main(final String[] _para) {
+        new ObjectImport().test();
+        //new ObjectExport().test();
+    }
 
+
+    public void test()
+    {
+
+        try {
+            final JAXBContext jc = getJAXBContext();
+            final Unmarshaller unmarschaller = jc.createUnmarshaller();
+            final Object object = unmarschaller.unmarshal(getSource4DataImport(null));
+            if (object instanceof EFapsObject) {
+                System.out.println(object);
+            }
+        } catch (JAXBException | EFapsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected URL getUrl(final Parameter _parameter)
+    {
+        final File file =  new File("/Users/moxter/Workspaces/eFaps/data/object.xml");
+        URL ret = null;
+        try {
+            ret = file.toURI().toURL();
+        } catch (final MalformedURLException e) {
+            AbstractImport_Base.LOG.error("Catched error:", e);
+        }
+        return ret;
+    }
+
+    /**
+     * @return an Array of classes used for the JAXBContext
+     */
+    @Override
+    protected Class<?>[] getClasses()
+    {
+        AbstractImport_Base.LOG.trace("Getting the Classes for the JAXBContext.");
+        return new ObjectExport().getClasses();
+    }
 }

@@ -56,7 +56,7 @@ public abstract class AbstractLinkEFapsAttribute<T extends AbstractLinkEFapsAttr
         throws EFapsException
     {
         super.evalAttrValue(_attribute, _dbValue);
-        if (_dbValue instanceof Instance) {
+        if (_dbValue instanceof Instance && ((Instance) _dbValue).isValid()) {
             setObject(new EFapsObject((Instance) _dbValue));
         }
         return getThis();

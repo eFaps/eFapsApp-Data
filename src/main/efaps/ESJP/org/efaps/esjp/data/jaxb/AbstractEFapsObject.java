@@ -30,10 +30,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+import org.efaps.admin.datamodel.Attribute;
+import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
+import org.efaps.db.PrintQuery;
 import org.efaps.esjp.data.jaxb.attributes.AbstractEFapsAttribute;
+import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
 import org.efaps.util.EFapsException;
 
 /**
@@ -207,4 +211,29 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
     }
 
     protected abstract T getThis();
+
+
+
+    public Instance getInstance() {
+        return Instance.get(getTypeUUID(), getId());
+    }
+
+
+    /**
+     *
+     */
+    public void load()
+        throws EFapsException
+    {
+        final Type type = Type.get(getTypeUUID());
+        final PrintQuery print = new PrintQuery(getInstance());
+        for (final Attribute attribute : type.getAttributes().values()) {
+            EFapsAttributes.add2Print(print, attribute);
+        }
+        print.execute();
+        for (final Attribute attribute : type.getAttributes().values()) {
+            final Object value = EFapsAttributes.get4Print(print, attribute);
+            addAttribute(EFapsAttributes.getAttribute(attribute, value));
+        }
+    }
 }

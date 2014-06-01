@@ -34,19 +34,15 @@ import javax.xml.bind.SchemaOutputResolver;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
-import org.efaps.admin.datamodel.Attribute;
-import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Return;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
-import org.efaps.db.PrintQuery;
 import org.efaps.esjp.data.jaxb.EFapsObject;
 import org.efaps.esjp.data.jaxb.attributes.CreatedTypeAttribute;
 import org.efaps.esjp.data.jaxb.attributes.DateTypeAttribute;
 import org.efaps.esjp.data.jaxb.attributes.DecimalTypeAttribute;
-import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
 import org.efaps.esjp.data.jaxb.attributes.IntegerTypeAttribute;
 import org.efaps.esjp.data.jaxb.attributes.LongTypeAttribute;
 import org.efaps.esjp.data.jaxb.attributes.StringTypeAttribute;
@@ -82,20 +78,8 @@ public abstract class ObjectExport_Base
         instances.add(Instance.get("4852.123"));
 
         for (final Instance instance : instances) {
-            final Type type = instance.getType();
-            final PrintQuery print = new PrintQuery(instance);
-            for (final Attribute attribute : type.getAttributes().values()) {
-                EFapsAttributes.add2Print(print, attribute);
-            }
-            print.execute();
-
             final EFapsObject object = new EFapsObject(instance);
-
-            for (final Attribute attribute : type.getAttributes().values()) {
-                final Object value = EFapsAttributes.get4Print(print, attribute);
-                object.addAttribute(EFapsAttributes.getAttribute(attribute, value));
-            }
-
+            object.load();
             marschall(null, object);
         }
         return new Return();
