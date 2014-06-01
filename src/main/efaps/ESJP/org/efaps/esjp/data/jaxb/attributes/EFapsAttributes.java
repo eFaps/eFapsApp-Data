@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.IAttributeType;
+import org.efaps.admin.datamodel.attributetype.BooleanType;
 import org.efaps.admin.datamodel.attributetype.CompanyLinkType;
 import org.efaps.admin.datamodel.attributetype.ConsortiumLinkType;
 import org.efaps.admin.datamodel.attributetype.CreatedType;
@@ -44,6 +45,7 @@ import org.efaps.admin.datamodel.attributetype.OIDType;
 import org.efaps.admin.datamodel.attributetype.RateType;
 import org.efaps.admin.datamodel.attributetype.StatusType;
 import org.efaps.admin.datamodel.attributetype.StringType;
+import org.efaps.admin.datamodel.attributetype.TimeType;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.PrintQuery;
@@ -63,25 +65,27 @@ public final class EFapsAttributes
 
     public static Map<Class<?>, Class<?>> CLASSMAPPING = new HashMap<Class<?>, Class<?>>();
     static {
-        EFapsAttributes.CLASSMAPPING.put(LongType.class, LongTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(IntegerType.class, IntegerTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(StringType.class, StringTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(OIDType.class, OIDTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(CreatedType.class, CreatedTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(ModifiedType.class, ModifiedTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(DateType.class, DateTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(DateTimeType.class, DateTimeTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(DecimalType.class, DecimalTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(CreatorLinkType.class, CreatorTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(ModifierLinkType.class, ModifierTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(TypeAttribute.class, TypeTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(BooleanType.class, BooleanTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(CompanyLinkType.class, CompanyTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(ConsortiumLinkType.class, ConsortiumTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(CreatedType.class, CreatedTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(CreatorLinkType.class, CreatorTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(DateTimeType.class, DateTimeTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(DateType.class, DateTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(DecimalType.class, DecimalTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(IntegerType.class, IntegerTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(JaxbType.class, JaxbTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(LinkType.class, LinkTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(LinkWithRanges.class, LinkWithRangesTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(StatusType.class, StatusTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(LongType.class, LongTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(ModifiedType.class, ModifiedTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(ModifierLinkType.class, ModifierTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(OIDType.class, OIDTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(RateType.class, RateTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(JaxbType.class, JaxbTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(StatusType.class, StatusTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(StringType.class, StringTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(TimeType.class, TimeTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(TypeAttribute.class, TypeTypeAttribute.class);
 
     }
 
