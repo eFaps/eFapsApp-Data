@@ -48,12 +48,12 @@ public class ObjectImport_Base
     extends AbstractImport
 {
     public static void main(final String[] _para) {
-        new ObjectImport().test();
+        new ObjectImport().nott();
         //new ObjectExport().test();
     }
 
 
-    public void test()
+    public void nott()
     {
 
         try {
