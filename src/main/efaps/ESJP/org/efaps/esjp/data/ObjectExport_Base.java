@@ -32,12 +32,16 @@ import javax.xml.bind.SchemaOutputResolver;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
+import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Return;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
+import org.efaps.db.InstanceQuery;
+import org.efaps.db.QueryBuilder;
 import org.efaps.esjp.data.jaxb.EFapsObject;
+import org.efaps.esjp.data.jaxb.ObjectList;
 import org.efaps.esjp.data.jaxb.attributes.CreatedTypeAttribute;
 import org.efaps.esjp.data.jaxb.attributes.DateTypeAttribute;
 import org.efaps.esjp.data.jaxb.attributes.DecimalTypeAttribute;
@@ -72,9 +76,25 @@ public abstract class ObjectExport_Base
     {
         final Instance instance = _parameter.getInstance();
         if (instance != null && instance.isValid()) {
-            final EFapsObject object = new EFapsObject(instance);
-            object.load();
-            marschall(null, object);
+            //Sales_DocumentAbstract
+            if (instance.getType().isKindOf(Type.get(UUID.fromString("c2615e57-c990-4572-8dfd-eda7f8f76e4d")))) {
+                final ObjectList list = new ObjectList();
+                list.getObjects().add(new EFapsObject(instance));
+                //Sales_PositionAbstract
+                final QueryBuilder queryBldr = new QueryBuilder(UUID.fromString("7531661c-2203-4f9a-82f7-4e0d214700dd"));
+                queryBldr.addWhereAttrEqValue("DocumentAbstractLink", instance);
+                final InstanceQuery query = queryBldr.getQuery();
+                query.executeWithoutAccessCheck();
+                while (query.next()) {
+                    list.getObjects().add(new EFapsObject(query.getCurrentValue()));
+                }
+                list.load();
+                marschall(_parameter, list);
+            } else {
+                final EFapsObject object = new EFapsObject(instance);
+                object.load();
+                marschall(_parameter, object);
+            }
         }
         return new Return();
     }
@@ -112,10 +132,10 @@ public abstract class ObjectExport_Base
     {
         try {
             final EFapsObject object = new EFapsObject()
-                .setTypeUUID(UUID.randomUUID())
-                .setId(5)
-                .setExId(0)
-                .setExSysId(0);
+                            .setTypeUUID(UUID.randomUUID())
+                            .setId(5)
+                            .setExId(0)
+                            .setExSysId(0);
 
             final LongTypeAttribute attr = new LongTypeAttribute().setAttrName("ID").setValue(Long.valueOf(5));
             object.addAttribute(attr);
@@ -123,18 +143,21 @@ public abstract class ObjectExport_Base
             final IntegerTypeAttribute attr2 = new IntegerTypeAttribute().setAttrName("Position").setValue(10);
             object.addAttribute(attr2);
 
-            final DecimalTypeAttribute attr5 = new DecimalTypeAttribute().setAttrName("Amount").setValue(new BigDecimal("10.5678"));
+            final DecimalTypeAttribute attr5 = new DecimalTypeAttribute().setAttrName("Amount").setValue(
+                            new BigDecimal("10.5678"));
             object.addAttribute(attr5);
 
             final DateTypeAttribute attr6 = new DateTypeAttribute().setAttrName("Date").setValue(new DateTime());
             object.addAttribute(attr6);
 
-            final CreatedTypeAttribute attr7 = new CreatedTypeAttribute().setAttrName("Created").setValue(new DateTime());
+            final CreatedTypeAttribute attr7 = new CreatedTypeAttribute().setAttrName("Created").setValue(
+                            new DateTime());
             object.addAttribute(attr7);
 
             final StringTypeAttribute attr3 = new StringTypeAttribute().setAttrName("Name").setValue("001-0000568");
             object.addAttribute(attr3);
-            final StringTypeAttribute attr4 = new StringTypeAttribute().setAttrName("Description").setValue("Her can be a long text\nwith linebreak and other stuff<br/>");
+            final StringTypeAttribute attr4 = new StringTypeAttribute().setAttrName("Description").setValue(
+                            "Her can be a long text\nwith linebreak and other stuff<br/>");
             object.addAttribute(attr4);
 
             marschall(null, object);
@@ -142,7 +165,5 @@ public abstract class ObjectExport_Base
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-
     }
 }

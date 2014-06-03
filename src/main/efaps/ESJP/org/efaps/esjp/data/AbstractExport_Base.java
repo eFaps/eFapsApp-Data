@@ -36,6 +36,7 @@ import org.efaps.admin.event.Return;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.EFapsObject;
+import org.efaps.esjp.data.jaxb.ObjectList;
 import org.efaps.esjp.data.jaxb.adapter.CDataXMLStreamWriter;
 import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
 import org.efaps.util.EFapsException;
@@ -109,6 +110,7 @@ public abstract class AbstractExport_Base
         final List<Class<?>> clazzes = new ArrayList<Class<?>>();
         clazzes.addAll(EFapsAttributes.CLASSMAPPING.values());
         clazzes.add(EFapsObject.class);
+        clazzes.add(ObjectList.class);
         return clazzes.toArray(new Class<?>[clazzes.size()]);
     }
 

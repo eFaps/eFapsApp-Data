@@ -57,6 +57,7 @@ import org.efaps.esjp.data.jaxb.DataImport;
 import org.efaps.esjp.data.jaxb.Definition;
 import org.efaps.esjp.data.jaxb.EFapsObject;
 import org.efaps.esjp.data.jaxb.IdentifierDef;
+import org.efaps.esjp.data.jaxb.ObjectList;
 import org.efaps.esjp.data.jaxb.TypeDef;
 import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
 import org.efaps.util.EFapsException;
@@ -112,7 +113,9 @@ public abstract class AbstractImport_Base
             if (object instanceof DataImport) {
                 importFromDefinition(_parameter, object);
             } else if (object instanceof EFapsObject) {
-                importFromXML(_parameter, (EFapsObject) object);
+                importObjectFromXML(_parameter, (EFapsObject) object);
+            } else if (object instanceof ObjectList) {
+                importListFromXML(_parameter, (ObjectList) object);
             }
         } catch (final JAXBException e) {
             AbstractImport_Base.LOG.error("Catched error:", e);
@@ -124,12 +127,26 @@ public abstract class AbstractImport_Base
      * @param _parameter
      * @param _object
      */
-    protected void importFromXML(final Parameter _parameter,
-                                 final EFapsObject _object)
+    protected void importObjectFromXML(final Parameter _parameter,
+                                       final EFapsObject _object)
         throws EFapsException
     {
         System.out.println(_object);
         _object.create();
+    }
+
+    /**
+     * @param _parameter
+     * @param _object
+     */
+    protected void importListFromXML(final Parameter _parameter,
+                                     final ObjectList _list)
+        throws EFapsException
+    {
+        System.out.println(_list);
+        for (final EFapsObject obj : _list.getObjects()) {
+            obj.create();
+        }
     }
 
     protected void importFromDefinition(final Parameter _parameter,
@@ -440,6 +457,7 @@ public abstract class AbstractImport_Base
         final List<Class<?>> clazzes = new ArrayList<Class<?>>();
         clazzes.addAll(EFapsAttributes.CLASSMAPPING.values());
         clazzes.add(EFapsObject.class);
+        clazzes.add(ObjectList.class);
         clazzes.add(TypeDef.class);
         clazzes.add(Definition.class);
         clazzes.add(DataImport.class);
