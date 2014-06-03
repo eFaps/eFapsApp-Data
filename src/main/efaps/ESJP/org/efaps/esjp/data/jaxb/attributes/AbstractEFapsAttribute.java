@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
@@ -81,12 +82,6 @@ public abstract class AbstractEFapsAttribute<T extends AbstractEFapsAttribute<T>
         return getThis();
     }
 
-    @Override
-    public String toString()
-    {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
     /**
      * @return
      */
@@ -109,4 +104,9 @@ public abstract class AbstractEFapsAttribute<T extends AbstractEFapsAttribute<T>
         // do not add as a default behavior
     }
 
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }
