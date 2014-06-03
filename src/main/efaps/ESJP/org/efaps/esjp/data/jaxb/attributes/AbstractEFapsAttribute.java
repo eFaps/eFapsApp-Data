@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Insert;
 import org.efaps.esjp.data.jaxb.AbstractEFapsObject;
 import org.efaps.util.EFapsException;
 
@@ -98,4 +99,14 @@ public abstract class AbstractEFapsAttribute<T extends AbstractEFapsAttribute<T>
     {
         return null;
     }
+
+    /**
+     * @param _insert
+     */
+    public void add2Insert(final Insert _insert)
+        throws EFapsException
+    {
+        // do not add as a default behavior
+    }
+
 }

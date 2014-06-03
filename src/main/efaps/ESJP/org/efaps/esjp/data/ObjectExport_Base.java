@@ -24,8 +24,6 @@ package org.efaps.esjp.data;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
@@ -72,13 +70,8 @@ public abstract class ObjectExport_Base
     public Return execute(final Parameter _parameter)
         throws EFapsException
     {
-        final List<Instance> instances = new ArrayList<Instance>();
-
-        instances.add(Instance.get("2977.31"));
-        instances.add(Instance.get("4852.123"));
-        instances.add(Instance.get("3711.407"));
-
-        for (final Instance instance : instances) {
+        final Instance instance = _parameter.getInstance();
+        if (instance != null && instance.isValid()) {
             final EFapsObject object = new EFapsObject(instance);
             object.load();
             marschall(null, object);

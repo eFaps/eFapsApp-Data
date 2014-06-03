@@ -36,8 +36,14 @@ import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.ci.CIAdminCommon;
+import org.efaps.db.Insert;
 import org.efaps.db.Instance;
+import org.efaps.db.InstanceQuery;
+import org.efaps.db.MultiPrintQuery;
 import org.efaps.db.PrintQuery;
+import org.efaps.db.QueryBuilder;
+import org.efaps.db.Update;
 import org.efaps.esjp.data.jaxb.attributes.AbstractEFapsAttribute;
 import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
 import org.efaps.util.EFapsException;
@@ -79,6 +85,12 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
     private long exSysId;
 
     /**
+     * External System id of the instance.
+     */
+    @XmlAttribute(required = true)
+    private long generalId;
+
+    /**
      * The list of attributes belonging to this object.
      */
     @XmlElementWrapper(name="attributes")
@@ -95,6 +107,7 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
         this.id = _instance.getId();
         this.exId = _instance.getExchangeId();
         this.exSysId = _instance.getExchangeSystemId();
+        this.generalId = _instance.getGeneralId();
     }
 
     /**
@@ -253,5 +266,65 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
                 }
             }
         }
+    }
+
+    public Instance create()
+        throws EFapsException
+    {
+        Instance ret = null;
+        // Search a general instance that is the searched object
+        final QueryBuilder queryBldr = new QueryBuilder(CIAdminCommon.GeneralInstance);
+        queryBldr.addWhereAttrEqValue(CIAdminCommon.GeneralInstance.ExchangeSystemID, getExSysId());
+        queryBldr.addWhereAttrEqValue(CIAdminCommon.GeneralInstance.ExchangeID, getGeneralId());
+        final MultiPrintQuery multi = queryBldr.getPrint();
+        multi.addAttribute(CIAdminCommon.GeneralInstance.InstanceID, CIAdminCommon.GeneralInstance.InstanceTypeID);
+        multi.executeWithoutAccessCheck();
+        if (multi.next()) {
+            ret = Instance.get(Type.get(multi.<Long>getAttribute(CIAdminCommon.GeneralInstance.InstanceTypeID)),
+                            multi.<Long>getAttribute(CIAdminCommon.GeneralInstance.InstanceID));
+        } else {
+            final Insert insert = new Insert(getTypeUUID());
+            // check if all links exists etc.
+            for (final AbstractEFapsAttribute<?> attribute : getAttributes()) {
+                attribute.add2Insert(insert);
+            }
+            insert.execute();
+            ret = insert.getInstance();
+
+            final QueryBuilder queryBldr2 = new QueryBuilder(CIAdminCommon.GeneralInstance);
+            queryBldr2.addWhereAttrEqValue(CIAdminCommon.GeneralInstance.InstanceID, ret);
+            queryBldr2.addWhereAttrEqValue(CIAdminCommon.GeneralInstance.InstanceTypeID, ret.getType().getId());
+            final InstanceQuery query = queryBldr2.getQuery();
+            query.executeWithoutAccessCheck();
+            if (query.next()) {
+                final Update update = new Update(query.getCurrentValue());
+                update.add(CIAdminCommon.GeneralInstance.ExchangeSystemID, getExSysId());
+                update.add(CIAdminCommon.GeneralInstance.ExchangeID, getGeneralId());
+                update.executeWithoutTrigger();
+            }
+        }
+        return ret;
+    }
+
+
+    /**
+     * Getter method for the instance variable {@link #generalId}.
+     *
+     * @return value of instance variable {@link #generalId}
+     */
+    public long getGeneralId()
+    {
+        return this.generalId;
+    }
+
+
+    /**
+     * Setter method for instance variable {@link #generalId}.
+     *
+     * @param _generalId value for instance variable {@link #generalId}
+     */
+    public void setGeneralId(final long _generalId)
+    {
+        this.generalId = _generalId;
     }
 }

@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Insert;
 import org.efaps.util.EFapsException;
 
 /**
@@ -63,5 +64,15 @@ public class IntegerTypeAttribute
         super.evalAttrValue(_attribute, _dbValue);
         setValue((Integer) _dbValue);
         return this;
+    }
+
+    /**
+     * @param _insert
+     */
+    @Override
+    public void add2Insert(final Insert _insert)
+        throws EFapsException
+    {
+        _insert.add(getAttrName(), getValue());
     }
 }

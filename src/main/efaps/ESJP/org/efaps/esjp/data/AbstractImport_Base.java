@@ -55,8 +55,10 @@ import org.efaps.esjp.data.jaxb.AttrDef;
 import org.efaps.esjp.data.jaxb.ClassificationDef;
 import org.efaps.esjp.data.jaxb.DataImport;
 import org.efaps.esjp.data.jaxb.Definition;
+import org.efaps.esjp.data.jaxb.EFapsObject;
 import org.efaps.esjp.data.jaxb.IdentifierDef;
 import org.efaps.esjp.data.jaxb.TypeDef;
+import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
 import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,130 +110,152 @@ public abstract class AbstractImport_Base
             final Unmarshaller unmarschaller = jc.createUnmarshaller();
             final Object object = unmarschaller.unmarshal(getSource4DataImport(_parameter));
             if (object instanceof DataImport) {
-                final DataImport dataImp = (DataImport) object;
-                dataImp.setUrl(getUrl(_parameter));
-                final Map<String, Instance> keys = new HashMap<String, Instance>();
-                for (final Definition definition : dataImp.getDefinition()) {
-                    AbstractImport_Base.LOG.info("Starting with definition: '{}'", definition.getName());
-                    final List<String[]> values = readCSV(_parameter, dataImp, definition);
-                    final Map<String, Integer> headers = readHeader(_parameter, definition, values);
-                    values.remove(0);
-                    int j = 1;
-                    boolean execute = true;
-                    final Set<Integer> skip = new HashSet<Integer>();
-                    AbstractImport_Base.LOG.info("Validating definition: '{}'", definition.getName());
-                    // validate
-                    for (final String[] value : values) {
-                        if (definition.isUpdate()) {
-                            final IdentifierDef idDef = definition.getIdentifier();
-                            if (idDef == null) {
-                                AbstractImport_Base.LOG.error("Definition '{}' has update defined but no identifier.",
-                                                definition.getName());
-                            } else {
-                                final Boolean hasInstance = idDef.hasInstance(_parameter, definition, headers, value, j);
-                                AbstractImport_Base.LOG.debug("Instance found={} in line {}", hasInstance, j);
-                            }
-                        }
-                        final Boolean valid = definition.getTypeDef().validate(_parameter, headers, value, j);
-                        if (!valid) {
-                            execute = false;
-                        }
-                        final Type type = definition.getTypeDef().getType(headers, value);
-                        String typeName = "no Type Name given";
-                        if (type != null) {
-                            typeName = type.getName();
-                        }
-                        for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                            if (attr.applies(typeName)) {
-                                Boolean check = attr.validate(_parameter, headers, value, j);
-                                if (definition.hasKey() && attr.isParentLink()) {
-                                    final String parentKey = attr.getValue(_parameter, headers, value, j);
-                                    if (!keys.containsKey(parentKey)) {
-                                        AbstractImport_Base.LOG.error("ParentKey '{}' in row {} not found.",
-                                                        parentKey, j);
-                                        check = false;
-                                    }
-                                }
-                                if (!check) {
-                                    execute = false;
-                                    skip.add(j);
-                                }
-                            }
-                        }
-                        for (final ClassificationDef classDef : definition.getTypeDef().getClassifications()) {
-                            Boolean check = classDef.validate(_parameter, headers, value, j);
-                            if (classDef != null) {
-                                for (final AttrDef attr : classDef.getAttributes()) {
-                                    check = attr.validate(_parameter, headers, value, j);
-                                }
-                            }
-                            if (!check) {
-                                execute = false;
-                                skip.add(j);
-                            }
-
-                        }
-                        j++;
-                        if (definition.hasKey() && execute) {
-                            keys.put(value[headers.get(definition.getKeyColumn())], null);
-                        }
-                    }
-                    if ((execute && definition.isExecute()) || (definition.isExecute() && definition.isForce())) {
-                        AbstractImport_Base.LOG.info("Importing definition: '{}'", definition.getName());
-                        // create
-                        j =  1;
-                        for (final String[] value : values) {
-                            if (!execute && skip.contains(j)) {
-                                AbstractImport_Base.LOG.info("Skipped Line: '{}': {} ", j, Arrays.toString(value));
-                            } else {
-                                boolean isUpdate;
-                                final Type type = definition.getTypeDef().getType(headers, value);
-                                Update update;
-                                if (definition.isUpdate()
-                                                && definition.getIdentifier().hasInstance(_parameter, definition,
-                                                                headers, value, j)) {
-                                    update = new Update(definition.getIdentifier().getInstance(_parameter, definition,
-                                                    headers, value, j));
-                                    isUpdate = true;
-                                } else {
-                                    update = new Insert(type);
-                                    isUpdate = false;
-                                }
-                                for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                                    if ((!isUpdate || (isUpdate && attr.isOverwrite()))
-                                                    &&  attr.applies(type.getName())) {
-                                        if (definition.hasKey() && attr.isParentLink()) {
-                                            final String parentKey = attr.getValue(_parameter, headers, value, j);
-                                            update.add(attr.getName(), keys.get(parentKey));
-                                        } else {
-                                            update.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
-                                        }
-                                    }
-                                }
-                                add2TypeUpdate(_parameter, definition, headers, values, value, update, j);
-
-                                execute(_parameter, definition, update);
-
-                                if (definition.hasKey()) {
-                                    keys.put(value[headers.get(definition.getKeyColumn())], update.getInstance());
-                                }
-                                if (definition.getTypeDef().getClassifications() != null) {
-                                    updateClassification(_parameter, definition, headers, value,
-                                                    update.getInstance(), j);
-                                }
-                                add2Row(_parameter, definition, headers, values, value, update.getInstance(), j);
-                            }
-                            j++;
-                        }
-                    }
-                    AbstractImport_Base.LOG.info("Finished definition: '{}'", definition.getName());
-                }
+                importFromDefinition(_parameter, object);
+            } else if (object instanceof EFapsObject) {
+                importFromXML(_parameter, (EFapsObject) object);
             }
         } catch (final JAXBException e) {
             AbstractImport_Base.LOG.error("Catched error:", e);
         }
         return new Return();
     }
+
+    /**
+     * @param _parameter
+     * @param _object
+     */
+    protected void importFromXML(final Parameter _parameter,
+                                 final EFapsObject _object)
+        throws EFapsException
+    {
+        System.out.println(_object);
+        _object.create();
+    }
+
+    protected void importFromDefinition(final Parameter _parameter,
+                                        final Object _object)
+        throws EFapsException
+    {
+        final DataImport dataImp = (DataImport) _object;
+        dataImp.setUrl(getUrl(_parameter));
+        final Map<String, Instance> keys = new HashMap<String, Instance>();
+        for (final Definition definition : dataImp.getDefinition()) {
+            AbstractImport_Base.LOG.info("Starting with definition: '{}'", definition.getName());
+            final List<String[]> values = readCSV(_parameter, dataImp, definition);
+            final Map<String, Integer> headers = readHeader(_parameter, definition, values);
+            values.remove(0);
+            int j = 1;
+            boolean execute = true;
+            final Set<Integer> skip = new HashSet<Integer>();
+            AbstractImport_Base.LOG.info("Validating definition: '{}'", definition.getName());
+            // validate
+            for (final String[] value : values) {
+                if (definition.isUpdate()) {
+                    final IdentifierDef idDef = definition.getIdentifier();
+                    if (idDef == null) {
+                        AbstractImport_Base.LOG.error("Definition '{}' has update defined but no identifier.",
+                                        definition.getName());
+                    } else {
+                        final Boolean hasInstance = idDef.hasInstance(_parameter, definition, headers, value, j);
+                        AbstractImport_Base.LOG.debug("Instance found={} in line {}", hasInstance, j);
+                    }
+                }
+                final Boolean valid = definition.getTypeDef().validate(_parameter, headers, value, j);
+                if (!valid) {
+                    execute = false;
+                }
+                final Type type = definition.getTypeDef().getType(headers, value);
+                String typeName = "no Type Name given";
+                if (type != null) {
+                    typeName = type.getName();
+                }
+                for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
+                    if (attr.applies(typeName)) {
+                        Boolean check = attr.validate(_parameter, headers, value, j);
+                        if (definition.hasKey() && attr.isParentLink()) {
+                            final String parentKey = attr.getValue(_parameter, headers, value, j);
+                            if (!keys.containsKey(parentKey)) {
+                                AbstractImport_Base.LOG.error("ParentKey '{}' in row {} not found.",
+                                                parentKey, j);
+                                check = false;
+                            }
+                        }
+                        if (!check) {
+                            execute = false;
+                            skip.add(j);
+                        }
+                    }
+                }
+                for (final ClassificationDef classDef : definition.getTypeDef().getClassifications()) {
+                    Boolean check = classDef.validate(_parameter, headers, value, j);
+                    if (classDef != null) {
+                        for (final AttrDef attr : classDef.getAttributes()) {
+                            check = attr.validate(_parameter, headers, value, j);
+                        }
+                    }
+                    if (!check) {
+                        execute = false;
+                        skip.add(j);
+                    }
+
+                }
+                j++;
+                if (definition.hasKey() && execute) {
+                    keys.put(value[headers.get(definition.getKeyColumn())], null);
+                }
+            }
+            if ((execute && definition.isExecute()) || (definition.isExecute() && definition.isForce())) {
+                AbstractImport_Base.LOG.info("Importing definition: '{}'", definition.getName());
+                // create
+                j = 1;
+                for (final String[] value : values) {
+                    if (!execute && skip.contains(j)) {
+                        AbstractImport_Base.LOG.info("Skipped Line: '{}': {} ", j, Arrays.toString(value));
+                    } else {
+                        boolean isUpdate;
+                        final Type type = definition.getTypeDef().getType(headers, value);
+                        Update update;
+                        if (definition.isUpdate()
+                                        && definition.getIdentifier().hasInstance(_parameter, definition,
+                                                        headers, value, j)) {
+                            update = new Update(definition.getIdentifier().getInstance(_parameter, definition,
+                                            headers, value, j));
+                            isUpdate = true;
+                        } else {
+                            update = new Insert(type);
+                            isUpdate = false;
+                        }
+                        for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
+                            if ((!isUpdate || (isUpdate && attr.isOverwrite()))
+                                            && attr.applies(type.getName())) {
+                                if (definition.hasKey() && attr.isParentLink()) {
+                                    final String parentKey = attr.getValue(_parameter, headers, value, j);
+                                    update.add(attr.getName(), keys.get(parentKey));
+                                } else {
+                                    update.add(attr.getName(), attr.getValue(_parameter, headers, value, j));
+                                }
+                            }
+                        }
+                        add2TypeUpdate(_parameter, definition, headers, values, value, update, j);
+
+                        execute(_parameter, definition, update);
+
+                        if (definition.hasKey()) {
+                            keys.put(value[headers.get(definition.getKeyColumn())], update.getInstance());
+                        }
+                        if (definition.getTypeDef().getClassifications() != null) {
+                            updateClassification(_parameter, definition, headers, value,
+                                            update.getInstance(), j);
+                        }
+                        add2Row(_parameter, definition, headers, values, value, update.getInstance(), j);
+                    }
+                    j++;
+                }
+            }
+            AbstractImport_Base.LOG.info("Finished definition: '{}'", definition.getName());
+        }
+    }
+
 
     protected Source getSource4DataImport(final Parameter _parameter)
         throws EFapsException
@@ -413,8 +437,16 @@ public abstract class AbstractImport_Base
     protected Class<?>[] getClasses()
     {
         AbstractImport_Base.LOG.trace("Getting the Classes for the JAXBContext.");
-        return new Class[] { TypeDef.class, Definition.class, DataImport.class,
-                        AttrDef.class, ClassificationDef.class, IdentifierDef.class };
+        final List<Class<?>> clazzes = new ArrayList<Class<?>>();
+        clazzes.addAll(EFapsAttributes.CLASSMAPPING.values());
+        clazzes.add(EFapsObject.class);
+        clazzes.add(TypeDef.class);
+        clazzes.add(Definition.class);
+        clazzes.add(DataImport.class);
+        clazzes.add(AttrDef.class);
+        clazzes.add(ClassificationDef.class);
+        clazzes.add(IdentifierDef.class);
+        return clazzes.toArray(new Class<?>[clazzes.size()]);
     }
 
     /**

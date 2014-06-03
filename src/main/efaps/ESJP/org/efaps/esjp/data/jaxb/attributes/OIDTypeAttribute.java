@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Insert;
+import org.efaps.util.EFapsException;
 
 
 /**
@@ -46,5 +48,15 @@ public class OIDTypeAttribute
     protected OIDTypeAttribute getThis()
     {
         return this;
+    }
+
+    /**
+     * @param _insert
+     */
+    @Override
+    public void add2Insert(final Insert _insert)
+        throws EFapsException
+    {
+        // must not be added to an insert
     }
 }

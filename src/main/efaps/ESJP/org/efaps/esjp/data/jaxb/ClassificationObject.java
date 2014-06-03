@@ -24,8 +24,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.efaps.admin.datamodel.Classification;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Insert;
 import org.efaps.db.Instance;
 import org.efaps.util.EFapsException;
 
@@ -61,5 +63,19 @@ public class ClassificationObject
     protected ClassificationObject getThis()
     {
         return this;
+    }
+
+    /**
+     * @param _ret
+     */
+    public void create(final Instance _objectInst)
+        throws EFapsException
+    {
+        super.create();
+        final Classification clazz = Classification.get(getTypeUUID());
+        final Insert relInsert = new Insert(clazz.getClassifyRelationType());
+        relInsert.add(clazz.getRelLinkAttributeName(), _objectInst);
+        relInsert.add(clazz.getRelTypeAttributeName(), clazz.getId());
+        relInsert.execute();
     }
 }

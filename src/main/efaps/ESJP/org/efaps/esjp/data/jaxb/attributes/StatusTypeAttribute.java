@@ -31,6 +31,7 @@ import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.Status;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Insert;
 import org.efaps.util.EFapsException;
 
 /**
@@ -114,5 +115,15 @@ public class StatusTypeAttribute
     {
         this.key = _key;
         return this;
+    }
+
+    /**
+     * @param _insert
+     */
+    @Override
+    public void add2Insert(final Insert _insert)
+        throws EFapsException
+    {
+        _insert.add(getAttrName(), Status.find(getUUID(), getKey()));
     }
 }

@@ -25,8 +25,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.efaps.admin.datamodel.Attribute;
+import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Insert;
 import org.efaps.util.EFapsException;
 
 /**
@@ -63,5 +65,20 @@ public class LongTypeAttribute
         super.evalAttrValue(_attribute, _dbValue);
         setValue((Long) _dbValue);
         return this;
+    }
+
+    /**
+     * @param _insert
+     */
+    @Override
+    public void add2Insert(final Insert _insert)
+        throws EFapsException
+    {
+        final Type type = _insert.getInstance().getType();
+        // check that it is not the id column
+        if (!type.getAttribute(getAttrName()).getSqlColNames()
+                        .contains(_insert.getInstance().getType().getMainTable().getSqlColId())) {
+            _insert.add(getAttrName(), getValue());
+        }
     }
 }

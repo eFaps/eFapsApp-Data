@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Insert;
 import org.efaps.db.Instance;
 import org.efaps.esjp.data.jaxb.AbstractEFapsObject;
 import org.efaps.esjp.data.jaxb.EFapsObject;
@@ -93,5 +94,17 @@ public abstract class AbstractLinkEFapsAttribute<T extends AbstractLinkEFapsAttr
     public AbstractEFapsObject<?> getLink()
     {
         return getObject();
+    }
+
+    /**
+     * @param _insert
+     */
+    @Override
+    public void add2Insert(final Insert _insert)
+        throws EFapsException
+    {
+        if (getLink() != null) {
+            _insert.add(getAttrName(), getLink().create());
+        }
     }
 }

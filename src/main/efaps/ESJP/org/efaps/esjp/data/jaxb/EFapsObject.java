@@ -156,4 +156,15 @@ public class EFapsObject
             }
         }
     }
+
+    @Override
+    public Instance create()
+        throws EFapsException
+    {
+        final Instance ret = super.create();
+        for (final ClassificationObject clazz : getClassifications()) {
+            clazz.create(ret);
+        }
+        return ret;
+    }
 }
