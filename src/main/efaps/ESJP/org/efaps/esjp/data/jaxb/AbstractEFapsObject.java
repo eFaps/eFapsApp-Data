@@ -337,10 +337,15 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
                 ret = Instance.get(Type.get(multi3.<Long>getAttribute(CIAdminCommon.GeneralInstance.InstanceTypeID)),
                                 multi3.<Long>getAttribute(CIAdminCommon.GeneralInstance.InstanceID));
             } else {
+                final Type type = Type.get(getTypeUUID());
                 final Insert insert = new Insert(getTypeUUID());
-                // check if all links exists etc.
+                final Set<List<String>> added =new HashSet<List<String>>();
                 for (final AbstractEFapsAttribute<?> attribute : getAttributes()) {
-                    attribute.add2Insert(insert);
+                    final ArrayList<String> cols = type.getAttribute(attribute.getAttrName()).getSqlColNames();
+                    if (!added.contains(cols)) {
+                        added.add(cols);
+                        attribute.add2Insert(insert);
+                    }
                 }
                 insert.execute();
                 ret = insert.getInstance();

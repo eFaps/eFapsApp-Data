@@ -36,11 +36,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 @EFapsUUID("581f836a-5fe8-4716-80d5-181e4ab1fe14")
 @EFapsRevision("$Rev$")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement( name = "linkwithranges", namespace = "http://www.efaps.org/xsd")
+@XmlRootElement(name = "linkwithranges", namespace = "http://www.efaps.org/xsd")
 public class LinkWithRangesTypeAttribute
     extends AbstractLinkEFapsAttribute<LinkWithRangesTypeAttribute>
 {
-
     @Override
     protected LinkWithRangesTypeAttribute getThis()
     {

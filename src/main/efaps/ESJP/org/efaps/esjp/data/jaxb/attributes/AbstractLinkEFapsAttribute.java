@@ -38,6 +38,7 @@ import org.efaps.util.EFapsException;
  *
  * @author The eFaps Team
  * @version $Id$
+ * @param <T> childobject used for chaining
  */
 @EFapsUUID("a77abd26-af45-4266-973f-ed64c11ca9ab")
 @EFapsRevision("$Rev$")
@@ -50,7 +51,7 @@ public abstract class AbstractLinkEFapsAttribute<T extends AbstractLinkEFapsAttr
      * Name of the Attribute.
      */
     @XmlElement
-    public EFapsObject object;
+    private EFapsObject object;
 
     @Override
     public T evalAttrValue(final Attribute _attribute,
@@ -97,7 +98,7 @@ public abstract class AbstractLinkEFapsAttribute<T extends AbstractLinkEFapsAttr
     }
 
     /**
-     * @param _insert
+     * {@inheritDoc}
      */
     @Override
     public void add2Insert(final Insert _insert)

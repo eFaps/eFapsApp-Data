@@ -29,6 +29,8 @@ import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.db.Instance;
+import org.efaps.db.InstanceQuery;
+import org.efaps.db.QueryBuilder;
 import org.efaps.util.EFapsException;
 
 /**
@@ -45,13 +47,17 @@ public class ClassificationObject
     extends AbstractEFapsObject<ClassificationObject>
 {
 
+    /**
+     * Default Constructor.
+     */
     public ClassificationObject()
     {
         super();
     }
 
     /**
-     * @param _instance
+     * @param _instance instance of this object
+     * @throws EFapsException on error
      */
     public ClassificationObject(final Instance _instance)
         throws EFapsException
@@ -66,16 +72,24 @@ public class ClassificationObject
     }
 
     /**
-     * @param _ret
+     * @param _objectInst instance of the object this classification belong to
+     * @throws EFapsException on error
      */
     public void create(final Instance _objectInst)
         throws EFapsException
     {
         super.create();
         final Classification clazz = Classification.get(getTypeUUID());
-        final Insert relInsert = new Insert(clazz.getClassifyRelationType());
-        relInsert.add(clazz.getRelLinkAttributeName(), _objectInst);
-        relInsert.add(clazz.getRelTypeAttributeName(), clazz.getId());
-        relInsert.execute();
+
+        final QueryBuilder queryBldr = new QueryBuilder(clazz.getClassifyRelationType());
+        queryBldr.addWhereAttrEqValue(clazz.getRelLinkAttributeName(), _objectInst);
+        queryBldr.addWhereAttrEqValue(clazz.getRelTypeAttributeName(), clazz.getId());
+        final InstanceQuery query = queryBldr.getQuery();
+        if (query.executeWithoutAccessCheck().isEmpty()) {
+            final Insert relInsert = new Insert(clazz.getClassifyRelationType());
+            relInsert.add(clazz.getRelLinkAttributeName(), _objectInst);
+            relInsert.add(clazz.getRelTypeAttributeName(), clazz.getId());
+            relInsert.execute();
+        }
     }
 }

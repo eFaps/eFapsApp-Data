@@ -96,7 +96,8 @@ public abstract class AbstractEFapsAttribute<T extends AbstractEFapsAttribute<T>
     }
 
     /**
-     * @param _insert
+     * @param _insert Insert 2 add to
+     * @throws EFapsException on error
      */
     public void add2Insert(final Insert _insert)
         throws EFapsException

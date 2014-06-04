@@ -36,6 +36,7 @@ import org.efaps.admin.datamodel.IJaxb;
 import org.efaps.admin.program.esjp.EFapsClassLoader;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.db.Insert;
 import org.efaps.esjp.data.jaxb.adapter.JaxbContentAdapter;
 import org.efaps.util.EFapsException;
 
@@ -52,6 +53,9 @@ import org.efaps.util.EFapsException;
 public class JaxbTypeAttribute
     extends AbstractEFapsAttribute<JaxbTypeAttribute>
 {
+    /**
+     * Content of this Attribute.
+     */
     @XmlJavaTypeAdapter(JaxbContentAdapter.class)
     @XmlElement(required = true)
     private String content;
@@ -79,7 +83,7 @@ public class JaxbTypeAttribute
                 final StringWriter writer = new StringWriter();
                 marshaller.marshal(_dbValue, writer);
                 setContent(writer.toString());
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | JAXBException e) {
+            } catch (final ClassNotFoundException | InstantiationException | IllegalAccessException | JAXBException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -101,10 +105,21 @@ public class JaxbTypeAttribute
      * Setter method for instance variable {@link #content}.
      *
      * @param _content value for instance variable {@link #content}
+     * @return this for chaining
      */
     public JaxbTypeAttribute setContent(final String _content)
     {
         this.content = _content;
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void add2Insert(final Insert _insert)
+        throws EFapsException
+    {
+        _insert.add(getAttrName(), getContent());
     }
 }
