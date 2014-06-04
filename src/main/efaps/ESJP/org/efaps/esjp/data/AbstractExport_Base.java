@@ -38,7 +38,9 @@ import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.EFapsObject;
 import org.efaps.esjp.data.jaxb.ObjectList;
 import org.efaps.esjp.data.jaxb.adapter.CDataXMLStreamWriter;
+import org.efaps.esjp.data.jaxb.attributes.DimensionTypeAttribute;
 import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
+import org.efaps.esjp.data.jaxb.attributes.UoMTypeAttribute;
 import org.efaps.util.EFapsException;
 
 
@@ -111,6 +113,8 @@ public abstract class AbstractExport_Base
         clazzes.addAll(EFapsAttributes.CLASSMAPPING.values());
         clazzes.add(EFapsObject.class);
         clazzes.add(ObjectList.class);
+        clazzes.add(UoMTypeAttribute.class);
+        clazzes.add(DimensionTypeAttribute.class);
         return clazzes.toArray(new Class<?>[clazzes.size()]);
     }
 

@@ -59,7 +59,9 @@ import org.efaps.esjp.data.jaxb.EFapsObject;
 import org.efaps.esjp.data.jaxb.IdentifierDef;
 import org.efaps.esjp.data.jaxb.ObjectList;
 import org.efaps.esjp.data.jaxb.TypeDef;
+import org.efaps.esjp.data.jaxb.attributes.DimensionTypeAttribute;
 import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
+import org.efaps.esjp.data.jaxb.attributes.UoMTypeAttribute;
 import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -459,6 +461,8 @@ public abstract class AbstractImport_Base
         clazzes.addAll(EFapsAttributes.CLASSMAPPING.values());
         clazzes.add(EFapsObject.class);
         clazzes.add(ObjectList.class);
+        clazzes.add(UoMTypeAttribute.class);
+        clazzes.add(DimensionTypeAttribute.class);
         clazzes.add(TypeDef.class);
         clazzes.add(Definition.class);
         clazzes.add(DataImport.class);

@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.IAttributeType;
+import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.datamodel.attributetype.BooleanType;
 import org.efaps.admin.datamodel.attributetype.CompanyLinkType;
 import org.efaps.admin.datamodel.attributetype.ConsortiumLinkType;
@@ -48,9 +49,11 @@ import org.efaps.admin.datamodel.attributetype.StringType;
 import org.efaps.admin.datamodel.attributetype.TimeType;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.ci.CIAdminDataModel;
 import org.efaps.db.PrintQuery;
 import org.efaps.db.SelectBuilder;
 import org.efaps.util.EFapsException;
+import org.efaps.util.cache.CacheReloadException;
 
 /**
  * TODO comment!
@@ -63,7 +66,10 @@ import org.efaps.util.EFapsException;
 public final class EFapsAttributes
 {
 
-    public static Map<Class<?>, Class<?>> CLASSMAPPING = new HashMap<Class<?>, Class<?>>();
+    /**
+     * Basic mapping.
+     */
+    public static final Map<Class<?>, Class<?>> CLASSMAPPING = new HashMap<Class<?>, Class<?>>();
     static {
         EFapsAttributes.CLASSMAPPING.put(BooleanType.class, BooleanTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(CompanyLinkType.class, CompanyTypeAttribute.class);
@@ -86,8 +92,15 @@ public final class EFapsAttributes
         EFapsAttributes.CLASSMAPPING.put(StringType.class, StringTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(TimeType.class, TimeTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(TypeAttribute.class, TypeTypeAttribute.class);
-
     }
+
+    /**
+     * Helper class.
+     */
+    private EFapsAttributes()
+    {
+    }
+
 
     /**
      * @param _attribute
@@ -106,14 +119,25 @@ public final class EFapsAttributes
     }
 
     public static AbstractEFapsAttribute<?> getAttribute(final Attribute _attribute)
+                    throws CacheReloadException
     {
         AbstractEFapsAttribute<?> ret = null;
         final IAttributeType attrType = _attribute.getAttributeType().getDbAttrType();
-        if (EFapsAttributes.CLASSMAPPING.containsKey(attrType.getClass())) {
+        // fisrt evaluate the special types like UoM, Dimension
+        if (_attribute.hasLink()) {
+            final Type linkType = _attribute.getLink();
+            if (linkType.getUUID().equals(CIAdminDataModel.UoM.uuid)) {
+                ret = new UoMTypeAttribute();
+            } else if (linkType.getUUID().equals(CIAdminDataModel.Dimension.uuid)) {
+                ret = new DimensionTypeAttribute();
+            }
+        }
+
+        if (ret == null && EFapsAttributes.CLASSMAPPING.containsKey(attrType.getClass())) {
             final Class<?> attrClazz = EFapsAttributes.CLASSMAPPING.get(attrType.getClass());
             try {
                 ret = (AbstractEFapsAttribute<?>) attrClazz.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (final InstantiationException | IllegalAccessException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
