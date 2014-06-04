@@ -39,16 +39,16 @@ public class DateTimeAdapter
 {
 
     @Override
-    public DateTime unmarshal(final String v)
+    public DateTime unmarshal(final String _value)
         throws Exception
     {
-        return new DateTime(v);
+        return _value == null ? new DateTime() : new DateTime(_value);
     }
 
     @Override
-    public String marshal(final DateTime v)
+    public String marshal(final DateTime _value)
         throws Exception
     {
-        return v.toString();
+        return _value == null ? "" : _value.toString();
     }
 }
