@@ -49,6 +49,6 @@ public class DateTimeAdapter
     public String marshal(final DateTime _value)
         throws Exception
     {
-        return _value == null ? "" : _value.toString();
+        return _value == null ? null : _value.toString();
     }
 }

@@ -109,6 +109,7 @@ public abstract class AbstractImport_Base
         try {
             final JAXBContext jc = getJAXBContext();
             final Unmarshaller unmarschaller = jc.createUnmarshaller();
+            unmarschaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
             final Object object = unmarschaller.unmarshal(getSource4DataImport(_parameter));
             if (object instanceof DataImport) {
                 importFromDefinition(_parameter, object);

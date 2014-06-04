@@ -38,6 +38,7 @@ import org.joda.time.DateTime;
  *
  * @author The eFaps Team
  * @version $Id$
+ * @param <T> subclass of this class to allow chaining
  */
 @EFapsUUID("be3296f6-32a9-4523-97ba-d644fa87d5d4")
 @EFapsRevision("$Rev$")
@@ -45,13 +46,12 @@ import org.joda.time.DateTime;
 public abstract class AbstractDateTimeEFapsAttribute<T extends AbstractDateTimeEFapsAttribute<T>>
     extends AbstractEFapsAttribute<T>
 {
-
     /**
      * Name of the Attribute.
      */
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    @XmlAttribute(required = true)
-    public DateTime value;
+    @XmlAttribute
+    private DateTime value;
 
     /**
      * Getter method for the instance variable {@link #value}.
@@ -67,6 +67,7 @@ public abstract class AbstractDateTimeEFapsAttribute<T extends AbstractDateTimeE
      * Setter method for instance variable {@link #value}.
      *
      * @param _value value for instance variable {@link #value}
+     * @return this for chaining
      */
     public T setValue(final DateTime _value)
     {
@@ -85,7 +86,8 @@ public abstract class AbstractDateTimeEFapsAttribute<T extends AbstractDateTimeE
     }
 
     /**
-     * @param _insert
+     * @param _insert insert to add 2
+     * @throws EFapsException on error
      */
     @Override
     public void add2Insert(final Insert _insert)

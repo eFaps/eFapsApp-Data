@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
@@ -53,7 +54,7 @@ public class ObjectList
     /**
      * The list of attributes belonging to this object.
      */
-    @XmlElementWrapper(name = "objects")
+    @XmlElementWrapper(name = "objects", namespace = "http://www.efaps.org/xsd")
     @XmlElementRef
     private final List<EFapsObject> objects = new ArrayList<EFapsObject>();
 
@@ -68,7 +69,8 @@ public class ObjectList
     }
 
     /**
-     *
+     * Load the object from the eFaps DataBase.
+     * @throws EFapsException on error
      */
     public void load()
         throws EFapsException
@@ -77,7 +79,9 @@ public class ObjectList
     }
 
     /**
-     *
+     * Load the object from the eFaps DataBase.
+     * @param _maxDepth maximum depth of objects to follow
+     * @throws EFapsException on error
      */
     public void load(final int _maxDepth)
         throws EFapsException
@@ -87,5 +91,11 @@ public class ObjectList
             object.load(_maxDepth, instances);
             instances.add(object.getInstance());
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

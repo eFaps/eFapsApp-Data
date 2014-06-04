@@ -58,17 +58,21 @@ public class EFapsObject
     /**
      * The list of attributes belonging to this object.
      */
-    @XmlElementWrapper(name = "classifications")
+    @XmlElementWrapper(name = "classifications", namespace = "http://www.efaps.org/xsd")
     @XmlElementRef
     private final List<ClassificationObject> classifications = new ArrayList<ClassificationObject>();
 
+    /**
+     * Default Constructor.
+     */
     public EFapsObject()
     {
         super();
     }
 
     /**
-     * @param _instance
+     * @param _instance instance of the object
+     * @throws EFapsException on error
      */
     public EFapsObject(final Instance _instance)
         throws EFapsException
@@ -86,6 +90,10 @@ public class EFapsObject
         return this.classifications;
     }
 
+    /**
+     * @param _classification classification to be added
+     * @return this for chaining
+     */
     public EFapsObject addClassification(final ClassificationObject _classification)
     {
         if (_classification != null) {
@@ -100,12 +108,21 @@ public class EFapsObject
         return this;
     }
 
+    /**
+     * Load the object from the eFaps DataBase.
+     * @throws EFapsException on error
+     */
     public void load()
         throws EFapsException
     {
         load(10, Collections.<Instance>emptySet());
     }
 
+    /**
+     * Load the object from the eFaps DataBase.
+     * @param _maxDepth maximum depth of objects to follow
+     * @throws EFapsException on error
+     */
     public void load(final int _maxDepth)
         throws EFapsException
     {

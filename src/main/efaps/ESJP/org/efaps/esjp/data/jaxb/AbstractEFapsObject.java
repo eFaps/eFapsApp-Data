@@ -96,7 +96,7 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
     /**
      * The list of attributes belonging to this object.
      */
-    @XmlElementWrapper(name = "attributes")
+    @XmlElementWrapper(name = "attributes", namespace = "http://www.efaps.org/xsd")
     @XmlElementRef
     private final List<AbstractEFapsAttribute<?>> attributes = new ArrayList<AbstractEFapsAttribute<?>>();
 
