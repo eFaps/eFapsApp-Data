@@ -23,10 +23,10 @@ package org.efaps.esjp.data.jaxb.attributes;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.IAttributeType;
 import org.efaps.admin.datamodel.Type;
+import org.efaps.admin.datamodel.attributetype.BitEnumType;
 import org.efaps.admin.datamodel.attributetype.BooleanType;
 import org.efaps.admin.datamodel.attributetype.CompanyLinkType;
 import org.efaps.admin.datamodel.attributetype.ConsortiumLinkType;
@@ -35,6 +35,7 @@ import org.efaps.admin.datamodel.attributetype.CreatorLinkType;
 import org.efaps.admin.datamodel.attributetype.DateTimeType;
 import org.efaps.admin.datamodel.attributetype.DateType;
 import org.efaps.admin.datamodel.attributetype.DecimalType;
+import org.efaps.admin.datamodel.attributetype.EnumType;
 import org.efaps.admin.datamodel.attributetype.IntegerType;
 import org.efaps.admin.datamodel.attributetype.JaxbType;
 import org.efaps.admin.datamodel.attributetype.LinkType;
@@ -47,6 +48,7 @@ import org.efaps.admin.datamodel.attributetype.RateType;
 import org.efaps.admin.datamodel.attributetype.StatusType;
 import org.efaps.admin.datamodel.attributetype.StringType;
 import org.efaps.admin.datamodel.attributetype.TimeType;
+import org.efaps.admin.datamodel.attributetype.TypeType;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.ci.CIAdminDataModel;
@@ -91,7 +93,9 @@ public final class EFapsAttributes
         EFapsAttributes.CLASSMAPPING.put(StatusType.class, StatusTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(StringType.class, StringTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(TimeType.class, TimeTypeAttribute.class);
-        EFapsAttributes.CLASSMAPPING.put(TypeAttribute.class, TypeTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(TypeType.class, TypeTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(BitEnumType.class, BitEnumTypeAttribute.class);
+        EFapsAttributes.CLASSMAPPING.put(EnumType.class, EnumTypeAttribute.class);
     }
 
     /**
