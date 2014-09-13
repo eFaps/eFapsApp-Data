@@ -37,6 +37,7 @@ import org.efaps.util.EFapsException;
 @EFapsUUID("a047b4ba-4a90-4346-a481-dce784838fc0")
 @EFapsRevision("$Rev$")
 public interface IColumnValue
+    extends IColumn
 {
     /**
      * Get the value for a column.

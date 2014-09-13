@@ -22,6 +22,7 @@
 package org.efaps.esjp.data.jaxb;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
+import org.efaps.esjp.data.IColumn;
 import org.efaps.esjp.data.IColumnValue;
 import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
@@ -148,7 +150,7 @@ public class AttrDef
     @Override
     public Boolean isValidate()
     {
-        return (this.fixedValue != null && !this.fixedValue.isEmpty()) ? false : super.isValidate();
+        return this.fixedValue != null && !this.fixedValue.isEmpty() ? false : super.isValidate();
     }
 
     /**
@@ -278,7 +280,7 @@ public class AttrDef
     public boolean applies(final String _typeName)
     {
         boolean ret;
-        if (getTypeRegex() == null || (getTypeRegex() != null && getTypeRegex().isEmpty())) {
+        if (getTypeRegex() == null || getTypeRegex() != null && getTypeRegex().isEmpty()) {
             ret = true;
         } else {
             ret = _typeName.matches(getTypeRegex());
@@ -305,6 +307,31 @@ public class AttrDef
     {
         this.overwrite = _overwrite;
     }
+
+    /**
+     * Get the name of the columns used.
+     *
+     * @return collection of the used columns
+     */
+    public Collection<String> getColumnNames(final Parameter _parameter)
+    {
+        final List<String> ret = new ArrayList<>();
+        if (getFixedValue() == null) {
+            if (getColumn() != null) {
+                ret.add(getColumn());
+            } else {
+                try {
+                    final Class<?> clazz = Class.forName(this.className);
+                    final IColumn column = (IColumn) clazz.newInstance();
+                    ret.addAll(column.getColumnNames(_parameter, this));
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                    AttrDef.LOG.error("Catched error on value evaluation", e);
+                }
+            }
+        }
+        return ret;
+    }
+
 
     @Override
     public String toString()

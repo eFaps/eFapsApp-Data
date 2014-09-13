@@ -21,6 +21,9 @@
 
 package org.efaps.esjp.data.columns;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -71,7 +74,7 @@ public class StatusColumn
             final String statusGrpColumn = ((AttrDef)_def).getProperty("StatusGrpColumn");
             final String statusColumn = ((AttrDef)_def).getProperty("StatusColumn");
 
-            if ((statusGrp == null && statusGrpColumn == null) || (status == null && statusColumn == null)) {
+            if (statusGrp == null && statusGrpColumn == null || status == null && statusColumn == null) {
                 StatusColumn.LOG.error("Property combinations wrong."
                                 + " Only one of each StatusGrp / StatusGrpColumn and Status / StatusColumn");
                 ret = false;
@@ -133,7 +136,17 @@ public class StatusColumn
         StatusColumn.LOG.debug("Row: {} - {}", _idx, stGrp);
         final String statusStr = status == null ? _value[_headers.get(statusColumn)].trim() : status;
         return String.valueOf(stGrp.get(statusStr).getId());
-
     }
 
+    @Override
+    public Collection<String> getColumnNames(final Parameter _parameter,
+                                             final AbstractDef _def)
+    {
+        final List<String> ret = new ArrayList<>();
+        final String dimColumn = ((AttrDef)_def).getProperty("StatusGrpColumn");
+        final String valColumn = ((AttrDef)_def).getProperty("StatusColumn");
+        ret.add(dimColumn);
+        ret.add(valColumn);
+        return ret;
+    }
 }

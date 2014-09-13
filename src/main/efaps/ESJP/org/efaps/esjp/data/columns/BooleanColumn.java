@@ -20,7 +20,10 @@
 
 package org.efaps.esjp.data.columns;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
@@ -132,6 +135,16 @@ public class BooleanColumn
             test = Boolean.valueOf(booleanStr);
         }
         ret = test.toString();
+        return ret;
+    }
+
+    @Override
+    public Collection<String> getColumnNames(final Parameter _parameter,
+                    final AbstractDef _def)
+    {
+        final List<String> ret = new ArrayList<>();
+        final String column = ((AttrDef) _def).getProperty("Column");
+        ret.add(column);
         return ret;
     }
 

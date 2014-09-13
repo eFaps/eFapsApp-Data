@@ -20,6 +20,8 @@
 
 package org.efaps.esjp.data.columns;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import org.efaps.admin.datamodel.Type;
@@ -79,5 +81,13 @@ public class TypeColumn
             ret = false;
         }
         return ret;
+    }
+
+
+    @Override
+    public Collection<String> getColumnNames(final Parameter _parameter,
+                    final AbstractDef _def)
+    {
+        return new ArrayList<>();
     }
 }

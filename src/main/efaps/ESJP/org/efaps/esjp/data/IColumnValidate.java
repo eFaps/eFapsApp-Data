@@ -39,6 +39,7 @@ import org.efaps.util.EFapsException;
 @EFapsUUID("e15916a2-8d7b-45fe-afcf-f790b84c4a5d")
 @EFapsRevision("$Rev$")
 public interface IColumnValidate
+    extends IColumn
 {
     /**
      * Validate a value for a column.

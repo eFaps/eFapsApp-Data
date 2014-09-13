@@ -18,25 +18,33 @@
  * Last Changed By: $Author$
  */
 
-
 package org.efaps.esjp.data;
 
+import java.util.Collection;
+
+import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
-
+import org.efaps.esjp.data.jaxb.AbstractDef;
 
 /**
- * This class must be replaced for customization, therefore it is left empty.
- * Functional description can be found in the related "<code>_base</code>"
- * class.
+ * TODO comment!
  *
  * @author The eFaps Team
  * @version $Id$
  */
-@EFapsUUID("8827d397-6cf5-47e1-a4a0-e10fc28e7f60")
+@EFapsUUID("aa14bd4a-c9f0-40e8-a4bf-865777f22931")
 @EFapsRevision("$Rev$")
-public class CSVTemplate
-    extends CSVTemplate_Base
+public interface IColumn
 {
 
+    /**
+     * Get the name of the columns used.
+     *
+     * @param _parameter Parameter as passed by the eFaps API
+     * @param _def the definition the columns belong to
+     * @return collection of the used columns
+     */
+    public Collection<String> getColumnNames(final Parameter _parameter,
+                                             final AbstractDef _def);
 }

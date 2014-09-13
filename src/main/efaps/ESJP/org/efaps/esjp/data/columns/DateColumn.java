@@ -20,6 +20,9 @@
 
 package org.efaps.esjp.data.columns;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
@@ -108,5 +111,15 @@ public class DateColumn
         final DateTimeFormatter isoFormatter = ISODateTimeFormat.dateTime()
                         .withLocale(Context.getThreadContext().getLocale());
         return dateTime.toString(isoFormatter);
+    }
+
+    @Override
+    public Collection<String> getColumnNames(final Parameter _parameter,
+                                             final AbstractDef _def)
+    {
+        final List<String> ret = new ArrayList<>();
+        final String column = ((AttrDef) _def).getProperty("Column");
+        ret.add(column);
+        return ret;
     }
 }

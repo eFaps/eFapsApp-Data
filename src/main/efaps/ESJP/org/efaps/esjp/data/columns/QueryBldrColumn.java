@@ -21,10 +21,12 @@
 package org.efaps.esjp.data.columns;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.program.esjp.EFapsRevision;
@@ -169,5 +171,15 @@ public class QueryBldrColumn
             QueryBldrColumn.LOG.debug("Row: {} - {}", _idx, ret);
         }
         return ret == null ? null : String.valueOf(ret);
+    }
+
+    @Override
+    public Collection<String> getColumnNames(final Parameter _parameter,
+                                             final AbstractDef _def)
+    {
+        final String[] queryColumns = ((AttrDef) _def).analyseProperty("QueryColumn");
+        final List<String> ret = new ArrayList<>();
+        CollectionUtils.addAll(ret, queryColumns);
+        return ret;
     }
 }

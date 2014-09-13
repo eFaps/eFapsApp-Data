@@ -30,6 +30,8 @@ import javax.xml.bind.Unmarshaller;
 
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Return;
+import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.AttrDef;
 import org.efaps.esjp.data.jaxb.DataImport;
 import org.efaps.esjp.data.jaxb.Definition;
@@ -43,6 +45,8 @@ import org.efaps.util.EFapsException;
  * @author The eFaps Team
  * @version $Id$
  */
+@EFapsUUID("b8bca7a1-a94d-4f47-98f3-0e17903c5624")
+@EFapsRevision("$Rev$")
 public abstract class CSVTemplate_Base
 {
     /**
@@ -60,7 +64,7 @@ public abstract class CSVTemplate_Base
             unmarschaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
             final Object object = unmarschaller.unmarshal(tmpImport.getSource4DataImport(_parameter));
             if (object instanceof DataImport) {
-                createFromDataImport((DataImport) object);
+                createFromDataImport(_parameter, (DataImport) object);
             }
         } catch (final JAXBException e) {
             AbstractImport_Base.LOG.error("Catched error:", e);
@@ -68,14 +72,14 @@ public abstract class CSVTemplate_Base
         return new Return();
     }
 
-    public void createFromDataImport(final DataImport _dataImport)
+    public void createFromDataImport(final Parameter _parameter,
+                                     final DataImport _dataImport)
     {
         final List<String> columns = new ArrayList<>();
         for (final Definition definition : _dataImport.getDefinition()) {
             final TypeDef typeDef = definition.getTypeDef();
             for (final AttrDef attr : typeDef.getAttributes()) {
-                final String attrStr = attr.getColumn();
-                columns.add(attrStr);
+                columns.addAll(attr.getColumnNames(_parameter));
             }
         }
     }

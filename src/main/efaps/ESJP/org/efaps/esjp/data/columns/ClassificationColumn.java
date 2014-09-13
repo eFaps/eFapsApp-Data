@@ -20,6 +20,8 @@
 
 package org.efaps.esjp.data.columns;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +70,7 @@ public class ClassificationColumn
             try {
                 classifications = ((ClassificationDef) _attrDef).getClassifications(_parameter, _headers, _value);
             } finally {
-                if (classifications == null || (classifications != null && classifications.isEmpty())) {
+                if (classifications == null || classifications != null && classifications.isEmpty()) {
                     ret = false;
                     ClassificationColumn.LOG.warn("No classifcation found in row {} for {}", _idx, _attrDef);
                 } else {
@@ -83,4 +85,10 @@ public class ClassificationColumn
         return ret;
     }
 
+    @Override
+    public Collection<String> getColumnNames(final Parameter _parameter,
+                    final AbstractDef _def)
+    {
+        return new ArrayList<>();
+    }
 }

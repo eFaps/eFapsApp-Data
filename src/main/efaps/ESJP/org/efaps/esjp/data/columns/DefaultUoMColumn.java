@@ -20,6 +20,9 @@
 
 package org.efaps.esjp.data.columns;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -66,8 +69,8 @@ public class DefaultUoMColumn
         throws EFapsException
     {
         String ret = null;
-        final String dimColumn = (_attrDef).getProperty("DimensionColumn");
-        final String valColumn = (_attrDef).getProperty("ValueColumn");
+        final String dimColumn = _attrDef.getProperty("DimensionColumn");
+        final String valColumn = _attrDef.getProperty("ValueColumn");
         if (dimColumn != null && valColumn != null) {
             final String dimStr = _value[_headers.get(dimColumn)].trim();
             final String valStr = _value[_headers.get(valColumn)].trim();
@@ -139,6 +142,18 @@ public class DefaultUoMColumn
             DefaultUoMColumn.LOG.error("Validation only works for AttrDef.");
             ret = false;
         }
+        return ret;
+    }
+
+    @Override
+    public Collection<String> getColumnNames(final Parameter _parameter,
+                                             final AbstractDef _def)
+    {
+        final List<String> ret = new ArrayList<>();
+        final String dimColumn = ((AttrDef)_def).getProperty("DimensionColumn");
+        final String valColumn = ((AttrDef)_def).getProperty("ValueColumn");
+        ret.add(dimColumn);
+        ret.add(valColumn);
         return ret;
     }
 }
