@@ -44,6 +44,24 @@
     <version number="1" login="true" reloadCache="true" compile="true">
         <description>Install complete Data Model and UI.</description>
         <script type="groovy">
+            import java.io.File;
+            import java.util.UUID;
+            import org.efaps.admin.runlevel.RunLevel;
+            import org.efaps.admin.user.JAASSystem;
+            import org.efaps.admin.user.Role;
+            import org.efaps.db.Context;
+            import org.efaps.db.QueryBuilder;
+            import org.efaps.db.InstanceQuery;
+            import org.efaps.esjp.admin.ui.UIUpdate;
+
+            EFAPS_LOGGER.info("Importing Data for eFapsApp-Archives");
+
+            RunLevel.init("shell");
+            RunLevel.execute();
+
+            // Data_MyDesk - Admin_Common_MyDesk
+            UIUpdate update = new UIUpdate();
+            update.add2Menu("822a063d-51cb-4899-9f65-3632fbb0eb91", "8d9aae87-fa36-4b62-aba0-dbd9c0ca273a", -1);
         </script>
     </version>
 </install>
