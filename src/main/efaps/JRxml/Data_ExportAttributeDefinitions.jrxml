@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 5.6.1.final using JasperReports Library version 5.5.1  -->
+<!-- 2014-09-30T22:03:47 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Data_ExportAttributeDefinitions" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key" uuid="40f85d7b-f5f5-460d-aeab-7d73c05dbcfc">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<import value="org.efaps.admin.datamodel.Status"/>
+	<queryString language="eFaps">
+		<![CDATA[query type ERP_AttributeDefinitionAbstract select attribute[Value] as Value, type.name as Type,
+		attribute[Description] as Description, attribute[MappingKey] as Key, attribute[StatusAbstract] as StatusId, 
+		status.key as StatusKey, status.type.name as StatusGroup]]>
+	</queryString>
+	<field name="Value" class="java.lang.String"/>
+	<field name="Type" class="java.lang.String"/>
+	<field name="Description" class="java.lang.String"/>
+	<field name="Key" class="java.lang.String"/>
+	<field name="StatusId" class="java.lang.Long"/>
+	<variable name="StatusGroup" class="java.lang.String">
+		<variableExpression><![CDATA[Status.get($F{StatusId}).getStatusGroup().getName()]]></variableExpression>
+	</variable>
+	<variable name="StatusKey" class="java.lang.String">
+		<variableExpression><![CDATA[Status.get($F{StatusId}).getKey()]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="111" height="30" uuid="6b3c9e4d-5c20-44d1-a155-9f5d5f9dfb77"/>
+				<text><![CDATA[Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="111" height="30" uuid="e4c84c6f-7ff9-41f1-8e67-3e8ac1a383f7"/>
+				<text><![CDATA[Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="0" width="178" height="30" uuid="978ec82c-97f9-4eb6-9e94-c5d92b0824f4"/>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="0" width="111" height="30" uuid="983f5a9e-cfb1-4986-99ee-7b45de544a1a"/>
+				<text><![CDATA[MappingKey]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="0" width="111" height="12" uuid="a65055d9-7368-466c-ad87-29a588c667d5">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Value}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="0" width="111" height="12" uuid="50669cde-54d7-472e-9ca6-ba13c7df4e97">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="0" width="178" height="12" uuid="619445c2-14b0-46d5-b375-3c8bcb4435c3">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="0" width="111" height="12" uuid="1efd36f4-7a4a-4563-bf73-d517b54db9c7">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Key}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="675" y="0" width="126" height="12" uuid="2558eafc-937d-4455-8711-b7f92eed9e90"/>
+				<textFieldExpression><![CDATA[$V{StatusGroup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="545" y="0" width="130" height="12" uuid="e1d6c070-5ac6-49dd-88c7-ebe5ae85811d">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$V{StatusKey}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

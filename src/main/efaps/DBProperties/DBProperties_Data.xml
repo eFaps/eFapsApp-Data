@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><!--
 
- Copyright 2003 - 2011 The eFaps Team
+ Copyright 2003 - 2014 The eFaps Team
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,17 +20,18 @@
  Last Changed By: $Author$
 
 -->
-<ui-menu xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<dbproperties xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.xsd">
-    <uuid>8db0a49d-77b3-4dce-a758-ab356818be63</uuid>
-    <file-application>eFapsApp-Data</file-application>
-    <file-revision>$Rev$</file-revision>
-    <definition>
-        <version-expression>(version==latest)</version-expression>
-        <name>Data_DefinitionMyDesk_Menu_Action</name>
-        <childs>
-            <child>Data_DefinitionMyDesk_Menu_Action_CreateImport</child>
-            <child>Data_DefinitionMyDesk_Menu_Action_Delete</child>
-        </childs>
-    </definition>
-</ui-menu>
+    <uuid>7d9ed357-9030-44b9-9398-abe509712b17</uuid>
+    <bundle name="eFapsApp-Data" sequence="1" />
+    <resource>
+        <type>Properties</type>
+        <language />
+        <file>Data.properties</file>
+    </resource>
+    <resource>
+        <type>Properties</type>
+        <language>es</language>
+        <file>Data_es.properties</file>
+    </resource>
+</dbproperties>

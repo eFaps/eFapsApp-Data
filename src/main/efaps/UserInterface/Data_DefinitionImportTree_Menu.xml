@@ -20,19 +20,16 @@
  Last Changed By: $Author$
 
 -->
-<ui-command xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<ui-menu xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.xsd">
-    <uuid>d328ab82-686c-4373-835b-2286645b2faa</uuid>
+    <uuid>4cff96aa-922e-4912-842b-7406becf9e38</uuid>
     <file-application>eFapsApp-Data</file-application>
     <file-revision>$Rev$</file-revision>
     <definition>
         <version-expression>(version==latest)</version-expression>
-        <name>Data_DefinitionExportTree_Menu_Action_Checkin</name>
-        <target>
-            <form>Data_DefinitionCheckinForm</form>
-            <execute program="org.efaps.esjp.common.uiform.Edit" />
-        </target>
-        <property name="Target">modal</property>
-        <property name="TargetMode">edit</property>
+        <name>Data_DefinitionImportTree_Menu</name>
+        <childs>
+            <child>Data_DefinitionImportTree_Menu_Action</child>
+        </childs>
     </definition>
-</ui-command>
+</ui-menu>

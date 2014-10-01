@@ -20,14 +20,20 @@
  Last Changed By: $Author$
 
 -->
-<datamodel-type xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<ui-menu xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.xsd">
-    <uuid>e633e70a-e73a-4780-9485-411cf0b8a245</uuid>
+    <uuid>b190772a-9eae-4ce4-a459-7ec6172d5e9f</uuid>
     <file-application>eFapsApp-Data</file-application>
     <file-revision>$Rev$</file-revision>
     <definition>
         <version-expression>(version==latest)</version-expression>
-        <name>Data_DefinitionExport</name>
-        <parent>Data_DefinitionAbstract</parent>
+        <name>Data_DefinitionImportTree</name>
+        <target>
+            <menu>Data_DefinitionImportTree_Menu</menu>
+            <form>Data_DefinitionImportForm</form>
+        </target>
+        <type>Data_DefinitionImport</type>
+        <property name="Target">content</property>
+        <property name="TargetMode">view</property>
     </definition>
-</datamodel-type>
+</ui-menu>

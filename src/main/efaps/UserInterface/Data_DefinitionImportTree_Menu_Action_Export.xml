@@ -22,14 +22,14 @@
 -->
 <ui-command xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.xsd">
-    <uuid>acd37b0b-5826-44af-8d5a-1b3f29dadc17</uuid>
+    <uuid>06f71ecb-68e5-4bdd-a314-287739a92c6b</uuid>
     <file-application>eFapsApp-Data</file-application>
     <file-revision>$Rev$</file-revision>
     <definition>
         <version-expression>(version==latest)</version-expression>
-        <name>Data_DefinitionExportTree_Menu_Action_Checkout</name>
+        <name>Data_DefinitionImportTree_Menu_Action_Import</name>
         <target>
-            <execute program="org.efaps.esjp.common.file.FileCheckout" />
+            <execute program="org.efaps.esjp.data.DefinitionImport" />
         </target>
         <property name="Target">hidden</property>
         <property name="TargetShowFile">true</property>

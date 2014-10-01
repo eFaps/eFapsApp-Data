@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><!--
 
- Copyright 2003 - 2014 The eFaps Team
+ Copyright 2003 - 2012 The eFaps Team
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,18 +22,17 @@
 -->
 <ui-menu xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.xsd">
-    <uuid>b190772a-9eae-4ce4-a459-7ec6172d5e9f</uuid>
+    <uuid>2ffdea02-8bb5-4359-8c81-c63458c6f861</uuid>
     <file-application>eFapsApp-Data</file-application>
     <file-revision>$Rev$</file-revision>
     <definition>
         <version-expression>(version==latest)</version-expression>
-        <name>Data_DefinitionExportTree</name>
-        <target>
-            <menu>Data_DefinitionExportTree_Menu</menu>
-            <form>Data_DefinitionExportForm</form>
-        </target>
-        <type>Data_DefinitionExport</type>
-        <property name="Target">content</property>
-        <property name="TargetMode">view</property>
+        <name>Data_DefinitionImportTree_Menu_Action</name>
+        <childs>
+            <child>Data_DefinitionImportTree_Menu_Action_Edit</child>
+            <child>Data_DefinitionImportTree_Menu_Action_Checkout</child>
+            <child>Data_DefinitionImportTree_Menu_Action_Checkin</child>
+            <child>Data_DefinitionImportTree_Menu_Action_Import</child>
+        </childs>
     </definition>
 </ui-menu>

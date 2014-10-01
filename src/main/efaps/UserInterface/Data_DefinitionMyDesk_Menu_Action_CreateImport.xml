@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><!--
 
- Copyright 2003 - 2014 The eFaps Team
+ Copyright 2003 - 2011 The eFaps Team
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,16 +20,20 @@
  Last Changed By: $Author$
 
 -->
-<ui-menu xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<ui-command xmlns="http://www.efaps.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.xsd">
-    <uuid>4cff96aa-922e-4912-842b-7406becf9e38</uuid>
+    <uuid>64bef1ca-1e32-4d25-bde4-89cc4ce6cd52</uuid>
     <file-application>eFapsApp-Data</file-application>
     <file-revision>$Rev$</file-revision>
     <definition>
         <version-expression>(version==latest)</version-expression>
-        <name>Data_DefinitionExportTree_Menu</name>
-        <childs>
-            <child>Data_DefinitionExportTree_Menu_Action</child>
-        </childs>
+        <name>Data_DefinitionMyDesk_Menu_Action_CreateImport</name>
+        <target>
+            <form>Data_DefinitionImportForm</form>
+            <execute  program="org.efaps.esjp.common.uiform.Create"/>
+        </target>
+        <property name="Target">modal</property>
+        <property name="TargetCreateType">Data_DefinitionImport</property>
+        <property name="TargetMode">create</property>
     </definition>
-</ui-menu>
+</ui-command>

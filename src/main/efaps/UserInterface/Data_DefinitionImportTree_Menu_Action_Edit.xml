@@ -27,9 +27,9 @@ xsi:schemaLocation="http://www.efaps.org/xsd http://www.efaps.org/xsd/eFaps_1.0.
     <file-revision>$Rev$</file-revision>
     <definition>
         <version-expression>(version==latest)</version-expression>
-        <name>Data_DefinitionExportTree_Menu_Action_Edit</name>
+        <name>Data_DefinitionImportTree_Menu_Action_Edit</name>
         <target>
-            <form>Data_DefinitionExportForm</form>
+            <form>Data_DefinitionImportForm</form>
             <execute program="org.efaps.esjp.common.uiform.Edit" />
         </target>
         <property name="Target">modal</property>
