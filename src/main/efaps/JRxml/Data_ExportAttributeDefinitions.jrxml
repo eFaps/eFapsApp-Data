@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 5.6.1.final using JasperReports Library version 5.5.1  -->
-<!-- 2014-10-01T12:58:42 -->
+<!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.5.1  -->
+<!-- 2014-10-14T18:47:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Data_ExportAttributeDefinitions" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key" uuid="40f85d7b-f5f5-460d-aeab-7d73c05dbcfc">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
@@ -20,7 +20,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<import value="org.efaps.admin.datamodel.Status"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="GyGK 104"/>
 	<queryString language="eFaps">
 		<![CDATA[query type ERP_AttributeDefinitionAbstract select attribute[Value] as Value, type.name as Type,
 		attribute[Description] as Description, attribute[MappingKey] as Key, 
