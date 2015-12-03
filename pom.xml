@@ -152,7 +152,7 @@
              <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                
+
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>${basedir}/src/test/resources/testng.xml</suiteXmlFile>
@@ -174,9 +174,9 @@
         </dependency>
         <!-- all dependencies are met by the kernel -->
         <dependency>
-            <groupId>com.brsanthu</groupId>
+            <groupId>org.efaps</groupId>
             <artifactId>data-exporter</artifactId>
-            <version>1.0.4</version>
+            <version>${efaps.dataexporter.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>

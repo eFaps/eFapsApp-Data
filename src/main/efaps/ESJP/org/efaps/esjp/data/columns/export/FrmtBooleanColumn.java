@@ -21,8 +21,8 @@
 
 package org.efaps.esjp.data.columns.export;
 
-import com.brsanthu.dataexporter.model.AlignType;
-import com.brsanthu.dataexporter.model.BooleanColumn;
+import org.efaps.dataexporter.model.AlignType;
+import org.efaps.dataexporter.model.BooleanColumn;
 
 
 /**

@@ -1,7 +1,7 @@
 package org.efaps.esjp.data.columns.export;
 
-import com.brsanthu.dataexporter.model.CellDetails;
-import com.brsanthu.dataexporter.model.StringColumn;
+import org.efaps.dataexporter.model.CellDetails;
+import org.efaps.dataexporter.model.StringColumn;
 
 public class FrmtColumn
     extends StringColumn
