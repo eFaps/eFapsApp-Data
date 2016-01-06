@@ -6,6 +6,7 @@
         <parameter name="ciClass" value="org.efaps.esjp.ci.CIData"/>
         <packages>
             <package name="org.efaps.tests.ci.*"></package>
+            <package name="org.efaps.tests.others.*"></package>
         </packages>
     </test>
 </suite>
