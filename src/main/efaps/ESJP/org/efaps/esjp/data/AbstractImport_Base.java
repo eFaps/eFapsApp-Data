@@ -194,7 +194,7 @@ public abstract class AbstractImport_Base
                         Boolean check = attr.validate(_parameter, headers, value, j);
                         if (definition.hasKey() && attr.isParentLink()) {
                             final String parentKey = attr.getValue(_parameter, headers, value, j);
-                            if (!keys.containsKey(parentKey)) {
+                            if (!parentKey.isEmpty() && !keys.containsKey(parentKey)) {
                                 AbstractImport_Base.LOG.error("ParentKey '{}' in row {} not found.",
                                                 parentKey, j);
                                 check = false;
