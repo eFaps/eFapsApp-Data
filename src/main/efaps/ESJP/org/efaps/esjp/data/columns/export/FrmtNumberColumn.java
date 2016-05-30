@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
  */
 public class FrmtNumberColumn
     extends NumberColumn
@@ -44,30 +43,64 @@ public class FrmtNumberColumn
      */
     private static final Logger LOG = LoggerFactory.getLogger(FrmtNumberColumn.class);
 
+    /** The formatter. */
     private DecimalFormat formatter = null;
 
+    /** The locale. */
     private Locale locale;
 
+    /** The leading zeros. */
+    private int leadingZeros = -1;
+
     /**
-     * @param _name
-     * @param _title
-     * @param _width
-     * @param _formatter
+     * Instantiates a new frmt number column.
+     *
+     * @param _name the _name
+     * @param _width the _width
+     * @param _precision the _precision
      */
     public FrmtNumberColumn(final String _name,
                             final int _width,
                             final int _precision)
     {
-        super(_name, _width, _precision);
-        setGrouping(false);
+        this(_name, _width, _precision, -1);
     }
 
+    /**
+     * Instantiates a new frmt number column.
+     *
+     * @param _name the _name
+     * @param _width the _width
+     * @param _precision the _precision
+     * @param _leadingZeros the _leading zeros
+     */
+    public FrmtNumberColumn(final String _name,
+                            final int _width,
+                            final int _precision,
+                            final int _leadingZeros)
+    {
+        super(_name, _width, _precision);
+        setGrouping(false);
+        setLeadingZeros(_leadingZeros);
+    }
+
+    /**
+     * Sets the locale.
+     *
+     * @param _locale the _locale
+     * @return the frmt number column
+     */
     public FrmtNumberColumn setLocale(final Locale _locale)
     {
         this.locale = _locale;
         return this;
     }
 
+    /**
+     * Gets the locale.
+     *
+     * @return the locale
+     */
     public Locale getLocale()
     {
         Locale ret;
@@ -77,6 +110,28 @@ public class FrmtNumberColumn
             ret = this.locale;
         }
         return ret;
+    }
+
+    /**
+     * Getter method for the instance variable {@link #leadingZeros}.
+     *
+     * @return value of instance variable {@link #leadingZeros}
+     */
+    public int getLeadingZeros()
+    {
+        return this.leadingZeros;
+    }
+
+    /**
+     * Setter method for instance variable {@link #leadingZeros}.
+     *
+     * @param _leadingZeros value for instance variable {@link #leadingZeros}
+     * @return the frmt number column
+     */
+    public FrmtNumberColumn setLeadingZeros(final int _leadingZeros)
+    {
+        this.leadingZeros = _leadingZeros;
+        return this;
     }
 
     @Override
@@ -98,10 +153,13 @@ public class FrmtNumberColumn
             this.formatter = (DecimalFormat) NumberFormat.getNumberInstance(getLocale());
 
             if (getPrecision() > 0) {
-                this.formatter.applyPattern(formatString + "." + Util.createString("0", getPrecision()));
-            } else {
-                this.formatter.applyPattern(formatString);
+                formatString = formatString + "." + Util.createString("0", getPrecision());
             }
+
+            if (getLeadingZeros() > 0 ) {
+                formatString = Util.createString("0", getLeadingZeros() - 1) + formatString;
+            }
+            this.formatter.applyPattern(formatString);
         }
 
         String formattedString = null;
@@ -117,5 +175,4 @@ public class FrmtNumberColumn
         }
         return formattedString;
     }
-
 }
