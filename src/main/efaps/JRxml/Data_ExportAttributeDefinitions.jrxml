@@ -2,148 +2,149 @@
 <!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.5.1  -->
 <!-- 2014-10-14T18:47:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Data_ExportAttributeDefinitions" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key" uuid="40f85d7b-f5f5-460d-aeab-7d73c05dbcfc">
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
-	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
-	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
-	<property name="net.sf.jasperreports.export.xls.ignore.cell.border" value="true"/>
-	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1" value="columnHeader"/>
-	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.2" value="pageHeader"/>
-	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="pageFooter"/>
-	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.4" value="lastPageFooter"/>
-	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.5" value="columnFooter"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="GyGK 104"/>
-	<queryString language="eFaps">
-		<![CDATA[query type ERP_AttributeDefinitionAbstract select attribute[Value] as Value, type.name as Type,
-		attribute[Description] as Description, attribute[MappingKey] as Key, 
-		status.key as StatusKey, status.type.name as StatusGroup]]>
-	</queryString>
-	<field name="Value" class="java.lang.String"/>
-	<field name="Type" class="java.lang.String"/>
-	<field name="Description" class="java.lang.String"/>
-	<field name="Key" class="java.lang.String"/>
-	<field name="StatusKey" class="java.lang.String"/>
-	<field name="StatusGroup" class="java.lang.String"/>
-	<sortField name="Type"/>
-	<sortField name="Value"/>
-	<columnHeader>
-		<band height="12" splitType="Stretch">
-			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
-			<property name="local_mesure_unitheight" value="pixel"/>
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<staticText>
-				<reportElement x="0" y="0" width="137" height="12" uuid="6b3c9e4d-5c20-44d1-a155-9f5d5f9dfb77">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<text><![CDATA[Value]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="137" y="0" width="133" height="12" uuid="e4c84c6f-7ff9-41f1-8e67-3e8ac1a383f7">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<text><![CDATA[Type]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="270" y="0" width="133" height="12" uuid="978ec82c-97f9-4eb6-9e94-c5d92b0824f4">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<text><![CDATA[Description]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="403" y="0" width="133" height="12" uuid="983f5a9e-cfb1-4986-99ee-7b45de544a1a">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<text><![CDATA[MappingKey]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="536" y="0" width="133" height="12" uuid="dce4495e-d24b-4890-a304-d52e8f8633da">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<text><![CDATA[StatusKey]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="669" y="0" width="133" height="12" uuid="3d9af66f-c2e3-4bff-a746-338fc854d42d">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<text><![CDATA[StatusGroup]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="12" splitType="Stretch">
-			<property name="local_mesure_unitheight" value="pixel"/>
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="137" height="12" isPrintWhenDetailOverflows="true" uuid="a65055d9-7368-466c-ad87-29a588c667d5">
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{Value}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="137" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="50669cde-54d7-472e-9ca6-ba13c7df4e97">
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{Type}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="270" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="619445c2-14b0-46d5-b375-3c8bcb4435c3">
-					<property name="local_mesure_unity" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="403" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="1efd36f4-7a4a-4563-bf73-d517b54db9c7">
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{Key}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="536" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="2558eafc-937d-4455-8711-b7f92eed9e90"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{StatusGroup}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="669" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="e1d6c070-5ac6-49dd-88c7-ebe5ae85811d">
-					<property name="local_mesure_unity" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{StatusKey}]]></textFieldExpression>
-			</textField>
-		</band>
-	</detail>
+    <property name="org.efaps.admin.program.jasper.EFapsApplication" value="eFapsApp-Data"/>
+    <property name="com.jaspersoft.studio.unit." value="pixel"/>
+    <property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+    <property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+    <property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+    <property name="net.sf.jasperreports.export.xls.ignore.cell.border" value="true"/>
+    <property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1" value="columnHeader"/>
+    <property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.2" value="pageHeader"/>
+    <property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="pageFooter"/>
+    <property name="net.sf.jasperreports.export.xls.exclude.origin.band.4" value="lastPageFooter"/>
+    <property name="net.sf.jasperreports.export.xls.exclude.origin.band.5" value="columnFooter"/>
+    <property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="GyGK 104"/>
+    <queryString language="eFaps">
+        <![CDATA[query type ERP_AttributeDefinitionAbstract select attribute[Value] as Value, type.name as Type,
+        attribute[Description] as Description, attribute[MappingKey] as Key,
+        status.key as StatusKey, status.type.name as StatusGroup]]>
+    </queryString>
+    <field name="Value" class="java.lang.String"/>
+    <field name="Type" class="java.lang.String"/>
+    <field name="Description" class="java.lang.String"/>
+    <field name="Key" class="java.lang.String"/>
+    <field name="StatusKey" class="java.lang.String"/>
+    <field name="StatusGroup" class="java.lang.String"/>
+    <sortField name="Type"/>
+    <sortField name="Value"/>
+    <columnHeader>
+        <band height="12" splitType="Stretch">
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+            <property name="local_mesure_unitheight" value="pixel"/>
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <staticText>
+                <reportElement x="0" y="0" width="137" height="12" uuid="6b3c9e4d-5c20-44d1-a155-9f5d5f9dfb77">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <text><![CDATA[Value]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="137" y="0" width="133" height="12" uuid="e4c84c6f-7ff9-41f1-8e67-3e8ac1a383f7">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <text><![CDATA[Type]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="270" y="0" width="133" height="12" uuid="978ec82c-97f9-4eb6-9e94-c5d92b0824f4">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <text><![CDATA[Description]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="403" y="0" width="133" height="12" uuid="983f5a9e-cfb1-4986-99ee-7b45de544a1a">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <text><![CDATA[MappingKey]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="536" y="0" width="133" height="12" uuid="dce4495e-d24b-4890-a304-d52e8f8633da">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <text><![CDATA[StatusKey]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="669" y="0" width="133" height="12" uuid="3d9af66f-c2e3-4bff-a746-338fc854d42d">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <text><![CDATA[StatusGroup]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="12" splitType="Stretch">
+            <property name="local_mesure_unitheight" value="pixel"/>
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="137" height="12" isPrintWhenDetailOverflows="true" uuid="a65055d9-7368-466c-ad87-29a588c667d5">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{Value}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement stretchType="RelativeToTallestObject" x="137" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="50669cde-54d7-472e-9ca6-ba13c7df4e97">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{Type}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement stretchType="RelativeToTallestObject" x="270" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="619445c2-14b0-46d5-b375-3c8bcb4435c3">
+                    <property name="local_mesure_unity" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement stretchType="RelativeToTallestObject" x="403" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="1efd36f4-7a4a-4563-bf73-d517b54db9c7">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{Key}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement stretchType="RelativeToTallestObject" x="536" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="2558eafc-937d-4455-8711-b7f92eed9e90"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{StatusGroup}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement stretchType="RelativeToTallestObject" x="669" y="0" width="133" height="12" isPrintWhenDetailOverflows="true" uuid="e1d6c070-5ac6-49dd-88c7-ebe5ae85811d">
+                    <property name="local_mesure_unity" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{StatusKey}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
 </jasperReport>
