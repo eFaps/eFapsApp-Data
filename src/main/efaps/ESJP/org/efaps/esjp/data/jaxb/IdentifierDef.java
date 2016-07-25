@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.esjp.data.IIdentifier;
@@ -45,10 +45,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("543dbab9-768d-4ccf-bac5-e95517891124")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "identifier", namespace = "http://www.efaps.org/xsd")
 @XmlType(name = "identifier", namespace = "http://www.efaps.org/xsd")
@@ -162,7 +162,7 @@ public class IdentifierDef
      */
     public String[] analyseProperty(final String _name)
     {
-        final List<String> ret = new ArrayList<String>();
+        final List<String> ret = new ArrayList<>();
         //search for base name
         String valTmp = getProperty(_name);
         if (valTmp != null) {

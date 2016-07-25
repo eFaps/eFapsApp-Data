@@ -21,7 +21,7 @@
 
 package org.efaps.esjp.data.util;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 
@@ -29,10 +29,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("e54e51c4-cd72-4846-8e73-33c0a540b3e7")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public interface DataSettings
 {
 }

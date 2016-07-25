@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.datamodel.Type;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.columns.TypeColumn;
 import org.efaps.util.cache.CacheReloadException;
@@ -41,10 +41,10 @@ import org.efaps.util.cache.CacheReloadException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("4eef5d83-6cdd-4597-b68c-7a0811afe75c")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "type", namespace = "http://www.efaps.org/xsd")
 @XmlType(name = "type", namespace = "http://www.efaps.org/xsd")
@@ -71,7 +71,7 @@ public class TypeDef
      */
     public List<AttrDef> getAttributes()
     {
-        return this.attributes == null ? new ArrayList<AttrDef>() : this.attributes;
+        return this.attributes == null ? new ArrayList<>() : this.attributes;
     }
 
     /**
@@ -100,7 +100,7 @@ public class TypeDef
      */
     public List<ClassificationDef> getClassifications()
     {
-        return this.classifications == null ? new ArrayList<ClassificationDef>() : this.classifications;
+        return this.classifications == null ? new ArrayList<>() : this.classifications;
     }
 
     /**
@@ -110,7 +110,7 @@ public class TypeDef
     public String getValidateClass()
     {
         String ret = super.getValidateClass();
-        if (ret == null || (ret != null && ret.isEmpty())) {
+        if (ret == null || ret != null && ret.isEmpty()) {
             ret = TypeColumn.class.getName();
         }
         return ret;

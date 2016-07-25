@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.Dimension;
 import org.efaps.admin.datamodel.Dimension.UoM;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.util.EFapsException;
@@ -39,10 +39,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("fcc1b9fa-6b09-4e80-9874-811190c1dea2")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "uom", namespace = "http://www.efaps.org/xsd")
 public class UoMTypeAttribute

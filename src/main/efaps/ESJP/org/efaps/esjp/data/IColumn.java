@@ -23,7 +23,7 @@ package org.efaps.esjp.data;
 import java.util.Collection;
 
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.AbstractDef;
 
@@ -31,10 +31,10 @@ import org.efaps.esjp.data.jaxb.AbstractDef;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("aa14bd4a-c9f0-40e8-a4bf-865777f22931")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public interface IColumn
 {
 

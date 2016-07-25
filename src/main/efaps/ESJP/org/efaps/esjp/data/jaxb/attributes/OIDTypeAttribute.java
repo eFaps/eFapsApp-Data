@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.util.EFapsException;
@@ -35,10 +35,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("3030a205-7390-44f8-8220-e29e5ba673c9")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "oid", namespace = "http://www.efaps.org/xsd")
 public class OIDTypeAttribute

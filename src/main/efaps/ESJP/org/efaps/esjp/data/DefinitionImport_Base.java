@@ -22,7 +22,7 @@ package org.efaps.esjp.data;
 
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Return;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.common.jasperreport.StandartReport;
 import org.efaps.esjp.common.parameter.ParameterUtil;
@@ -34,10 +34,10 @@ import org.efaps.util.EFapsException;
  * class.
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("5b73a63b-7dd3-4af6-9a1c-d374a6e6c1d9")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class DefinitionImport_Base
 {
 

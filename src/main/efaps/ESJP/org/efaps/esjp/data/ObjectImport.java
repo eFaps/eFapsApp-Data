@@ -20,7 +20,7 @@
 
 package org.efaps.esjp.data;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 /**
@@ -29,10 +29,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  * class.
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("397d822b-c6d8-419a-b1e4-0de618c2f42c")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class ObjectImport
     extends ObjectImport_Base
 {

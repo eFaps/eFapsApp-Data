@@ -29,7 +29,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.db.InstanceQuery;
@@ -47,10 +47,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("ba04bec1-c2a5-4030-b986-2ae2b455355b")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class QueryColumn
     implements IColumnValue, IColumnValidate
 {
@@ -89,11 +89,11 @@ public class QueryColumn
                     ret = false;
                 } else {
                     final String type = _value[_headers.get(typeColumn)].trim();
-                    final List<String>queryAttr = new ArrayList<String>();
+                    final List<String>queryAttr = new ArrayList<>();
                     for (final String queryAttribute : queryAttributes) {
                         queryAttr.add(_value[_headers.get(queryAttribute)].trim());
                     }
-                    final List<String>queryVals = new ArrayList<String>();
+                    final List<String>queryVals = new ArrayList<>();
                     for (final String queryValue : queryValues) {
                         queryVals.add(_value[_headers.get(queryValue)].trim());
                     }
@@ -144,11 +144,11 @@ public class QueryColumn
         final String[] queryAttributes = _attrDef.analyseProperty("QueryAttribute");
         final String[] queryValues = _attrDef.analyseProperty("QueryValue");
         final String type = _value[_headers.get(typeColumn)].trim();
-        final List<String>queryAttr = new ArrayList<String>();
+        final List<String>queryAttr = new ArrayList<>();
         for (final String queryAttribute : queryAttributes) {
             queryAttr.add(_value[_headers.get(queryAttribute)].trim());
         }
-        final List<String>queryVals = new ArrayList<String>();
+        final List<String>queryVals = new ArrayList<>();
         for (final String queryValue : queryValues) {
             queryVals.add(_value[_headers.get(queryValue)].trim());
         }

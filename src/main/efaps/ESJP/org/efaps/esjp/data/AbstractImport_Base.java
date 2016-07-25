@@ -44,7 +44,7 @@ import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Parameter.ParameterValues;
 import org.efaps.admin.event.Return;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.db.Instance;
@@ -73,10 +73,10 @@ import au.com.bytecode.opencsv.CSVReader;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("b3f81d2e-2352-43ab-acb2-2c98d2c32c05")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public abstract class AbstractImport_Base
 {
 
@@ -158,7 +158,7 @@ public abstract class AbstractImport_Base
     {
         final DataImport dataImp = (DataImport) _object;
         dataImp.setUrl(getUrl(_parameter));
-        final Map<String, Instance> keys = new HashMap<String, Instance>();
+        final Map<String, Instance> keys = new HashMap<>();
         for (final Definition definition : dataImp.getDefinition()) {
             AbstractImport_Base.LOG.info("Starting with definition: '{}'", definition.getName());
             final List<String[]> values = readCSV(_parameter, dataImp, definition);
@@ -166,7 +166,7 @@ public abstract class AbstractImport_Base
             values.remove(0);
             int j = 1;
             boolean execute = true;
-            final Set<Integer> skip = new HashSet<Integer>();
+            final Set<Integer> skip = new HashSet<>();
             AbstractImport_Base.LOG.info("Validating definition: '{}'", definition.getName());
             // validate
             for (final String[] value : values) {
@@ -224,7 +224,7 @@ public abstract class AbstractImport_Base
                     keys.put(value[headers.get(definition.getKeyColumn())], null);
                 }
             }
-            if ((execute && definition.isExecute()) || (definition.isExecute() && definition.isForce())) {
+            if (execute && definition.isExecute() || definition.isExecute() && definition.isForce()) {
                 AbstractImport_Base.LOG.info("Importing definition: '{}'", definition.getName());
                 // create
                 j = 1;
@@ -246,7 +246,7 @@ public abstract class AbstractImport_Base
                             isUpdate = false;
                         }
                         for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
-                            if ((!isUpdate || (isUpdate && attr.isOverwrite()))
+                            if ((!isUpdate || isUpdate && attr.isOverwrite())
                                             && attr.applies(type.getName())) {
                                 if (definition.hasKey() && attr.isParentLink()) {
                                     final String parentKey = attr.getValue(_parameter, headers, value, j);
@@ -345,7 +345,7 @@ public abstract class AbstractImport_Base
     {
         AbstractImport_Base.LOG.trace("preparing updates for classifications");
         final List<ClassificationDef> classifications = _def.getTypeDef().getClassifications();
-        final Set<Classification> inserted = new HashSet<Classification>();
+        final Set<Classification> inserted = new HashSet<>();
         for (final ClassificationDef classification : classifications) {
             AbstractImport_Base.LOG.trace("preparing inserts for: {}", classification);
             for (final Classification clazz : classification.getClassifications(_parameter, _headers, _value)) {
@@ -376,7 +376,7 @@ public abstract class AbstractImport_Base
                     final ClassificationDef clazzDef = _def.getTypeDef().getClassificationDefByName(clazz.getName());
                     if (clazzDef != null) {
                         for (final AttrDef attr : clazzDef.getAttributes()) {
-                            if ((!isUpdate || (isUpdate && attr.isOverwrite()))) {
+                            if (!isUpdate || isUpdate && attr.isOverwrite()) {
                                 classUpdate.add(attr.getName(), attr.getValue(_parameter, _headers, _value, _idx));
                             }
                         }
@@ -398,7 +398,7 @@ public abstract class AbstractImport_Base
                                               final List<String[]> _values)
     {
         AbstractImport_Base.LOG.trace("Reading the Header from the CSVFile.");
-        final Map<String, Integer> ret = new HashMap<String, Integer>();
+        final Map<String, Integer> ret = new HashMap<>();
         final String[] vals = _values.get(0);
         int i = 0;
         for (final String val : vals) {
@@ -421,7 +421,7 @@ public abstract class AbstractImport_Base
                                      final DataImport _dataImport,
                                      final Definition _definition)
     {
-        final List<String[]> ret = new ArrayList<String[]>();
+        final List<String[]> ret = new ArrayList<>();
         try {
             AbstractImport_Base.LOG.trace("Reading the CSV File.");
             final URL relative = new URL(_dataImport.getUrl(), _definition.getFile());
@@ -457,7 +457,7 @@ public abstract class AbstractImport_Base
     protected Class<?>[] getClasses()
     {
         AbstractImport_Base.LOG.trace("Getting the Classes for the JAXBContext.");
-        final List<Class<?>> clazzes = new ArrayList<Class<?>>();
+        final List<Class<?>> clazzes = new ArrayList<>();
         clazzes.addAll(EFapsAttributes.CLASSMAPPING.values());
         clazzes.add(EFapsObject.class);
         clazzes.add(ObjectList.class);

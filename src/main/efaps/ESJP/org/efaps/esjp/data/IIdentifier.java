@@ -23,7 +23,7 @@ package org.efaps.esjp.data;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.esjp.data.jaxb.Definition;
@@ -33,10 +33,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("ba21a89a-bdb6-40c6-92bc-ef73dc789cf9")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public interface IIdentifier
 {
 

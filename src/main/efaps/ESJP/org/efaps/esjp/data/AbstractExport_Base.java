@@ -33,7 +33,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Return;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.EFapsObject;
 import org.efaps.esjp.data.jaxb.ObjectList;
@@ -48,10 +48,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("a2237db1-0497-4723-9e64-61f379270e83")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public abstract class AbstractExport_Base
 {
     /**
@@ -109,7 +109,7 @@ public abstract class AbstractExport_Base
     {
         AbstractImport_Base.LOG.trace("Getting the Classes for the JAXBContext.");
 
-        final List<Class<?>> clazzes = new ArrayList<Class<?>>();
+        final List<Class<?>> clazzes = new ArrayList<>();
         clazzes.addAll(EFapsAttributes.CLASSMAPPING.values());
         clazzes.add(EFapsObject.class);
         clazzes.add(ObjectList.class);

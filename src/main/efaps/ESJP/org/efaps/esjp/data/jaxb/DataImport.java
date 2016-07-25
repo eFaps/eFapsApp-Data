@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 
@@ -38,10 +38,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("b4d9c588-b8fe-4059-88d0-e911905d0a93")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlRootElement(name = "data-import", namespace = "http://www.efaps.org/xsd")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso(Definition.class)

@@ -30,7 +30,7 @@ import java.util.UUID;
 import org.efaps.admin.datamodel.Status;
 import org.efaps.admin.datamodel.Status.StatusGroup;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.common.AbstractCommon;
 import org.efaps.esjp.data.IColumnValidate;
@@ -46,10 +46,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("9a4553df-941c-4356-aa41-fb4e5fd04581")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class StatusColumn
     extends AbstractCommon
     implements IColumnValue, IColumnValidate

@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.IColumnValidate;
 import org.efaps.util.EFapsException;
@@ -41,10 +41,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("fb8cec2f-6d3f-431c-8679-1faa5a1428c9")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "abstractDef", namespace = "http://www.efaps.org/xsd")
 @XmlType(name = "abstractDef", namespace = "http://www.efaps.org/xsd")

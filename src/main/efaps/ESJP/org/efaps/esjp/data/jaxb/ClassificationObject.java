@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.efaps.admin.datamodel.Classification;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.db.Instance;
@@ -37,10 +37,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("0bb639e3-7c40-4063-bf53-20564d32d6e0")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "classification", namespace = "http://www.efaps.org/xsd")
 public class ClassificationObject

@@ -22,16 +22,16 @@ package org.efaps.esjp.data.jaxb.adapter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 /**
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("772a3d80-f42d-49e0-8a77-f7267ed1c594")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class JaxbContentAdapter
     extends XmlAdapter<String, String>
 {

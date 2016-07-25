@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.efaps.admin.datamodel.Attribute;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.esjp.data.jaxb.adapter.DateTimeAdapter;
@@ -37,11 +37,11 @@ import org.joda.time.DateTime;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  * @param <T> subclass of this class to allow chaining
  */
 @EFapsUUID("be3296f6-32a9-4523-97ba-d644fa87d5d4")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 public abstract class AbstractDateTimeEFapsAttribute<T extends AbstractDateTimeEFapsAttribute<T>>
     extends AbstractEFapsAttribute<T>

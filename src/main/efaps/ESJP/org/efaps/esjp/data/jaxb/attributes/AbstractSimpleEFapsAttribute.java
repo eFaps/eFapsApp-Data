@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 
@@ -33,10 +33,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("b34f1961-3e5f-4199-9ea6-9cc6d5e10d93")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 public abstract class AbstractSimpleEFapsAttribute<T extends AbstractSimpleEFapsAttribute<T, S>, S>
     extends AbstractEFapsAttribute<T>

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 
@@ -37,10 +37,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("26f2ca5e-78aa-4508-9758-3b24c11a7db4")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "property", namespace = "http://www.efaps.org/xsd")
 @XmlType(name = "property", namespace = "http://www.efaps.org/xsd")

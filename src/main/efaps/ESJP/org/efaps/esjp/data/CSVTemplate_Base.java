@@ -30,7 +30,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Return;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.AttrDef;
 import org.efaps.esjp.data.jaxb.DataImport;
@@ -43,10 +43,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("b8bca7a1-a94d-4f47-98f3-0e17903c5624")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public abstract class CSVTemplate_Base
 {
     /**

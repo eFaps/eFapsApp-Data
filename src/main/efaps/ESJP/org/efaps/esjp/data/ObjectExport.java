@@ -21,7 +21,7 @@
 
 package org.efaps.esjp.data;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 
@@ -31,10 +31,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  * class.
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("ce2d4f7a-f144-4de7-89ae-6a486ac9f073")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class ObjectExport
     extends ObjectExport_Base
 {

@@ -22,7 +22,7 @@ package org.efaps.esjp.data.jaxb.adapter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.joda.time.DateTime;
 
@@ -30,10 +30,10 @@ import org.joda.time.DateTime;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("dbb86f99-be43-463b-97fa-3faab4daae91")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class DateTimeAdapter
     extends XmlAdapter<String, DateTime>
 {

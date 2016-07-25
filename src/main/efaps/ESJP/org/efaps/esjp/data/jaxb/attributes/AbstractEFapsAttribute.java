@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.efaps.admin.datamodel.Attribute;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.esjp.data.jaxb.AbstractEFapsObject;
@@ -37,10 +37,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("e7a3acbb-66c0-49de-914a-4d599c662c59")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 public abstract class AbstractEFapsAttribute<T extends AbstractEFapsAttribute<T>>
 {

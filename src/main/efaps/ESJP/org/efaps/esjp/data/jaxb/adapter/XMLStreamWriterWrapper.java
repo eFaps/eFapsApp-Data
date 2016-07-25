@@ -26,17 +26,17 @@ import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 /**
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("649a63aa-673f-4256-a025-46f12b0c69a8")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class XMLStreamWriterWrapper
     implements XMLStreamWriter
 {
@@ -48,7 +48,7 @@ public class XMLStreamWriterWrapper
 
     private State state = State.SEEN_NOTHING;
 
-    private final Stack<State> stateStack = new Stack<State>();
+    private final Stack<State> stateStack = new Stack<>();
 
     private final String indentStep = "    ";
     private int depth = 0;
@@ -109,6 +109,7 @@ public class XMLStreamWriterWrapper
         this.writer = _writer;
     }
 
+    @Override
     public void writeStartElement(final String _localName)
         throws XMLStreamException
     {
@@ -116,6 +117,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeStartElement(_localName);
     }
 
+    @Override
     public void writeStartElement(final String _namespaceURI,
                                   final String _localName)
         throws XMLStreamException
@@ -124,6 +126,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeStartElement(_namespaceURI, _localName);
     }
 
+    @Override
     public void writeStartElement(final String _prefix,
                                   final String _localName,
                                   final String _namespaceURI)
@@ -133,6 +136,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeStartElement(_prefix, _localName, _namespaceURI);
     }
 
+    @Override
     public void writeEmptyElement(final String _namespaceURI,
                                   final String _localName)
         throws XMLStreamException
@@ -141,6 +145,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeEmptyElement(_namespaceURI, _localName);
     }
 
+    @Override
     public void writeEmptyElement(final String _prefix,
                                   final String _localName,
                                   final String _namespaceURI)
@@ -150,6 +155,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeEmptyElement(_prefix, _localName, _namespaceURI);
     }
 
+    @Override
     public void writeEmptyElement(final String _localName)
         throws XMLStreamException
     {
@@ -157,6 +163,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeEmptyElement(_localName);
     }
 
+    @Override
     public void writeEndElement()
         throws XMLStreamException
     {
@@ -164,24 +171,28 @@ public class XMLStreamWriterWrapper
         this.writer.writeEndElement();
     }
 
+    @Override
     public void writeEndDocument()
         throws XMLStreamException
     {
         this.writer.writeEndDocument();
     }
 
+    @Override
     public void close()
         throws XMLStreamException
     {
         this.writer.close();
     }
 
+    @Override
     public void flush()
         throws XMLStreamException
     {
         this.writer.flush();
     }
 
+    @Override
     public void writeAttribute(final String _localName,
                                final String _value)
         throws XMLStreamException
@@ -189,6 +200,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeAttribute(_localName, _value);
     }
 
+    @Override
     public void writeAttribute(final String _prefix,
                                final String _namespaceURI,
                                final String _localName,
@@ -198,6 +210,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeAttribute(_prefix, _namespaceURI, _localName, _value);
     }
 
+    @Override
     public void writeAttribute(final String _namespaceURI,
                                final String _localName,
                                final String _value)
@@ -206,6 +219,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeAttribute(_namespaceURI, _localName, _value);
     }
 
+    @Override
     public void writeNamespace(final String _prefix,
                                final String _namespaceURI)
         throws XMLStreamException
@@ -213,24 +227,28 @@ public class XMLStreamWriterWrapper
         this.writer.writeNamespace(_prefix, _namespaceURI);
     }
 
+    @Override
     public void writeDefaultNamespace(final String _namespaceURI)
         throws XMLStreamException
     {
         this.writer.writeDefaultNamespace(_namespaceURI);
     }
 
+    @Override
     public void writeComment(final String _data)
         throws XMLStreamException
     {
         this.writer.writeComment(_data);
     }
 
+    @Override
     public void writeProcessingInstruction(final String _target)
         throws XMLStreamException
     {
         this.writer.writeProcessingInstruction(_target);
     }
 
+    @Override
     public void writeProcessingInstruction(final String _target,
                                            final String _data)
         throws XMLStreamException
@@ -238,6 +256,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeProcessingInstruction(_target, _data);
     }
 
+    @Override
     public void writeCData(final String _data)
         throws XMLStreamException
     {
@@ -245,18 +264,21 @@ public class XMLStreamWriterWrapper
         this.writer.writeCData(_data);
     }
 
+    @Override
     public void writeDTD(final String _dtd)
         throws XMLStreamException
     {
         this.writer.writeDTD(_dtd);
     }
 
+    @Override
     public void writeEntityRef(final String _name)
         throws XMLStreamException
     {
         this.writer.writeEntityRef(_name);
     }
 
+    @Override
     public void writeStartDocument()
         throws XMLStreamException
     {
@@ -264,6 +286,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeCharacters("\n");
     }
 
+    @Override
     public void writeStartDocument(final String _version)
         throws XMLStreamException
     {
@@ -271,6 +294,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeCharacters("\n");
     }
 
+    @Override
     public void writeStartDocument(final String _encoding,
                                    final String _version)
         throws XMLStreamException
@@ -279,6 +303,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeCharacters("\n");
     }
 
+    @Override
     public void writeCharacters(final String _text)
         throws XMLStreamException
     {
@@ -286,6 +311,7 @@ public class XMLStreamWriterWrapper
         this.writer.writeCharacters(_text);
     }
 
+    @Override
     public void writeCharacters(final char[] text,
                                 final int start,
                                 final int len)
@@ -295,12 +321,14 @@ public class XMLStreamWriterWrapper
         this.writer.writeCharacters(text, start, len);
     }
 
+    @Override
     public String getPrefix(final String _uri)
         throws XMLStreamException
     {
         return this.writer.getPrefix(_uri);
     }
 
+    @Override
     public void setPrefix(final String _prefix,
                           final String _uri)
         throws XMLStreamException
@@ -308,23 +336,27 @@ public class XMLStreamWriterWrapper
         this.writer.setPrefix(_prefix, _uri);
     }
 
+    @Override
     public void setDefaultNamespace(final String _uri)
         throws XMLStreamException
     {
         this.writer.setDefaultNamespace(_uri);
     }
 
+    @Override
     public void setNamespaceContext(final NamespaceContext context)
         throws XMLStreamException
     {
         this.writer.setNamespaceContext(context);
     }
 
+    @Override
     public NamespaceContext getNamespaceContext()
     {
         return this.writer.getNamespaceContext();
     }
 
+    @Override
     public Object getProperty(final String _name)
         throws IllegalArgumentException
     {

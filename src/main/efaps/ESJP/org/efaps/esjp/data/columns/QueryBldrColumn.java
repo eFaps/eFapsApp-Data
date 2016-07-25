@@ -29,7 +29,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.db.InstanceQuery;
@@ -47,10 +47,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("2fbe8e81-088f-4852-a985-252a1fe29099")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class QueryBldrColumn
     implements IColumnValue, IColumnValidate
 {
@@ -89,11 +89,11 @@ public class QueryBldrColumn
                     ret = false;
                 } else {
 
-                    final List<String>queryAttr = new ArrayList<String>();
+                    final List<String>queryAttr = new ArrayList<>();
                     for (final String queryAttribute : queryAttributes) {
                         queryAttr.add(queryAttribute);
                     }
-                    final List<String>queryVals = new ArrayList<String>();
+                    final List<String>queryVals = new ArrayList<>();
                     for (final String queryValue : queryColumns) {
                         queryVals.add(_value[_headers.get(queryValue)].trim());
                     }
@@ -145,11 +145,11 @@ public class QueryBldrColumn
         final String[] queryAttributes = _attrDef.analyseProperty("QueryAttribute");
         final String[] queryColumns = _attrDef.analyseProperty("QueryColumn");
 
-        final List<String> queryAttr = new ArrayList<String>();
+        final List<String> queryAttr = new ArrayList<>();
         for (final String queryAttribute : queryAttributes) {
             queryAttr.add(queryAttribute);
         }
-        final List<String> queryVals = new ArrayList<String>();
+        final List<String> queryVals = new ArrayList<>();
         for (final String queryValue : queryColumns) {
             queryVals.add(_value[_headers.get(queryValue)].trim());
         }

@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.IColumn;
 import org.efaps.esjp.data.IColumnValue;
@@ -47,10 +47,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("79a3b4d8-be0b-49df-a7ce-81d5bc345699")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "attribute", namespace = "http://www.efaps.org/xsd")
 @XmlType(name = "attribute", namespace = "http://www.efaps.org/xsd")
@@ -175,7 +175,7 @@ public class AttrDef
      */
     public String[] analyseProperty(final String _name)
     {
-        final List<String> ret = new ArrayList<String>();
+        final List<String> ret = new ArrayList<>();
         //search for base name
         String valTmp = getProperty(_name);
         if (valTmp != null) {

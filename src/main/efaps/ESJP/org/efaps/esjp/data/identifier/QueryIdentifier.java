@@ -27,7 +27,7 @@ import java.util.Map;
 
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.db.InstanceQuery;
@@ -42,10 +42,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("75763a03-2a7d-4836-9680-77d04dc9d73e")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class QueryIdentifier
     implements IIdentifier
 {
@@ -66,11 +66,11 @@ public class QueryIdentifier
         final String[] queryAttributes = _definition.getIdentifier().analyseProperty("QueryAttribute");
         final String[] queryColumns = _definition.getIdentifier().analyseProperty("QueryColumn");
 
-        final List<String> queryAttr = new ArrayList<String>();
+        final List<String> queryAttr = new ArrayList<>();
         for (final String queryAttribute : queryAttributes) {
             queryAttr.add(queryAttribute);
         }
-        final List<String> queryVals = new ArrayList<String>();
+        final List<String> queryVals = new ArrayList<>();
         for (final String queryValue : queryColumns) {
             queryVals.add(_value[_headers.get(queryValue)].trim());
         }
@@ -115,11 +115,11 @@ public class QueryIdentifier
                 ret = false;
             } else {
 
-                final List<String> queryAttr = new ArrayList<String>();
+                final List<String> queryAttr = new ArrayList<>();
                 for (final String queryAttribute : queryAttributes) {
                     queryAttr.add(queryAttribute);
                 }
-                final List<String> queryVals = new ArrayList<String>();
+                final List<String> queryVals = new ArrayList<>();
                 for (final String queryValue : queryColumns) {
                     queryVals.add(_value[_headers.get(queryValue)].trim());
                 }

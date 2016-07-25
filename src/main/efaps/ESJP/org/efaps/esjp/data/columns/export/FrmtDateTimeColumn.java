@@ -1,30 +1,59 @@
+/*
+ * Copyright 2003 - 2016 The eFaps Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+
 package org.efaps.esjp.data.columns.export;
 
 import java.text.SimpleDateFormat;
 
+import org.efaps.admin.program.esjp.EFapsApplication;
+import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.dataexporter.model.CellDetails;
 import org.efaps.dataexporter.model.StringColumn;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The Class FrmtDateTimeColumn.
+ */
+@EFapsUUID("2f33c7d2-bd57-41db-8501-763ef9c2ce94")
+@EFapsApplication("eFapsApp-Data")
 public class FrmtDateTimeColumn
     extends StringColumn
 {
-    /**
-     * Logger for this class
-     */
+
+    /** Logger for this class. */
     private static final Logger LOG = LoggerFactory.getLogger(FrmtDateTimeColumn.class);
 
+    /** The date format. */
     private SimpleDateFormat dateFormat = null;
 
+    /** The null value. */
     private String nullValue;
 
+    /** The empty value. */
     private String emptyValue;
+
     /**
-     * @param _name
-     * @param _width
-     * @param _align
+     * Instantiates a new frmt date time column.
+     *
+     * @param _name the name
+     * @param _datePattern the date pattern
      */
     public FrmtDateTimeColumn(final String _name,
                               final String _datePattern)
@@ -32,6 +61,13 @@ public class FrmtDateTimeColumn
         super(_name);
     }
 
+    /**
+     * Instantiates a new frmt date time column.
+     *
+     * @param _name the name
+     * @param _maxWidth the max width
+     * @param _datePattern the date pattern
+     */
     public FrmtDateTimeColumn(final String _name,
                               final int _maxWidth,
                               final String _datePattern)
@@ -40,12 +76,21 @@ public class FrmtDateTimeColumn
         this.dateFormat = new SimpleDateFormat(_datePattern);
     }
 
+    /**
+     * Sets the max width.
+     *
+     * @param _maxWidth the max width
+     * @return the frmt date time column
+     */
     public FrmtDateTimeColumn setMaxWidth(final int _maxWidth)
     {
         super.setWidth(_maxWidth);
         return this;
     }
 
+    /* (non-Javadoc)
+     * @see org.efaps.dataexporter.model.StringColumn#format(org.efaps.dataexporter.model.CellDetails)
+     */
     @Override
     public String format(final CellDetails _cellDetails)
     {
@@ -84,12 +129,24 @@ public class FrmtDateTimeColumn
         return ret;
     }
 
+    /**
+     * Sets the null value.
+     *
+     * @param _nullValue the null value
+     * @return the frmt date time column
+     */
     public FrmtDateTimeColumn setNullValue(final String _nullValue)
     {
         this.nullValue = _nullValue;
         return this;
     }
 
+    /**
+     * Sets the empty value.
+     *
+     * @param _emptyValue the empty value
+     * @return the frmt date time column
+     */
     public FrmtDateTimeColumn setEmptyValue(final String _emptyValue)
     {
         this.emptyValue = _emptyValue;

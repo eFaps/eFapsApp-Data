@@ -36,7 +36,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.Type;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.ci.CIAdminCommon;
 import org.efaps.db.Insert;
@@ -54,11 +54,11 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  * @param <T> Object that extends this class to be able to use chaining
  */
 @EFapsUUID("ef002a77-4143-4f1f-b508-c4d4c09cb885")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
 {
@@ -98,7 +98,7 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
      */
     @XmlElementWrapper(name = "attributes", namespace = "http://www.efaps.org/xsd")
     @XmlElementRef
-    private final List<AbstractEFapsAttribute<?>> attributes = new ArrayList<AbstractEFapsAttribute<?>>();
+    private final List<AbstractEFapsAttribute<?>> attributes = new ArrayList<>();
 
     /**
      * @param _instance instance this EfapsObject is based on
@@ -288,7 +288,7 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
                 final AbstractEFapsObject<?> object = attr.getLink();
                 if (object != null) {
                     if (!_instances.contains(object.getInstance())) {
-                        final Set<Instance> inst = new HashSet<Instance>();
+                        final Set<Instance> inst = new HashSet<>();
                         inst.addAll(_instances);
                         inst.add(getInstance());
                         if (inst.size() < _maxDepth) {
@@ -339,7 +339,7 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
             } else {
                 final Type type = Type.get(getTypeUUID());
                 final Insert insert = new Insert(getTypeUUID());
-                final Set<List<String>> added =new HashSet<List<String>>();
+                final Set<List<String>> added =new HashSet<>();
                 for (final AbstractEFapsAttribute<?> attribute : getAttributes()) {
                     final ArrayList<String> cols = type.getAttribute(attribute.getAttrName()).getSqlColNames();
                     if (!added.contains(cols)) {

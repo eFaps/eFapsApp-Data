@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.efaps.admin.datamodel.Classification;
 import org.efaps.admin.datamodel.Type;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.db.PrintQuery;
@@ -45,10 +45,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("a5f67769-3f89-4df7-8018-5b46ed0a7841")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "efapsobject", namespace = "http://www.efaps.org/xsd")
 public class EFapsObject
@@ -60,7 +60,7 @@ public class EFapsObject
      */
     @XmlElementWrapper(name = "classifications", namespace = "http://www.efaps.org/xsd")
     @XmlElementRef
-    private final List<ClassificationObject> classifications = new ArrayList<ClassificationObject>();
+    private final List<ClassificationObject> classifications = new ArrayList<>();
 
     /**
      * Default Constructor.
@@ -141,7 +141,7 @@ public class EFapsObject
             final SelectBuilder clazzSel = new SelectBuilder().clazz().type();
             print.addSelect(clazzSel);
             print.execute();
-            final Set<Classification> classes = new HashSet<Classification>();
+            final Set<Classification> classes = new HashSet<>();
             final Object object = print.getSelect(clazzSel);
             if (object instanceof List) {
                 for (final Object clazz : (List<?>) object) {
@@ -152,7 +152,7 @@ public class EFapsObject
                     }
                 }
             }
-            final List<SelectBuilder> selects = new ArrayList<SelectBuilder>();
+            final List<SelectBuilder> selects = new ArrayList<>();
             final PrintQuery clazzPrint = new PrintQuery(getInstance());
             for (final Classification clazz : classes) {
                 final SelectBuilder selInst = SelectBuilder.get().clazz(clazz.getUUID()).instance();
@@ -163,7 +163,7 @@ public class EFapsObject
             for (final SelectBuilder selInst : selects) {
                 final Instance classInst = clazzPrint.getSelect(selInst);
                 final ClassificationObject classObject = new ClassificationObject(classInst);
-                final Set<Instance> inst = new HashSet<Instance>();
+                final Set<Instance> inst = new HashSet<>();
                 inst.addAll(_instances);
                 inst.add(getInstance());
                 if (inst.size() < _maxDepth) {

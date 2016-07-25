@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Context;
 import org.efaps.esjp.data.IColumnValidate;
@@ -45,10 +45,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("dfcb0010-9f22-4087-a367-0103af77aeec")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class DateColumn
     implements IColumnValue, IColumnValidate
 {

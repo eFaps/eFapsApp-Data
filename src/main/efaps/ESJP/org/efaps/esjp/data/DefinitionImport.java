@@ -21,7 +21,7 @@
 
 package org.efaps.esjp.data;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 /**
@@ -30,10 +30,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  * class.
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("20b0b019-748c-4ad1-aff1-6fcf1a699a20")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class DefinitionImport
     extends DefinitionImport_Base
 {

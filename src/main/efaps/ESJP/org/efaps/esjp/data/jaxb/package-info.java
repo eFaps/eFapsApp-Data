@@ -5,7 +5,7 @@
  * JAXB classes used for reading and interpretating the definitions.
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 package org.efaps.esjp.data.jaxb;
 

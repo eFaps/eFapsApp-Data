@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.Type;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.util.EFapsException;
 
@@ -37,10 +37,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("788c4307-d93f-4ea6-9c46-31b1c0c50c2c")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "type", namespace = "http://www.efaps.org/xsd")
 public class TypeTypeAttribute

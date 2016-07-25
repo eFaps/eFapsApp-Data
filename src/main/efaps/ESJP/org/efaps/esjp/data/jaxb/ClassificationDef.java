@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.datamodel.Classification;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.columns.ClassificationColumn;
 import org.efaps.util.cache.CacheReloadException;
@@ -43,10 +43,10 @@ import org.efaps.util.cache.CacheReloadException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("9e9ab2a0-55f3-444a-8482-988f5d77905a")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "classification", namespace = "http://www.efaps.org/xsd")
 @XmlType(name = "classification", namespace = "http://www.efaps.org/xsd")
@@ -67,7 +67,7 @@ public class ClassificationDef
      */
     public List<AttrDef> getAttributes()
     {
-        return this.attributes == null ? new ArrayList<AttrDef>() : this.attributes;
+        return this.attributes == null ? new ArrayList<>() : this.attributes;
     }
 
     /**
@@ -77,7 +77,7 @@ public class ClassificationDef
     public String getValidateClass()
     {
         String ret = super.getValidateClass();
-        if (ret == null || (ret != null && ret.isEmpty())) {
+        if (ret == null || ret != null && ret.isEmpty()) {
             ret = ClassificationColumn.class.getName();
         }
         return ret;
@@ -95,7 +95,7 @@ public class ClassificationDef
                                                    final String[] _value)
         throws CacheReloadException
     {
-        final List<Classification> ret = new ArrayList<Classification>();
+        final List<Classification> ret = new ArrayList<>();
         Classification clazz = null;
         if (getName() != null) {
             clazz = Classification.get(getName());

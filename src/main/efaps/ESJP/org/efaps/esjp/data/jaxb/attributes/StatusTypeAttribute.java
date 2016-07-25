@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.Status;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.util.EFapsException;
@@ -38,10 +38,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("10778d5a-3953-4316-be5f-82dc0a03884b")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "status", namespace = "http://www.efaps.org/xsd")
 public class StatusTypeAttribute

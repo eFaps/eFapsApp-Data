@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.IColumnValidate;
 import org.efaps.esjp.data.IColumnValue;
@@ -41,10 +41,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("5e33f385-d825-45cd-981f-62a88b9afba8")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class BooleanColumn
     implements IColumnValue, IColumnValidate
 {
@@ -54,7 +54,7 @@ public class BooleanColumn
      */
     private static final Logger LOG = LoggerFactory.getLogger(BooleanColumn.class);
 
-    private static Map<String,Boolean> DEFAULTMAPPING = new HashMap<String, Boolean>();
+    private static Map<String,Boolean> DEFAULTMAPPING = new HashMap<>();
     static {
         BooleanColumn.DEFAULTMAPPING.put("true", true);
         BooleanColumn.DEFAULTMAPPING.put("True", true);

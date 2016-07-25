@@ -23,7 +23,7 @@ package org.efaps.esjp.data.util;
 import java.util.UUID;
 
 import org.efaps.admin.common.SystemConfiguration;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.util.cache.CacheReloadException;
 
@@ -31,10 +31,10 @@ import org.efaps.util.cache.CacheReloadException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("8579a7e8-3275-4a9c-86a1-768e004d6583")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public final class Data
 {
     /**

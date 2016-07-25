@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.efaps.admin.datamodel.Attribute;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.db.Instance;
@@ -37,11 +37,11 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  * @param <T> childobject used for chaining
  */
 @EFapsUUID("a77abd26-af45-4266-973f-ed64c11ca9ab")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 public abstract class AbstractLinkEFapsAttribute<T extends AbstractLinkEFapsAttribute<T>>
     extends AbstractEFapsAttribute<T>

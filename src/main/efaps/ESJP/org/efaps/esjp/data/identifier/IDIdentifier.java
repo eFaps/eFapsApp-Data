@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.esjp.data.IIdentifier;
@@ -39,10 +39,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("1cd770fd-c8fd-475e-bd14-00861cd96ccd")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class IDIdentifier
     implements IIdentifier
 {

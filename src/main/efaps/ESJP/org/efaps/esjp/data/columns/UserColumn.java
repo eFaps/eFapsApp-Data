@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.admin.user.AbstractUserObject;
 import org.efaps.esjp.data.IColumnValidate;
@@ -43,10 +43,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("cd46066d-a810-4eaf-8f61-33cebbf80285")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class UserColumn
     implements IColumnValue, IColumnValidate
 {

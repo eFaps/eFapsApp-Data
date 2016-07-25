@@ -21,7 +21,7 @@
 
 package org.efaps.esjp.data;
 
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
 
@@ -31,10 +31,10 @@ import org.efaps.admin.program.esjp.EFapsUUID;
  * class.
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("f1a507ab-e8e1-4d6f-bb93-4a0f84b44384")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public abstract class AbstractExport
     extends AbstractExport_Base
 {

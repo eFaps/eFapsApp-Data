@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.IJaxb;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsClassLoader;
-import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.esjp.data.jaxb.adapter.JaxbContentAdapter;
@@ -44,10 +44,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("3f185eb0-de9d-4091-a9a8-fedbd1f6d3c5")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "jaxb", namespace = "http://www.efaps.org/xsd")
 public class JaxbTypeAttribute

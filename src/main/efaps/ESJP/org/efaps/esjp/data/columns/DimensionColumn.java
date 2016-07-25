@@ -28,7 +28,7 @@ import java.util.UUID;
 
 import org.efaps.admin.datamodel.Dimension;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.common.AbstractCommon;
 import org.efaps.esjp.data.IColumnValidate;
@@ -43,10 +43,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("7641c1ce-0e4f-45e2-8fba-d5b0620eceb3")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class DimensionColumn
     extends AbstractCommon
     implements IColumnValue, IColumnValidate

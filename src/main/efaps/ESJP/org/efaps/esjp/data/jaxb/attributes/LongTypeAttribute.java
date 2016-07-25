@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.Type;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.util.EFapsException;
@@ -35,10 +35,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("247aa35d-da2e-454d-aa52-477ec361c4e8")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "long", namespace = "http://www.efaps.org/xsd")
 public class LongTypeAttribute

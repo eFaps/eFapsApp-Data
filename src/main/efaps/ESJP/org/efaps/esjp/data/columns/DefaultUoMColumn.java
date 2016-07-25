@@ -29,7 +29,7 @@ import java.util.UUID;
 import org.efaps.admin.datamodel.Dimension;
 import org.efaps.admin.datamodel.Dimension.UoM;
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.common.AbstractCommon;
 import org.efaps.esjp.data.IColumnValidate;
@@ -44,10 +44,10 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ * 
  */
 @EFapsUUID("80a1244f-919b-4757-afb0-fb089032ec92")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public class DefaultUoMColumn
     extends AbstractCommon
     implements IColumnValue, IColumnValidate

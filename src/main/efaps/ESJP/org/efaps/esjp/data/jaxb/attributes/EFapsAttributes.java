@@ -49,7 +49,7 @@ import org.efaps.admin.datamodel.attributetype.StatusType;
 import org.efaps.admin.datamodel.attributetype.StringType;
 import org.efaps.admin.datamodel.attributetype.TimeType;
 import org.efaps.admin.datamodel.attributetype.TypeType;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.ci.CIAdminDataModel;
 import org.efaps.db.PrintQuery;
@@ -61,17 +61,17 @@ import org.efaps.util.cache.CacheReloadException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("0b8af194-9a3c-4d9f-a0b9-c2c2cbfd57c3")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public final class EFapsAttributes
 {
 
     /**
      * Basic mapping.
      */
-    public static final Map<Class<?>, Class<?>> CLASSMAPPING = new HashMap<Class<?>, Class<?>>();
+    public static final Map<Class<?>, Class<?>> CLASSMAPPING = new HashMap<>();
     static {
         EFapsAttributes.CLASSMAPPING.put(BooleanType.class, BooleanTypeAttribute.class);
         EFapsAttributes.CLASSMAPPING.put(CompanyLinkType.class, CompanyTypeAttribute.class);

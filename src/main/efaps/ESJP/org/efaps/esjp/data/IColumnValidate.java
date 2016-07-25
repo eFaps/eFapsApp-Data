@@ -24,7 +24,7 @@ package org.efaps.esjp.data;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.AbstractDef;
 import org.efaps.util.EFapsException;
@@ -34,10 +34,10 @@ import org.efaps.util.EFapsException;
  * Interface for column validation classes.
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("e15916a2-8d7b-45fe-afcf-f790b84c4a5d")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public interface IColumnValidate
     extends IColumn
 {

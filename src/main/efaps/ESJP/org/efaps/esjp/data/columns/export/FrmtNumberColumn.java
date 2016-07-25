@@ -25,6 +25,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import org.efaps.admin.program.esjp.EFapsApplication;
+import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.dataexporter.model.NumberColumn;
 import org.efaps.dataexporter.util.Util;
 import org.slf4j.Logger;
@@ -35,6 +37,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author The eFaps Team
  */
+@EFapsUUID("33938224-0525-4bd1-a4e3-c687000a569b")
+@EFapsApplication("eFapsApp-Data")
 public class FrmtNumberColumn
     extends NumberColumn
 {

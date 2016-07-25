@@ -23,7 +23,7 @@ package org.efaps.esjp.data;
 import java.util.Map;
 
 import org.efaps.admin.event.Parameter;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.esjp.data.jaxb.AttrDef;
 import org.efaps.util.EFapsException;
@@ -32,10 +32,10 @@ import org.efaps.util.EFapsException;
  * Interface for Column value classes.
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("a047b4ba-4a90-4346-a481-dce784838fc0")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 public interface IColumnValue
     extends IColumn
 {

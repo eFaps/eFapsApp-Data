@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.efaps.admin.program.esjp.EFapsRevision;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Instance;
 import org.efaps.util.EFapsException;
@@ -43,10 +43,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("e3cff1d6-2eac-4891-844a-e1ea8c5be4cd")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "efapslist", namespace = "http://www.efaps.org/xsd")
 public class ObjectList
@@ -56,7 +56,7 @@ public class ObjectList
      */
     @XmlElementWrapper(name = "objects", namespace = "http://www.efaps.org/xsd")
     @XmlElementRef
-    private final List<EFapsObject> objects = new ArrayList<EFapsObject>();
+    private final List<EFapsObject> objects = new ArrayList<>();
 
     /**
      * Getter method for the instance variable {@link #objects}.
@@ -86,7 +86,7 @@ public class ObjectList
     public void load(final int _maxDepth)
         throws EFapsException
     {
-        final Set<Instance> instances = new HashSet<Instance>();
+        final Set<Instance> instances = new HashSet<>();
         for (final EFapsObject object : getObjects()) {
             object.load(_maxDepth, instances);
             instances.add(object.getInstance());

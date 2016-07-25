@@ -31,8 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.datamodel.Type;
+import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsClassLoader;
-import org.efaps.admin.program.esjp.EFapsRevision;
 import org.efaps.admin.program.esjp.EFapsUUID;
 import org.efaps.db.Insert;
 import org.efaps.util.EFapsException;
@@ -41,10 +41,10 @@ import org.efaps.util.EFapsException;
  * TODO comment!
  *
  * @author The eFaps Team
- * @version $Id$
+ *
  */
 @EFapsUUID("fcc1b9fa-6b09-4e80-9874-811190c1dea2")
-@EFapsRevision("$Rev$")
+@EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "bitenum", namespace = "http://www.efaps.org/xsd")
 public class BitEnumTypeAttribute
@@ -57,7 +57,7 @@ public class BitEnumTypeAttribute
 
     @XmlElementWrapper(name = "values", namespace = "http://www.efaps.org/xsd")
     @XmlElement(name = "value")
-    private final List<String> values = new ArrayList<String>();
+    private final List<String> values = new ArrayList<>();
 
     @Override
     public BitEnumTypeAttribute evalAttrValue(final Attribute _attribute,
@@ -87,7 +87,7 @@ public class BitEnumTypeAttribute
         throws EFapsException
     {
         if (!getValues().isEmpty()) {
-            final List<Object> objValues = new ArrayList<Object>();
+            final List<Object> objValues = new ArrayList<>();
             try {
                 final Type type = _insert.getInstance().getType();
                 final Attribute attribute = type.getAttribute(getAttrName());
