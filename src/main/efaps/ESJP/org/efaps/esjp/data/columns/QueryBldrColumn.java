@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * 
+ *
  */
 @EFapsUUID("2fbe8e81-088f-4852-a985-252a1fe29099")
 @EFapsApplication("eFapsApp-Data")
@@ -124,9 +124,6 @@ public class QueryBldrColumn
         }
         return ret;
     }
-
-
-
 
     /**
      * {@inheritDoc}

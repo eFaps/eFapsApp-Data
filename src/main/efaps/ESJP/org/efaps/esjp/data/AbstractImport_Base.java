@@ -192,7 +192,7 @@ public abstract class AbstractImport_Base
                 for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
                     if (attr.applies(typeName)) {
                         Boolean check = attr.validate(_parameter, headers, value, j);
-                        if (definition.hasKey() && attr.isParentLink()) {
+                        if (attr.isParentLink()) {
                             final String parentKey = attr.getValue(_parameter, headers, value, j);
                             if (!parentKey.isEmpty() && !keys.containsKey(parentKey)) {
                                 AbstractImport_Base.LOG.error("ParentKey '{}' in row {} not found.",
@@ -248,7 +248,7 @@ public abstract class AbstractImport_Base
                         for (final AttrDef attr : definition.getTypeDef().getAttributes()) {
                             if ((!isUpdate || isUpdate && attr.isOverwrite())
                                             && attr.applies(type.getName())) {
-                                if (definition.hasKey() && attr.isParentLink()) {
+                                if (attr.isParentLink()) {
                                     final String parentKey = attr.getValue(_parameter, headers, value, j);
                                     update.add(attr.getName(), keys.get(parentKey));
                                 } else {
