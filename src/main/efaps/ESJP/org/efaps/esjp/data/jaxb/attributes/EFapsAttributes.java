@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.efaps.admin.datamodel.Attribute;
-import org.efaps.admin.datamodel.IAttributeType;
 import org.efaps.admin.datamodel.Type;
 import org.efaps.admin.datamodel.attributetype.BitEnumType;
 import org.efaps.admin.datamodel.attributetype.BooleanType;
@@ -36,6 +35,7 @@ import org.efaps.admin.datamodel.attributetype.DateTimeType;
 import org.efaps.admin.datamodel.attributetype.DateType;
 import org.efaps.admin.datamodel.attributetype.DecimalType;
 import org.efaps.admin.datamodel.attributetype.EnumType;
+import org.efaps.admin.datamodel.attributetype.IAttributeType;
 import org.efaps.admin.datamodel.attributetype.IntegerType;
 import org.efaps.admin.datamodel.attributetype.JaxbType;
 import org.efaps.admin.datamodel.attributetype.LinkType;
