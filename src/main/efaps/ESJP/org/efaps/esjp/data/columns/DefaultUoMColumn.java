@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * TODO comment!
  *
  * @author The eFaps Team
- * 
+ *
  */
 @EFapsUUID("80a1244f-919b-4757-afb0-fb089032ec92")
 @EFapsApplication("eFapsApp-Data")
@@ -82,7 +82,7 @@ public class DefaultUoMColumn
             }
             if (dim != null) {
                 for (final UoM uom : dim.getUoMs()) {
-                    if (uom.getName().equals(valStr)) {
+                    if (uom.getSymbol().equals(valStr) || uom.getName().equals(valStr)) {
                         ret = Long.valueOf(uom.getId()).toString();
                         break;
                     }
@@ -122,7 +122,7 @@ public class DefaultUoMColumn
                     DefaultUoMColumn.LOG.debug("Row: {} - {}", _idx, dim);
                     ret = false;
                     for (final UoM uom : dim.getUoMs()) {
-                        if (uom.getName().equals(valStr)) {
+                        if (uom.getSymbol().equals(valStr) || uom.getName().equals(valStr)) {
                             ret = true;
                             break;
                         }
