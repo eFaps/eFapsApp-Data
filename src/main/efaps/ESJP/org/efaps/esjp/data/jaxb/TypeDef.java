@@ -64,6 +64,13 @@ public class TypeDef
     @XmlElementRef
     private List<ClassificationDef> classifications;
 
+
+    /**
+     * Classifications nested in this type.
+     */
+    @XmlElementRef(name = "attribute-set")
+    private List<AttrSetDef> attributeSets;
+
     /**
      * Getter method for the instance variable {@link #attributes}.
      *
@@ -71,7 +78,7 @@ public class TypeDef
      */
     public List<AttrDef> getAttributes()
     {
-        return this.attributes == null ? new ArrayList<>() : this.attributes;
+        return attributes == null ? new ArrayList<>() : attributes;
     }
 
     /**
@@ -100,7 +107,18 @@ public class TypeDef
      */
     public List<ClassificationDef> getClassifications()
     {
-        return this.classifications == null ? new ArrayList<>() : this.classifications;
+        return classifications == null ? new ArrayList<>() : classifications;
+    }
+
+
+    /**
+     * Getter method for the instance variable {@link #classifications}.
+     *
+     * @return value of instance variable {@link #classifications}
+     */
+    public List<AttrSetDef> getAttributeSets()
+    {
+        return attributeSets == null ? new ArrayList<>() : attributeSets;
     }
 
     /**
@@ -123,7 +141,7 @@ public class TypeDef
     public ClassificationDef getClassificationDefByName(final String _name)
     {
         ClassificationDef ret = null;
-        for (final ClassificationDef clazzDef : this.classifications) {
+        for (final ClassificationDef clazzDef : classifications) {
             if (_name.equals(clazzDef.getName())) {
                 ret = clazzDef;
             }

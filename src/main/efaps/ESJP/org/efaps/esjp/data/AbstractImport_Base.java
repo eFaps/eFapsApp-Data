@@ -1,5 +1,5 @@
 /*
- * Copyright 2003 - 2013 The eFaps Team
+ * Copyright 2003 - 2022 The eFaps Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Revision:        $Rev$
- * Last Changed:    $Date$
- * Last Changed By: $Author$
  */
 
 package org.efaps.esjp.data;
@@ -52,6 +49,7 @@ import org.efaps.db.PrintQuery;
 import org.efaps.db.SelectBuilder;
 import org.efaps.db.Update;
 import org.efaps.esjp.data.jaxb.AttrDef;
+import org.efaps.esjp.data.jaxb.AttrSetDef;
 import org.efaps.esjp.data.jaxb.ClassificationDef;
 import org.efaps.esjp.data.jaxb.DataImport;
 import org.efaps.esjp.data.jaxb.Definition;
@@ -206,6 +204,14 @@ public abstract class AbstractImport_Base
                         }
                     }
                 }
+                for (final AttrSetDef attrSetDef : definition.getTypeDef().getAttributeSets()) {
+                    final Boolean check = attrSetDef.validate(_parameter, headers, value, j);
+                    if (!check) {
+                        execute = false;
+                        skip.add(j);
+                    }
+                }
+
                 for (final ClassificationDef classDef : definition.getTypeDef().getClassifications()) {
                     Boolean check = classDef.validate(_parameter, headers, value, j);
                     if (classDef != null) {
@@ -217,7 +223,6 @@ public abstract class AbstractImport_Base
                         execute = false;
                         skip.add(j);
                     }
-
                 }
                 j++;
                 if (definition.hasKey() && execute) {
@@ -263,6 +268,11 @@ public abstract class AbstractImport_Base
                         if (definition.hasKey()) {
                             keys.put(value[headers.get(definition.getKeyColumn())], update.getInstance());
                         }
+                        if (definition.getTypeDef().getAttributeSets() != null) {
+                            updateAttributeSet(_parameter, definition, headers, value,
+                                            update.getInstance(), j);
+                        }
+
                         if (definition.getTypeDef().getClassifications() != null) {
                             updateClassification(_parameter, definition, headers, value,
                                             update.getInstance(), j);
@@ -323,6 +333,21 @@ public abstract class AbstractImport_Base
             _update.executeWithoutTrigger();
         } else {
             _update.execute();
+        }
+    }
+
+    protected void updateAttributeSet(final Parameter _parameter,
+                                      final Definition definition,
+                                      final Map<String, Integer> _headers,
+                                      final String[] _value,
+                                      final Instance _instance,
+                                      final Integer _idx)
+        throws EFapsException
+    {
+
+        AbstractImport_Base.LOG.trace("preparing updates for AttributeSets");
+        for (final AttrSetDef attrSetDef : definition.getTypeDef().getAttributeSets()) {
+            attrSetDef.execute(_parameter, _instance, _headers, _value, _idx);
         }
     }
 
