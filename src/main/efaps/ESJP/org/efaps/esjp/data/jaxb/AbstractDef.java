@@ -1,5 +1,5 @@
 /*
- * Copyright 2003 - 2013 The eFaps Team
+ * Copyright 2003 - 2022 The eFaps Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Revision:        $Rev$
- * Last Changed:    $Date$
- * Last Changed By: $Author$
  */
 
 package org.efaps.esjp.data.jaxb;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,12 +35,6 @@ import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * TODO comment!
- *
- * @author The eFaps Team
- *
- */
 @EFapsUUID("fb8cec2f-6d3f-431c-8679-1faa5a1428c9")
 @EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -50,6 +42,7 @@ import org.slf4j.LoggerFactory;
 @XmlType(name = "abstractDef", namespace = "http://www.efaps.org/xsd")
 public abstract class AbstractDef
 {
+
     /**
      * Logger for this class
      */
@@ -86,7 +79,7 @@ public abstract class AbstractDef
      */
     public String getName()
     {
-        return this.name;
+        return name;
     }
 
     /**
@@ -96,7 +89,7 @@ public abstract class AbstractDef
      */
     public void setName(final String _name)
     {
-        this.name = _name;
+        name = _name;
     }
 
     /**
@@ -106,7 +99,7 @@ public abstract class AbstractDef
      */
     public String getColumn()
     {
-        return this.column;
+        return column;
     }
 
     /**
@@ -116,7 +109,7 @@ public abstract class AbstractDef
      */
     public void setColumn(final String _column)
     {
-        this.column = _column;
+        column = _column;
     }
 
     /**
@@ -126,7 +119,7 @@ public abstract class AbstractDef
      */
     public Boolean isValidate()
     {
-        return this.validate;
+        return validate;
     }
 
     /**
@@ -136,7 +129,7 @@ public abstract class AbstractDef
      */
     public void setValidate(final Boolean _validate)
     {
-        this.validate = _validate;
+        validate = _validate;
     }
 
     /**
@@ -146,7 +139,7 @@ public abstract class AbstractDef
      */
     public String getValidateClass()
     {
-        return this.validateClass;
+        return validateClass;
     }
 
     /**
@@ -156,15 +149,16 @@ public abstract class AbstractDef
      */
     public void setValidateClass(final String _validateClass)
     {
-        this.validateClass = _validateClass;
+        validateClass = _validateClass;
     }
 
     /**
      * Invoke the validation classed if required.
+     *
      * @param _parameter Parameter as passed by the eFaps API
-     * @param _headers  header mapping
-     * @param _value    value of the current row
-     * @param _idx      index of the current row
+     * @param _headers header mapping
+     * @param _value value of the current row
+     * @param _idx index of the current row
      * @return <code>true</code> if valid, else <code>false</code>
      */
     public Boolean validate(final Parameter _parameter,
@@ -176,11 +170,11 @@ public abstract class AbstractDef
         if (isValidate()) {
             try {
                 final Class<?> clazz = Class.forName(getValidateClass());
-                final IColumnValidate columnValue = (IColumnValidate) clazz.newInstance();
+                final IColumnValidate columnValue = (IColumnValidate) clazz.getConstructor().newInstance();
                 ret = columnValue.validate(_parameter, this, _headers, _value, _idx);
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                AbstractDef.LOG.error("Catched error on value evaluation", e);
-            } catch (final EFapsException e) {
+            } catch (final EFapsException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                            | InvocationTargetException | NoSuchMethodException | SecurityException
+                            | ClassNotFoundException e) {
                 AbstractDef.LOG.error("Catched error on value evaluation", e);
             }
         } else {

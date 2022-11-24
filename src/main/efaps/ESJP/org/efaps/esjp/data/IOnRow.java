@@ -28,14 +28,14 @@ import org.efaps.util.EFapsException;
 
 @EFapsUUID("57e83056-207f-4880-ab8c-8e803d86bc2a")
 @EFapsApplication("eFapsApp-Data")
-public interface IOnInstance
+public interface IOnRow
 {
 
     void run(final Parameter _parameter,
-             final AbstractDef _attrDef,
+             final AbstractDef definition,
              final Instance instance,
-             final Map<String, Integer> _headers,
-             final String[] _value,
-             final Integer _idx)
+             final Map<String, Integer> headers,
+             final String[] values,
+             final Integer idx)
         throws EFapsException;
 }

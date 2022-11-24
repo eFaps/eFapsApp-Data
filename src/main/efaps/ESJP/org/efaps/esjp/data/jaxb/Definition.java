@@ -1,5 +1,5 @@
 /*
- * Copyright 2003 - 2013 The eFaps Team
+ * Copyright 2003 - 2022 The eFaps Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Revision:        $Rev$
- * Last Changed:    $Date$
- * Last Changed By: $Author$
  */
 
 
 package org.efaps.esjp.data.jaxb;
+
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,12 +32,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
 
-/**
- * TODO comment!
- *
- * @author The eFaps Team
- *
- */
 @EFapsUUID("af9e72a7-9789-4e53-8d86-12d72fb6bd5a")
 @EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -113,6 +106,10 @@ public class Definition
     @XmlElementRef
     private IdentifierDef identifier;
 
+
+    @XmlElementRef
+    private List<RowListener> rowListeners;
+
     /**
      * Getter method for the instance variable {@link #name}.
      *
@@ -120,7 +117,7 @@ public class Definition
      */
     public String getName()
     {
-        return this.name;
+        return name;
     }
 
     /**
@@ -130,7 +127,7 @@ public class Definition
      */
     public void setName(final String _name)
     {
-        this.name = _name;
+        name = _name;
     }
 
     /**
@@ -140,7 +137,7 @@ public class Definition
      */
     public String getFile()
     {
-        return this.file;
+        return file;
     }
 
     /**
@@ -150,7 +147,7 @@ public class Definition
      */
     public Integer getSkipLine()
     {
-        return this.skipLine;
+        return skipLine;
     }
 
     /**
@@ -160,7 +157,7 @@ public class Definition
      */
     public void setSkipLine(final Integer _skipLine)
     {
-        this.skipLine = _skipLine;
+        skipLine = _skipLine;
     }
 
     /**
@@ -170,7 +167,7 @@ public class Definition
      */
     public TypeDef getTypeDef()
     {
-        return this.type;
+        return type;
     }
 
     /**
@@ -180,7 +177,7 @@ public class Definition
      */
     public boolean isExecute()
     {
-        return this.execute;
+        return execute;
     }
 
     /**
@@ -190,7 +187,7 @@ public class Definition
      */
     public void setExecute(final boolean _execute)
     {
-        this.execute = _execute;
+        execute = _execute;
     }
 
     /**
@@ -200,7 +197,7 @@ public class Definition
      */
     public String getKeyColumn()
     {
-        return this.keyColumn;
+        return keyColumn;
     }
 
     /**
@@ -210,7 +207,7 @@ public class Definition
      */
     public void setKeyColumn(final String _keyColumn)
     {
-        this.keyColumn = _keyColumn;
+        keyColumn = _keyColumn;
     }
 
     /**
@@ -218,7 +215,7 @@ public class Definition
      */
     public boolean hasKey()
     {
-        return this.keyColumn != null && !this.keyColumn.isEmpty();
+        return keyColumn != null && !keyColumn.isEmpty();
     }
 
     /**
@@ -228,7 +225,7 @@ public class Definition
      */
     public boolean isAccessCheck()
     {
-        return this.accessCheck;
+        return accessCheck;
     }
 
     /**
@@ -238,7 +235,7 @@ public class Definition
      */
     public void setAccessCheck(final boolean _accessCheck)
     {
-        this.accessCheck = _accessCheck;
+        accessCheck = _accessCheck;
     }
 
     /**
@@ -248,7 +245,7 @@ public class Definition
      */
     public boolean isTrigger()
     {
-        return this.trigger;
+        return trigger;
     }
 
     /**
@@ -258,7 +255,7 @@ public class Definition
      */
     public void setTrigger(final boolean _trigger)
     {
-        this.trigger = _trigger;
+        trigger = _trigger;
     }
 
     /**
@@ -268,7 +265,7 @@ public class Definition
      */
     public boolean isForce()
     {
-        return this.force;
+        return force;
     }
 
     /**
@@ -278,7 +275,7 @@ public class Definition
      */
     public void setForce(final boolean _force)
     {
-        this.force = _force;
+        force = _force;
     }
 
     /**
@@ -288,7 +285,7 @@ public class Definition
      */
     public boolean isUpdate()
     {
-        return this.update;
+        return update;
     }
 
     /**
@@ -298,7 +295,7 @@ public class Definition
      */
     public void setUpdate(final boolean _update)
     {
-        this.update = _update;
+        update = _update;
     }
 
     /**
@@ -308,7 +305,17 @@ public class Definition
      */
     public IdentifierDef getIdentifier()
     {
-        return this.identifier;
+        return identifier;
+    }
+
+    public List<RowListener> getRowListeners()
+    {
+        return rowListeners;
+    }
+
+    public void setRowListeners(final List<RowListener> rowListeners)
+    {
+        this.rowListeners = rowListeners;
     }
 
     @Override

@@ -67,12 +67,6 @@ import org.slf4j.LoggerFactory;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-/**
- * TODO comment!
- *
- * @author The eFaps Team
- *
- */
 @EFapsUUID("b3f81d2e-2352-43ab-acb2-2c98d2c32c05")
 @EFapsApplication("eFapsApp-Data")
 public abstract class AbstractImport_Base
@@ -224,10 +218,11 @@ public abstract class AbstractImport_Base
                         skip.add(j);
                     }
                 }
-                j++;
+
                 if (definition.hasKey() && execute) {
                     keys.put(value[headers.get(definition.getKeyColumn())], null);
                 }
+                j++;
             }
             if (execute && definition.isExecute() || definition.isExecute() && definition.isForce()) {
                 AbstractImport_Base.LOG.info("Importing definition: '{}'", definition.getName());
@@ -276,6 +271,9 @@ public abstract class AbstractImport_Base
                         if (definition.getTypeDef().getClassifications() != null) {
                             updateClassification(_parameter, definition, headers, value,
                                             update.getInstance(), j);
+                        }
+                        for (final var listener : definition.getRowListeners()) {
+                            listener.execute(_parameter, update.getInstance(), headers, value, j);
                         }
                         add2Row(_parameter, definition, headers, values, value, update.getInstance(), j);
                     }

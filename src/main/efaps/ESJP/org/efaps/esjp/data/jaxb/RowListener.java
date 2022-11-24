@@ -14,7 +14,6 @@
  * limitations under the License.
  *
  */
-
 package org.efaps.esjp.data.jaxb;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,12 +37,12 @@ import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@EFapsUUID("574a5ebd-cb7f-4763-8949-4625e5e90b9c")
+@EFapsUUID("bfcd0672-8df2-4bf2-9e9e-56f094cdd648")
 @EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "attribute-set", namespace = "http://www.efaps.org/xsd")
-@XmlType(name = "attribute-set", namespace = "http://www.efaps.org/xsd")
-public class AttrSetDef
+@XmlRootElement(name = "row-listener", namespace = "http://www.efaps.org/xsd")
+@XmlType(name = "row-listener", namespace = "http://www.efaps.org/xsd")
+public class RowListener
     extends AbstractDef
 {
 
@@ -52,21 +51,9 @@ public class AttrSetDef
     @XmlAttribute(name = "class")
     private String className;
 
-    /**
-     * List of Properties.
-     */
     @XmlElementRef
     private List<PropertyDef> properties;
 
-    public String getClassName()
-    {
-        return className;
-    }
-
-    public void setClassName(final String _className)
-    {
-        className = _className;
-    }
 
     public List<PropertyDef> getProperties()
     {
@@ -85,12 +72,6 @@ public class AttrSetDef
         return ret;
     }
 
-    @Override
-    public String toString()
-    {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
     public void execute(final Parameter _parameter, final Instance instance, final Map<String, Integer> headers,
                         final String[] values, final Integer idx)
         throws EFapsException
@@ -103,6 +84,21 @@ public class AttrSetDef
                         | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
             LOG.error("Catched", e);
         }
+    }
 
+    public String getClassName()
+    {
+        return className;
+    }
+
+    public void setClassName(final String className)
+    {
+        this.className = className;
+    }
+
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
