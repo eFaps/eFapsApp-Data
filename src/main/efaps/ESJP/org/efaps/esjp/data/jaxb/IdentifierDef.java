@@ -1,5 +1,5 @@
 /*
- * Copyright 2003 - 2013 The eFaps Team
+ * Copyright 2003 - 2023 The eFaps Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Revision:        $Rev$
- * Last Changed:    $Date$
- * Last Changed By: $Author$
  */
 
 package org.efaps.esjp.data.jaxb;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +39,6 @@ import org.efaps.util.EFapsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * TODO comment!
- *
- * @author The eFaps Team
- *
- */
 @EFapsUUID("543dbab9-768d-4ccf-bac5-e95517891124")
 @EFapsApplication("eFapsApp-Data")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -79,7 +71,7 @@ public class IdentifierDef
      */
     public String getClassName()
     {
-        return this.className;
+        return className;
     }
 
     /**
@@ -89,7 +81,7 @@ public class IdentifierDef
      */
     public void setClassName(final String _className)
     {
-        this.className = _className;
+        className = _className;
     }
 
     public Boolean hasInstance(final Parameter _parameter,
@@ -101,11 +93,11 @@ public class IdentifierDef
         Boolean ret = false;
         try {
             final Class<?> clazz = Class.forName(getClassName());
-            final IIdentifier identifier = (IIdentifier) clazz.newInstance();
+            final IIdentifier identifier = (IIdentifier) clazz.getConstructor().newInstance();
             ret = identifier.hasInstance(_parameter, _definition, _headers, _value, _idx);
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            IdentifierDef.LOG.error("Catched error on value evaluation", e);
-        } catch (final EFapsException e) {
+        } catch (final EFapsException | ClassNotFoundException | InstantiationException | IllegalAccessException
+                        | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+                        | SecurityException e) {
             IdentifierDef.LOG.error("Catched error on value evaluation", e);
         }
         return ret;
@@ -120,11 +112,11 @@ public class IdentifierDef
         Instance ret = null;
         try {
             final Class<?> clazz = Class.forName(getClassName());
-            final IIdentifier identifier = (IIdentifier) clazz.newInstance();
+            final IIdentifier identifier = (IIdentifier) clazz.getConstructor().newInstance();
             ret = identifier.getInstance(_parameter, _definition, _headers, _value, _idx);
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            IdentifierDef.LOG.error("Catched error on value evaluation", e);
-        } catch (final EFapsException e) {
+        } catch (final EFapsException | ClassNotFoundException | InstantiationException | IllegalAccessException
+                        | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+                        | SecurityException e) {
             IdentifierDef.LOG.error("Catched error on value evaluation", e);
         }
         return ret;
@@ -137,7 +129,7 @@ public class IdentifierDef
      */
     public List<PropertyDef> getProperties()
     {
-        return this.properties;
+        return properties;
     }
 
     /**
@@ -147,7 +139,7 @@ public class IdentifierDef
     public String getProperty(final String _name)
     {
         String ret = null;
-        for (final PropertyDef def : this.properties) {
+        for (final PropertyDef def : properties) {
             if (_name.equals(def.getName())) {
                 ret = def.getValue();
                 break;
@@ -163,7 +155,7 @@ public class IdentifierDef
     public String[] analyseProperty(final String _name)
     {
         final List<String> ret = new ArrayList<>();
-        //search for base name
+        // search for base name
         String valTmp = getProperty(_name);
         if (valTmp != null) {
             ret.add(valTmp);

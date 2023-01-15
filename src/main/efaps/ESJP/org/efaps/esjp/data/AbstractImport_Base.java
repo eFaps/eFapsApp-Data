@@ -169,7 +169,11 @@ public abstract class AbstractImport_Base
                                         definition.getName());
                     } else {
                         final Boolean hasInstance = idDef.hasInstance(_parameter, definition, headers, value, j);
-                        AbstractImport_Base.LOG.debug("Instance found={} in line {}", hasInstance, j);
+                        if (hasInstance) {
+                            AbstractImport_Base.LOG.debug("Instance found={} in line {}", hasInstance, j);
+                        } else {
+                            AbstractImport_Base.LOG.warn("no Instance found in line {}", j);
+                        }
                     }
                 }
                 final Boolean valid = definition.getTypeDef().validate(_parameter, headers, value, j);
@@ -272,8 +276,10 @@ public abstract class AbstractImport_Base
                             updateClassification(_parameter, definition, headers, value,
                                             update.getInstance(), j);
                         }
-                        for (final var listener : definition.getRowListeners()) {
-                            listener.execute(_parameter, update.getInstance(), headers, value, j);
+                        if (definition.getRowListeners() != null) {
+                            for (final var listener : definition.getRowListeners()) {
+                                listener.execute(_parameter, update.getInstance(), headers, value, j);
+                            }
                         }
                         add2Row(_parameter, definition, headers, values, value, update.getInstance(), j);
                     }
