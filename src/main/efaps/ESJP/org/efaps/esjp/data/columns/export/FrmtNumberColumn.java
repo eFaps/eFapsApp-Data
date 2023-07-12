@@ -100,6 +100,12 @@ public class FrmtNumberColumn
         return this;
     }
 
+    public FrmtNumberColumn withTitle(final String title)
+    {
+        setTitle(title);
+        return this;
+    }
+
     /**
      * Gets the locale.
      *
@@ -172,7 +178,7 @@ public class FrmtNumberColumn
             if (_value instanceof Number) {
                 formattedString = this.formatter.format(_value);
             } else {
-                formattedString = this.formatter.format(BigDecimal.ZERO);;
+                formattedString = this.formatter.format(BigDecimal.ZERO);
             }
         } catch (final Exception e) {
             FrmtNumberColumn.LOG.error("Cateched error", e);

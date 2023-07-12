@@ -18,7 +18,8 @@
 
 package org.efaps.esjp.data.columns.export;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 
 import org.efaps.admin.program.esjp.EFapsApplication;
 import org.efaps.admin.program.esjp.EFapsUUID;
@@ -41,7 +42,7 @@ public class FrmtDateTimeColumn
     private static final Logger LOG = LoggerFactory.getLogger(FrmtDateTimeColumn.class);
 
     /** The date format. */
-    private SimpleDateFormat dateFormat = null;
+    private String datePattern = null;
 
     /** The null value. */
     private String nullValue;
@@ -61,6 +62,22 @@ public class FrmtDateTimeColumn
         super(_name);
     }
 
+    public FrmtDateTimeColumn(final String _name,
+                              final String title,
+                              final int _maxWidth)
+    {
+        super(_name, title, _maxWidth);
+    }
+
+    public FrmtDateTimeColumn(final String _name,
+                              final String title,
+                              final int _maxWidth,
+                              final String _datePattern)
+    {
+        super(_name, title, _maxWidth);
+        this.datePattern = _datePattern;
+    }
+
     /**
      * Instantiates a new frmt date time column.
      *
@@ -73,7 +90,7 @@ public class FrmtDateTimeColumn
                               final String _datePattern)
     {
         super(_name, _maxWidth);
-        this.dateFormat = new SimpleDateFormat(_datePattern);
+        this.datePattern = _datePattern;
     }
 
     /**
@@ -88,6 +105,12 @@ public class FrmtDateTimeColumn
         return this;
     }
 
+    public FrmtDateTimeColumn setPattern(final String _datePattern)
+    {
+        this.datePattern = _datePattern;
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.efaps.dataexporter.model.StringColumn#format(org.efaps.dataexporter.model.CellDetails)
      */
@@ -98,33 +121,37 @@ public class FrmtDateTimeColumn
         if (_cellDetails.getCellValue() != null) {
             if (_cellDetails.getCellValue() instanceof DateTime) {
                 final DateTime dtTmp = (DateTime) _cellDetails.getCellValue();
-                String tmp = this.dateFormat.format(dtTmp.toDate());
+                String tmp =  dtTmp.toString(datePattern);
                 if (tmp.length() > getWidth()) {
                     FrmtDateTimeColumn.LOG.warn("DateTime formated is longer than the especified width");
                     tmp = tmp.substring(0, getWidth());
                 }
                 ret = tmp;
-            } else {
-                if (_cellDetails.getCellValue() instanceof String) {
-                    final String tmp = (String) _cellDetails.getCellValue();
-                    if (tmp.isEmpty() && this.emptyValue != null) {
-                        ret = this.emptyValue;
-                    } else {
-                        ret = tmp;
-                    }
-                } else {
-                    FrmtDateTimeColumn.LOG.error("Expected DateTime instance but it is "
-                                + _cellDetails.getCellValue().getClass().getName()
-                                + " instance with value " + _cellDetails.getCellValue());
-                    ret = "";
+            } else if (_cellDetails.getCellValue() instanceof TemporalAccessor) {
+                final TemporalAccessor dtTmp = (TemporalAccessor) _cellDetails.getCellValue();
+                String tmp = DateTimeFormatter.ofPattern(datePattern).format(dtTmp);
+                if (tmp.length() > getWidth()) {
+                    FrmtDateTimeColumn.LOG.warn("DateTime formated is longer than the especified width");
+                    tmp = tmp.substring(0, getWidth());
                 }
-            }
-        } else {
-            if (this.nullValue != null) {
-                ret = this.nullValue;
+                ret = tmp;
+            } else if (_cellDetails.getCellValue() instanceof String) {
+                final String tmp = (String) _cellDetails.getCellValue();
+                if (tmp.isEmpty() && this.emptyValue != null) {
+                    ret = this.emptyValue;
+                } else {
+                    ret = tmp;
+                }
             } else {
+                FrmtDateTimeColumn.LOG.error("Expected DateTime instance but it is "
+                            + _cellDetails.getCellValue().getClass().getName()
+                            + " instance with value " + _cellDetails.getCellValue());
                 ret = "";
             }
+        } else if (this.nullValue != null) {
+            ret = this.nullValue;
+        } else {
+            ret = "";
         }
         return ret;
     }
