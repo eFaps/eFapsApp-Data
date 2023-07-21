@@ -30,9 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
@@ -103,7 +103,7 @@ public abstract class AbstractImport_Base
         try {
             final JAXBContext jc = getJAXBContext();
             final Unmarshaller unmarschaller = jc.createUnmarshaller();
-            unmarschaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
+            unmarschaller.setEventHandler(new jakarta.xml.bind.helpers.DefaultValidationEventHandler());
             final Object object = unmarschaller.unmarshal(getSource4DataImport(_parameter));
             if (object instanceof DataImport) {
                 importFromDefinition(_parameter, object);

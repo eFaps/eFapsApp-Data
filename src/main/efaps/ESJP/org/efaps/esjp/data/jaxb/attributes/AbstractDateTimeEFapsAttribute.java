@@ -20,10 +20,9 @@
 
 package org.efaps.esjp.data.jaxb.attributes;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.efaps.admin.datamodel.Attribute;
 import org.efaps.admin.program.esjp.EFapsApplication;
@@ -32,6 +31,8 @@ import org.efaps.db.Insert;
 import org.efaps.esjp.data.jaxb.adapter.DateTimeAdapter;
 import org.efaps.util.EFapsException;
 import org.joda.time.DateTime;
+
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 /**
  * TODO comment!

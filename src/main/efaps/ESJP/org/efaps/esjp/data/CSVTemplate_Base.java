@@ -24,9 +24,9 @@ package org.efaps.esjp.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.efaps.admin.event.Parameter;
 import org.efaps.admin.event.Return;
@@ -61,7 +61,7 @@ public abstract class CSVTemplate_Base
             final TmpImport tmpImport = new TmpImport();
             final JAXBContext jc = tmpImport.getJAXBContext();
             final Unmarshaller unmarschaller = jc.createUnmarshaller();
-            unmarschaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
+            unmarschaller.setEventHandler(new jakarta.xml.bind.helpers.DefaultValidationEventHandler());
             final Object object = unmarschaller.unmarshal(tmpImport.getSource4DataImport(_parameter));
             if (object instanceof DataImport) {
                 createFromDataImport(_parameter, (DataImport) object);
