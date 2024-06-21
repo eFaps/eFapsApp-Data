@@ -21,12 +21,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElementRef;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.efaps.admin.datamodel.Attribute;
@@ -44,6 +38,12 @@ import org.efaps.db.Update;
 import org.efaps.esjp.data.jaxb.attributes.AbstractEFapsAttribute;
 import org.efaps.esjp.data.jaxb.attributes.EFapsAttributes;
 import org.efaps.util.EFapsException;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 
 /**
  * TODO comment!
@@ -336,7 +336,7 @@ public abstract class AbstractEFapsObject<T extends AbstractEFapsObject<T>>
                 final Insert insert = new Insert(getTypeUUID());
                 final Set<List<String>> added =new HashSet<>();
                 for (final AbstractEFapsAttribute<?> attribute : getAttributes()) {
-                    final ArrayList<String> cols = type.getAttribute(attribute.getAttrName()).getSqlColNames();
+                    final List<String> cols = type.getAttribute(attribute.getAttrName()).getSqlColNames();
                     if (!added.contains(cols)) {
                         added.add(cols);
                         attribute.add2Insert(insert);
