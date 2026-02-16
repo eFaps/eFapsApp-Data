@@ -1,0 +1,99 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="Data_ExportAttributeDefinitions7" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key" uuid="dc0fae4d-ed33-48a4-b074-eadd8ec87f0c">
+  <property name="org.efaps.admin.program.jasper.EFapsApplication" value="eFapsApp-Data"/>
+  <property name="org.efaps.eql.Version" value="2"/>
+  <property name="com.jaspersoft.studio.unit." value="pixel"/>
+  <property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+  <property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+  <property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+  <property name="net.sf.jasperreports.export.xls.ignore.cell.border" value="true"/>
+  <property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1" value="columnHeader"/>
+  <property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.2" value="pageHeader"/>
+  <property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="pageFooter"/>
+  <property name="net.sf.jasperreports.export.xls.exclude.origin.band.4" value="lastPageFooter"/>
+  <property name="net.sf.jasperreports.export.xls.exclude.origin.band.5" value="columnFooter"/>
+  <property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+  <property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+  <property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+  <property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+  <property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+  <property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+  <property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+  <property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+  <property name="com.jaspersoft.studio.data.defaultdataadapter" value="GyGK 104"/>
+  <query language="eFaps"><![CDATA[print query type ERP_AttributeDefinitionAbstract
+    select attribute[Value] as Value,
+    type.name as Type,
+    attribute[Description] as Description,
+    attribute[MappingKey] as Key,
+    status.key as StatusKey]]></query>
+  <field name="Value" class="java.lang.String"/>
+  <field name="Type" class="java.lang.String"/>
+  <field name="Description" class="java.lang.String"/>
+  <field name="Key" class="java.lang.String"/>
+  <field name="StatusKey" class="java.lang.String"/>
+  <sortField name="Type"/>
+  <sortField name="Value"/>
+  <columnHeader height="12" splitType="Stretch">
+    <element kind="staticText" uuid="70ff4429-f691-4765-b1e1-f88276073fb3" x="0" y="0" width="137" height="12">
+      <text><![CDATA[Value]]></text>
+      <property name="local_mesure_unitheight" value="pixel"/>
+      <property name="com.jaspersoft.studio.unit.height" value="px"/>
+    </element>
+    <element kind="staticText" uuid="43210fd9-8489-429a-ad44-16fec31638f2" x="137" y="0" width="133" height="12">
+      <text><![CDATA[Type]]></text>
+      <property name="com.jaspersoft.studio.unit.height" value="px"/>
+    </element>
+    <element kind="staticText" uuid="2c479ead-9a19-49f8-84d6-2ae150b2a704" x="270" y="0" width="133" height="12">
+      <text><![CDATA[Description]]></text>
+      <property name="com.jaspersoft.studio.unit.height" value="px"/>
+    </element>
+    <element kind="staticText" uuid="5c11d693-07e0-44b3-8aa6-d6ccdfc3ea92" x="403" y="0" width="133" height="12">
+      <text><![CDATA[MappingKey]]></text>
+      <property name="com.jaspersoft.studio.unit.height" value="px"/>
+    </element>
+    <element kind="staticText" uuid="1df08677-1dc3-42ee-b616-d5979db2196f" x="536" y="0" width="133" height="12">
+      <text><![CDATA[StatusKey]]></text>
+      <property name="com.jaspersoft.studio.unit.height" value="px"/>
+    </element>
+    <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+    <property name="local_mesure_unitheight" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+  </columnHeader>
+  <detail>
+    <band height="12" splitType="Stretch">
+      <element kind="textField" uuid="603b6fe7-2874-4935-9fcd-f048e9fb6fb3" stretchType="ElementGroupHeight" x="0" y="0" width="137" height="12" fontSize="8.0" textAdjust="StretchHeight" blankWhenNull="true" printWhenDetailOverflows="true">
+        <expression><![CDATA[$F{Value}]]></expression>
+        <property name="com.jaspersoft.studio.unit.y" value="px"/>
+        <property name="com.jaspersoft.studio.unit.height" value="px"/>
+      </element>
+      <element kind="textField" uuid="9fc36b0d-f6a4-490d-82eb-05508dec731d" stretchType="ElementGroupHeight" x="137" y="0" width="133" height="12" fontSize="8.0" textAdjust="StretchHeight" blankWhenNull="true" printWhenDetailOverflows="true">
+        <expression><![CDATA[$F{Type}]]></expression>
+        <property name="com.jaspersoft.studio.unit.y" value="px"/>
+        <property name="com.jaspersoft.studio.unit.height" value="px"/>
+      </element>
+      <element kind="textField" uuid="f9231157-6ef0-4dae-b9a1-53aa6174759c" stretchType="ElementGroupHeight" x="270" y="0" width="133" height="12" fontSize="8.0" textAdjust="StretchHeight" blankWhenNull="true" printWhenDetailOverflows="true">
+        <expression><![CDATA[$F{Description}]]></expression>
+        <property name="local_mesure_unity" value="pixel"/>
+        <property name="com.jaspersoft.studio.unit.y" value="px"/>
+        <property name="local_mesure_unitheight" value="pixel"/>
+        <property name="com.jaspersoft.studio.unit.height" value="px"/>
+      </element>
+      <element kind="textField" uuid="3f06f2f7-f502-4eec-bd49-b827a962b3cf" stretchType="ElementGroupHeight" x="403" y="0" width="133" height="12" fontSize="8.0" textAdjust="StretchHeight" blankWhenNull="true" printWhenDetailOverflows="true">
+        <expression><![CDATA[$F{Key}]]></expression>
+        <property name="com.jaspersoft.studio.unit.y" value="px"/>
+        <property name="com.jaspersoft.studio.unit.height" value="px"/>
+      </element>
+      <element kind="textField" uuid="3e737257-dad5-4f6d-b729-3ee1219e1fb4" stretchType="ElementGroupHeight" x="669" y="0" width="133" height="12" fontSize="8.0" textAdjust="StretchHeight" blankWhenNull="true" printWhenDetailOverflows="true">
+        <expression><![CDATA[$F{StatusKey}]]></expression>
+        <property name="local_mesure_unity" value="pixel"/>
+        <property name="com.jaspersoft.studio.unit.y" value="px"/>
+        <property name="local_mesure_unitheight" value="pixel"/>
+        <property name="com.jaspersoft.studio.unit.height" value="px"/>
+      </element>
+      <property name="local_mesure_unitheight" value="pixel"/>
+      <property name="com.jaspersoft.studio.unit.height" value="px"/>
+      <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+    </band>
+  </detail>
+</jasperReport>
